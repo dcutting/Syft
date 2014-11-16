@@ -1,0 +1,346 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C85DB4091A19133100279078 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85DB4081A19133100279078 /* main.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C85DB4031A19133100279078 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		C85DB4051A19133100279078 /* Syft */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Syft; sourceTree = BUILT_PRODUCTS_DIR; };
+		C85DB4081A19133100279078 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		C85DB4131A19229B00279078 /* SyftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SyftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C85DB4161A19229B00279078 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C85DB4021A19133100279078 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C85DB4101A19229B00279078 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C85DB3FC1A19133100279078 = {
+			isa = PBXGroup;
+			children = (
+				C85DB4071A19133100279078 /* Syft */,
+				C85DB4141A19229B00279078 /* SyftTests */,
+				C85DB4061A19133100279078 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C85DB4061A19133100279078 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C85DB4051A19133100279078 /* Syft */,
+				C85DB4131A19229B00279078 /* SyftTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C85DB4071A19133100279078 /* Syft */ = {
+			isa = PBXGroup;
+			children = (
+				C85DB4081A19133100279078 /* main.swift */,
+			);
+			path = Syft;
+			sourceTree = "<group>";
+		};
+		C85DB4141A19229B00279078 /* SyftTests */ = {
+			isa = PBXGroup;
+			children = (
+				C85DB4151A19229B00279078 /* Supporting Files */,
+			);
+			path = SyftTests;
+			sourceTree = "<group>";
+		};
+		C85DB4151A19229B00279078 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C85DB4161A19229B00279078 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C85DB4041A19133100279078 /* Syft */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C85DB40C1A19133100279078 /* Build configuration list for PBXNativeTarget "Syft" */;
+			buildPhases = (
+				C85DB4011A19133100279078 /* Sources */,
+				C85DB4021A19133100279078 /* Frameworks */,
+				C85DB4031A19133100279078 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Syft;
+			productName = Syft;
+			productReference = C85DB4051A19133100279078 /* Syft */;
+			productType = "com.apple.product-type.tool";
+		};
+		C85DB4121A19229B00279078 /* SyftTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C85DB41B1A19229B00279078 /* Build configuration list for PBXNativeTarget "SyftTests" */;
+			buildPhases = (
+				C85DB40F1A19229B00279078 /* Sources */,
+				C85DB4101A19229B00279078 /* Frameworks */,
+				C85DB4111A19229B00279078 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SyftTests;
+			productName = SyftTests;
+			productReference = C85DB4131A19229B00279078 /* SyftTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C85DB3FD1A19133100279078 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = Cutting;
+				TargetAttributes = {
+					C85DB4041A19133100279078 = {
+						CreatedOnToolsVersion = 6.1;
+					};
+					C85DB4121A19229B00279078 = {
+						CreatedOnToolsVersion = 6.1;
+					};
+				};
+			};
+			buildConfigurationList = C85DB4001A19133100279078 /* Build configuration list for PBXProject "Syft" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C85DB3FC1A19133100279078;
+			productRefGroup = C85DB4061A19133100279078 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C85DB4041A19133100279078 /* Syft */,
+				C85DB4121A19229B00279078 /* SyftTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C85DB4111A19229B00279078 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C85DB4011A19133100279078 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C85DB4091A19133100279078 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C85DB40F1A19229B00279078 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C85DB40A1A19133100279078 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C85DB40B1A19133100279078 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		C85DB40D1A19133100279078 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C85DB40E1A19133100279078 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		C85DB4191A19229B00279078 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SyftTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C85DB41A1A19229B00279078 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SyftTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C85DB4001A19133100279078 /* Build configuration list for PBXProject "Syft" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C85DB40A1A19133100279078 /* Debug */,
+				C85DB40B1A19133100279078 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C85DB40C1A19133100279078 /* Build configuration list for PBXNativeTarget "Syft" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C85DB40D1A19133100279078 /* Debug */,
+				C85DB40E1A19133100279078 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C85DB41B1A19229B00279078 /* Build configuration list for PBXNativeTarget "SyftTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C85DB4191A19229B00279078 /* Debug */,
+				C85DB41A1A19229B00279078 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C85DB3FD1A19133100279078 /* Project object */;
+}
