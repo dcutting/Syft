@@ -14,4 +14,10 @@ class StringAtomTests: XCTestCase {
         var actual = Syft.Match("abc").parse("def")
         XCTAssertFalse(actual)
     }
+    
+    func test_matchPrefix_returnsTrue() {
+        
+        var actual = Syft.Match("abc").parse("abcdef")
+        XCTAssertTrue(actual)
+    }
 }
