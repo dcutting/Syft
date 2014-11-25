@@ -4,7 +4,7 @@ public enum Syft {
     public func parse(input: String) -> Bool {
         switch self {
         case let .Match(pattern):
-            return input == pattern || input.hasPrefix(pattern)
+            return pattern.isEmpty || input.hasPrefix(pattern)
         }
     }
 }

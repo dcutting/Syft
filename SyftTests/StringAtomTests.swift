@@ -20,4 +20,10 @@ class StringAtomTests: XCTestCase {
         var actual = Syft.Match("abc").parse("abcdef")
         XCTAssertTrue(actual)
     }
+    
+    func test_emptyPattern_matchesAnyInput() {
+        
+        var actual = Syft.Match("").parse("abc")
+        XCTAssertTrue(actual)
+    }
 }
