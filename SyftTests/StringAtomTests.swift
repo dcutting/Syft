@@ -3,19 +3,19 @@ import Syft
 
 class StringAtomTests: XCTestCase {
 
-    func test_matchEmptyString_returnsTrue() {
+    func test_emptyTemplate_matchesEmptyInput() {
     
         var actual = Syft.Match("").parse("")
         XCTAssertTrue(actual)
     }
     
-    func test_matchDifferentString_returnsFalse() {
+    func test_differentTemplateAndInput_doNotMatch() {
         
         var actual = Syft.Match("abc").parse("def")
         XCTAssertFalse(actual)
     }
     
-    func test_matchPrefix_returnsTrue() {
+    func test_templateMatchesInputWithSamePrefix() {
         
         var actual = Syft.Match("abc").parse("abcdef")
         XCTAssertTrue(actual)
