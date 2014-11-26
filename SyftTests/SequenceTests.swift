@@ -3,7 +3,7 @@ import Syft
 
 class SequenceTests: XCTestCase {
     
-    func test_bothElementsMatchInput_sequenceMatches() {
+    func test_bothElementsMatchPrefixOfInput_sequenceMatches() {
         
         let first = Syft.Match("abc")
         let second = Syft.Match("def")
@@ -11,6 +11,17 @@ class SequenceTests: XCTestCase {
         let actual = Syft.Sequence(first, second).parse("abcdefghi")
 
         let expected = MatchResult.Success(match: "abcdef", remainder: "ghi")
+        XCTAssertEqual(expected, actual)
+    }
+    
+    func test_bothElementsExactlyMatchInput_sequenceMatches() {
+        
+        let first = Syft.Match("abc")
+        let second = Syft.Match("def")
+        
+        let actual = Syft.Sequence(first, second).parse("abcdef")
+        
+        let expected = MatchResult.Success(match: "abcdef", remainder: "")
         XCTAssertEqual(expected, actual)
     }
     
