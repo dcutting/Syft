@@ -5,25 +5,33 @@ class StringAtomTests: XCTestCase {
 
     func test_emptyTemplate_matchesEmptyInput() {
     
-        var actual = Syft.Match("").parse("")
-        XCTAssertTrue(actual)
+        let actual = Syft.Match("").parse("")
+        
+        let expected = MatchResult.Success(match: "", remainder: "")
+        XCTAssertEqual(expected, actual)
     }
     
     func test_differentTemplateAndInput_doNotMatch() {
         
-        var actual = Syft.Match("abc").parse("def")
-        XCTAssertFalse(actual)
+        let actual = Syft.Match("abc").parse("def")
+
+        let expected = MatchResult.Failure(remainder: "def")
+        XCTAssertEqual(expected, actual)
     }
     
     func test_templateMatchesInputWithSamePrefix() {
         
-        var actual = Syft.Match("abc").parse("abcdef")
-        XCTAssertTrue(actual)
+        let actual = Syft.Match("abc").parse("abcdef")
+        
+        let expected = MatchResult.Success(match: "abc", remainder: "def")
+        XCTAssertEqual(expected, actual)
     }
     
     func test_emptyPattern_matchesAnyInput() {
         
-        var actual = Syft.Match("").parse("abc")
-        XCTAssertTrue(actual)
+        let actual = Syft.Match("").parse("abc")
+        
+        let expected = MatchResult.Success(match: "", remainder: "abc")
+        XCTAssertEqual(expected, actual)
     }
 }

@@ -8,9 +8,10 @@ class SequenceTests: XCTestCase {
         let first = Syft.Match("abc")
         let second = Syft.Match("def")
 
-        let actual = Syft.Sequence(first, second).parse("abcdef")
-        
-        XCTAssertTrue(actual)
+        let actual = Syft.Sequence(first, second).parse("abcdefghi")
+
+        let expected = MatchResult.Success(match: "abcdef", remainder: "ghi")
+        XCTAssertEqual(expected, actual)
     }
     
     func test_firstElementDoesNotMatchInput_sequenceDoesNotMatch() {
@@ -20,6 +21,7 @@ class SequenceTests: XCTestCase {
         
         let actual = Syft.Sequence(first, second).parse("zdef")
         
-        XCTAssertFalse(actual)
+        let expected = MatchResult.Failure(remainder: "zdef")
+        XCTAssertEqual(expected, actual)
     }
 }
