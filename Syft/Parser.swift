@@ -8,13 +8,7 @@ public enum Syft: SyftLike {
         switch self {
             
         case let .Match(pattern):
-            
-            if (pattern.isEmpty || input.hasPrefix(pattern)) {
-                let patternLength = pattern.endIndex
-                let (head, tail) = input.splitAtIndex(patternLength)
-                return MatchResult.Success(match: head, remainder: tail)
-            }
-            return MatchResult.Failure(remainder: input)
+            return parseMatch(input, pattern)
 
         case let .Sequence(first as Syft, second as Syft):
             
@@ -37,6 +31,15 @@ public enum Syft: SyftLike {
             return MatchResult.Failure(remainder: input)
         }
     }
+}
+
+func parseMatch(input: String, pattern: String) -> MatchResult {
+    if (pattern.isEmpty || input.hasPrefix(pattern)) {
+        let patternLength = pattern.endIndex
+        let (head, tail) = input.splitAtIndex(patternLength)
+        return MatchResult.Success(match: head, remainder: tail)
+    }
+    return MatchResult.Failure(remainder: input)
 }
 
 extension String {
