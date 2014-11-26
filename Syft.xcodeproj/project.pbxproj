@@ -90,10 +90,10 @@
 		C85DB4141A19229B00279078 /* SyftTests */ = {
 			isa = PBXGroup;
 			children = (
+				C8B2B8C61A25BDF000E6E54E /* MatchResultTests.swift */,
 				C869B81A1A246AC900904675 /* StringAtomTests.swift */,
 				C806656A1A247E3F00FB3508 /* SequenceTests.swift */,
 				C85DB4151A19229B00279078 /* Supporting Files */,
-				C8B2B8C61A25BDF000E6E54E /* MatchResultTests.swift */,
 			);
 			path = SyftTests;
 			sourceTree = "<group>";
