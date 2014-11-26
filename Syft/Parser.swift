@@ -11,21 +11,7 @@ public enum Syft: SyftLike {
             return parseMatch(input, pattern)
 
         case let .Sequence(first as Syft, second as Syft):
-            
-            let firstResult = first.parse(input)
-            switch firstResult {
-            case let MatchResult.Success(match: firstMatch, remainder: firstRemainder):
-                let secondResult = second.parse(firstRemainder)
-                switch secondResult {
-                case let MatchResult.Success(match: secondMatch, remainder: secondRemainder):
-                    let combinedMatch = firstMatch + secondMatch
-                    return MatchResult.Success(match: combinedMatch, remainder: secondRemainder)
-                default:
-                    return MatchResult.Failure(remainder: input)
-                }
-            default:
-                return MatchResult.Failure(remainder: input)
-            }
+            return parseSequence(input, first, second)
             
         default:
             return MatchResult.Failure(remainder: input)
@@ -47,5 +33,22 @@ extension String {
         let head = self[self.startIndex..<index]
         let tail = self[index..<self.endIndex]
         return (head, tail)
+    }
+}
+
+func parseSequence(input: String, first: Syft, second: Syft) -> MatchResult {
+    let firstResult = first.parse(input)
+    switch firstResult {
+    case let MatchResult.Success(match: firstMatch, remainder: firstRemainder):
+        let secondResult = second.parse(firstRemainder)
+        switch secondResult {
+        case let MatchResult.Success(match: secondMatch, remainder: secondRemainder):
+            let combinedMatch = firstMatch + secondMatch
+            return MatchResult.Success(match: combinedMatch, remainder: secondRemainder)
+        default:
+            return MatchResult.Failure(remainder: input)
+        }
+    default:
+        return MatchResult.Failure(remainder: input)
     }
 }
