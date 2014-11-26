@@ -24,4 +24,15 @@ class SequenceTests: XCTestCase {
         let expected = MatchResult.Failure(remainder: "zdef")
         XCTAssertEqual(expected, actual)
     }
+    
+    func test_secondElementDoesNotMatchInput_sequenceDoesNotMatch() {
+        
+        let first = Syft.Match("abc")
+        let second = Syft.Match("def")
+        
+        let actual = Syft.Sequence(first, second).parse("abcz")
+        
+        let expected = MatchResult.Failure(remainder: "abcz")
+        XCTAssertEqual(expected, actual)
+    }
 }

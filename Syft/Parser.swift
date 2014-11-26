@@ -27,7 +27,7 @@ public enum Syft: SyftLike {
                     let combinedMatch = firstMatch + secondMatch
                     return MatchResult.Success(match: combinedMatch, remainder: secondRemainder)
                 default:
-                    return MatchResult.Failure(remainder: "")
+                    return MatchResult.Failure(remainder: input)
                 }
             default:
                 return MatchResult.Failure(remainder: input)
