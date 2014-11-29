@@ -3,6 +3,13 @@ import Syft
 
 class MatchResultTests: XCTestCase {
     
+    func test_descriptionFailure() {
+        
+        let match = MatchResult.Failure(remainder: "abc")
+        println("\(match)")
+        XCTAssertEqual("F(abc)", "\(match)")
+    }
+    
     func test_failuresWithDifferentRemainder_unequal() {
         
         let left = MatchResult.Failure(remainder: "abc")

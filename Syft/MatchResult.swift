@@ -1,9 +1,18 @@
 public protocol MatchResultLike {}
 
-public enum MatchResult: MatchResultLike, Equatable {
+public enum MatchResult: MatchResultLike, Equatable, Printable {
     case Failure(remainder: String)
     case Match(match: String, index: Int, remainder: String)
     case Leaf(name: String, match: MatchResultLike)
+
+    public var description: String {
+        switch self {
+        case let .Failure(remainder: remainder):
+            return "F(\(remainder))"
+        default:
+            return "<Unknown>"
+        }
+    }
 }
 
 public func ==(lhs: MatchResult, rhs: MatchResult) -> Bool {
