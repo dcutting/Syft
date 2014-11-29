@@ -9,6 +9,8 @@ public enum MatchResult: MatchResultLike, Equatable, Printable {
         switch self {
         case let .Failure(remainder: remainder):
             return "F(\(remainder))"
+        case let .Match(match: match, index: index, remainder: remainder):
+            return "\"\(match)\"@\(index)"
         default:
             return "<Unknown>"
         }

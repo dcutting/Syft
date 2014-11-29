@@ -6,8 +6,13 @@ class MatchResultTests: XCTestCase {
     func test_descriptionFailure() {
         
         let match = MatchResult.Failure(remainder: "abc")
-        println("\(match)")
         XCTAssertEqual("F(abc)", "\(match)")
+    }
+    
+    func test_descriptionMatch() {
+        
+        let match = MatchResult.Match(match: "abc", index: 5, remainder: "def")
+        XCTAssertEqual("\"abc\"@5", "\(match)")
     }
     
     func test_failuresWithDifferentRemainder_unequal() {
