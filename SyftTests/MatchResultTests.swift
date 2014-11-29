@@ -21,24 +21,24 @@ class MatchResultTests: XCTestCase {
 
     func test_sameSuccessResults_equal() {
         
-        let left = MatchResult.Success(match: "def", remainder: "abc")
-        let right = MatchResult.Success(match: "def", remainder: "abc")
+        let left = MatchResult.Match(match: "def", index: 5, remainder: "abc")
+        let right = MatchResult.Match(match: "def", index: 5, remainder: "abc")
         
         XCTAssertEqual(left, right)
     }
 
     func test_successWithDifferentRemainder_unequal() {
         
-        let left = MatchResult.Success(match: "aaa", remainder: "abc")
-        let right = MatchResult.Success(match: "aaa", remainder: "def")
+        let left = MatchResult.Match(match: "aaa", index: 5, remainder: "abc")
+        let right = MatchResult.Match(match: "aaa", index: 5, remainder: "def")
         
         XCTAssertNotEqual(left, right)
     }
     
     func test_successWithDifferentMatch_unequal() {
         
-        let left = MatchResult.Success(match: "aaa", remainder: "abc")
-        let right = MatchResult.Success(match: "bbb", remainder: "abc")
+        let left = MatchResult.Match(match: "aaa", index: 5, remainder: "abc")
+        let right = MatchResult.Match(match: "bbb", index: 5, remainder: "abc")
         
         XCTAssertNotEqual(left, right)
     }
