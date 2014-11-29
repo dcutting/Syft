@@ -50,4 +50,13 @@ class MatchResultTests: XCTestCase {
         
         XCTAssertNotEqual(left, right)
     }
+    
+    func test_leafWithSameNamesAndMatches_equal() {
+        
+        let match = MatchResult.Match(match: "aaa", index: 10, remainder: "abc")
+        let left = MatchResult.Leaf(name: "symbol", match: match)
+        let right = MatchResult.Leaf(name: "symbol", match: match)
+        
+        XCTAssertEqual(left, right)
+    }
 }
