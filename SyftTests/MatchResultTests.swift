@@ -42,4 +42,12 @@ class MatchResultTests: XCTestCase {
         
         XCTAssertNotEqual(left, right)
     }
+    
+    func test_successWithDifferentIndex_unequal() {
+        
+        let left = MatchResult.Match(match: "aaa", index: 10, remainder: "abc")
+        let right = MatchResult.Match(match: "aaa", index: 5, remainder: "abc")
+        
+        XCTAssertNotEqual(left, right)
+    }
 }
