@@ -11,6 +11,8 @@ public enum MatchResult: MatchResultLike, Equatable, Printable {
             return "F(\(remainder))"
         case let .Match(match: match, index: index, remainder: remainder):
             return "\"\(match)\"@\(index)"
+        case let .Leaf(name: name, match: match):
+            return "{\"\(name)\": \(match)}"
         default:
             return "<Unknown>"
         }

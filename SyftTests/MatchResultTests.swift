@@ -15,6 +15,13 @@ class MatchResultTests: XCTestCase {
         XCTAssertEqual("\"abc\"@5", "\(match)")
     }
     
+    func test_descriptionLeaf() {
+        
+        let match = MatchResult.Match(match: "abc", index: 5, remainder: "def")
+        let leaf = MatchResult.Leaf(name: "symbol", match: match)
+        XCTAssertEqual("{\"symbol\": \"abc\"@5}", "\(leaf)")
+    }
+    
     func test_failuresWithDifferentRemainder_unequal() {
         
         let left = MatchResult.Failure(remainder: "abc")
