@@ -37,6 +37,9 @@ public func ==(lhs: MatchResult, rhs: MatchResult) -> Bool {
 }
 
 func hashesEqual(lhsHash: [String: MatchResultLike], rhsHash: [String: MatchResultLike]) -> Bool {
+    if countElements(lhsHash) != countElements(rhsHash) {
+        return false
+    }
     for (lhsName, lhsMatch) in lhsHash {
         let lhsMatch2 = lhsMatch as MatchResult
         if let rhsMatch = rhsHash[lhsName] as? MatchResult {
