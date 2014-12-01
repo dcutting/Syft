@@ -15,6 +15,7 @@
 		C8B2B8C91A25BF0A00E6E54E /* MatchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B2B8C81A25BF0A00E6E54E /* MatchResult.swift */; };
 		C8B2B8CA1A25BF2200E6E54E /* MatchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B2B8C81A25BF0A00E6E54E /* MatchResult.swift */; };
 		C8CCF0A11A29FDCC00C75DB3 /* SequenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C806656A1A247E3F00FB3508 /* SequenceTests.swift */; };
+		C8CCF0A31A29FF0200C75DB3 /* NameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CCF0A21A29FF0200C75DB3 /* NameTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -39,6 +40,7 @@
 		C869B81C1A246DE100904675 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		C8B2B8C61A25BDF000E6E54E /* MatchResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchResultTests.swift; sourceTree = "<group>"; };
 		C8B2B8C81A25BF0A00E6E54E /* MatchResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchResult.swift; sourceTree = "<group>"; };
+		C8CCF0A21A29FF0200C75DB3 /* NameTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 				C8B2B8C61A25BDF000E6E54E /* MatchResultTests.swift */,
 				C869B81A1A246AC900904675 /* StringAtomTests.swift */,
 				C806656A1A247E3F00FB3508 /* SequenceTests.swift */,
+				C8CCF0A21A29FF0200C75DB3 /* NameTests.swift */,
 				C85DB4151A19229B00279078 /* Supporting Files */,
 			);
 			path = SyftTests;
@@ -205,6 +208,7 @@
 			files = (
 				C8B2B8C71A25BDF000E6E54E /* MatchResultTests.swift in Sources */,
 				C869B81E1A246E5300904675 /* Parser.swift in Sources */,
+				C8CCF0A31A29FF0200C75DB3 /* NameTests.swift in Sources */,
 				C869B81B1A246AC900904675 /* StringAtomTests.swift in Sources */,
 				C8CCF0A11A29FDCC00C75DB3 /* SequenceTests.swift in Sources */,
 				C8B2B8CA1A25BF2200E6E54E /* MatchResult.swift in Sources */,

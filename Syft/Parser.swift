@@ -4,6 +4,7 @@ public enum Syft: SyftLike {
 
     case Match(String)
     case Sequence(SyftLike, SyftLike)
+    case Name(String, SyftLike)
     
     public func parse(input: String) -> MatchResult {
         switch self {
@@ -13,6 +14,10 @@ public enum Syft: SyftLike {
 
         case let .Sequence(first as Syft, second as Syft):
             return parseSequence(input, first, second)
+            
+        case let .Name(name, sub as Syft):
+            let result = sub.parse(input)
+            return MatchResult.Leaf(name: name, match: result)
             
         default:
             return MatchResult.Failure(remainder: input)
