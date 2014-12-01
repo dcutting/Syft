@@ -110,4 +110,16 @@ class MatchResultTests: XCTestCase {
         
         XCTAssertNotEqual(left, right)
     }
+    
+    func test_leafWithMultipleMatchingElements_equal() {
+        
+        let leftMatch1 = MatchResult.Match(match: "aaa", index: 10, remainder: "abc")
+        let leftMatch2 = MatchResult.Match(match: "bbb", index: 10, remainder: "abc")
+        let rightMatch1 = MatchResult.Match(match: "aaa", index: 10, remainder: "abc")
+        let rightMatch2 = MatchResult.Match(match: "bbb", index: 10, remainder: "abc")
+        let left = MatchResult.Leaf(["symbol": leftMatch1, "symbol2": leftMatch2])
+        let right = MatchResult.Leaf(["symbol": rightMatch1, "symbol2": rightMatch2])
+        
+        XCTAssertEqual(left, right)
+    }
 }
