@@ -78,6 +78,6 @@ func parseName(input: String, name: String, sub: Syft) -> MatchResult {
     case let .Failure(remainder: remainder):
         return MatchResult.Failure(remainder: input)
     default:
-        return MatchResult.Leaf(name: name, match: result)
+        return MatchResult.Leaf([name: result])
     }
 }
