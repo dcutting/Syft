@@ -16,8 +16,7 @@ public enum Syft: SyftLike {
             return parseSequence(input, first, second)
             
         case let .Name(name, sub as Syft):
-            let result = sub.parse(input)
-            return MatchResult.Leaf(name: name, match: result)
+            return parseName(input, name, sub)
             
         default:
             return MatchResult.Failure(remainder: input)
@@ -70,4 +69,11 @@ func parseSequence(input: String, first: Syft, second: Syft) -> MatchResult {
     default:
         return MatchResult.Failure(remainder: input)
     }
+}
+
+func parseName(input: String, name: String, sub: Syft) -> MatchResult {
+
+    let result = sub.parse(input)
+
+    return MatchResult.Leaf(name: name, match: result)
 }
