@@ -74,6 +74,10 @@ func parseSequence(input: String, first: Syft, second: Syft) -> MatchResult {
 func parseName(input: String, name: String, sub: Syft) -> MatchResult {
 
     let result = sub.parse(input)
-
-    return MatchResult.Leaf(name: name, match: result)
+    switch result {
+    case let .Failure(remainder: remainder):
+        return MatchResult.Failure(remainder: input)
+    default:
+        return MatchResult.Leaf(name: name, match: result)
+    }
 }

@@ -12,6 +12,15 @@ class NameTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
     
+    func test_nameFailure() {
+        
+        let actual = Syft.Name("number", Syft.Match("563")).parse("123")
+        
+        let match = MatchResult.Failure(remainder: "123")
+        let expected = MatchResult.Failure(remainder: "123")
+        XCTAssertEqual(expected, actual)
+    }
+    
     func test_nameSequence() {
         
         let seq = Syft.Sequence(Syft.Match("abc"), Syft.Match("def"))
