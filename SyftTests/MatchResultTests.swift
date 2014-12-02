@@ -19,7 +19,7 @@ class MatchResultTests: XCTestCase {
         
         let match = MatchResult.Match(match: "abc", index: 5, remainder: "def")
         let leaf = MatchResult.Leaf(["symbol": match, "another": match])
-        XCTAssertEqual("[another: \"abc\"@5, symbol: \"abc\"@5]", "\(leaf)")
+        XCTAssertEqual("[another: \(match), symbol: \(match)]", "\(leaf)")
     }
     
     func test_twoFailures_equal() {
