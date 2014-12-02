@@ -18,8 +18,8 @@ class MatchResultTests: XCTestCase {
     func test_descriptionLeaf() {
         
         let match = MatchResult.Match(match: "abc", index: 5, remainder: "def")
-        let leaf = MatchResult.Leaf(["symbol": match])
-        XCTAssertEqual("[symbol: \"abc\"@5]", "\(leaf)")
+        let leaf = MatchResult.Leaf(["symbol": match, "another": match])
+        XCTAssertEqual("[another: \"abc\"@5, symbol: \"abc\"@5]", "\(leaf)")
     }
     
     func test_twoFailures_equal() {

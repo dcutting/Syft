@@ -17,11 +17,22 @@ public enum MatchResult: MatchResultLike, Equatable, Printable {
             return "\"\(match)\"@\(index)"
         
         case let .Leaf(hash):
-            return "\(hash)"
+            return hash.sortedDescription()
         
         default:
             return "<unknown>"
         }
+    }
+}
+
+extension Dictionary {
+    func sortedDescription() -> String {
+        var pairs = Array<String>()
+        for (key, value) in self {
+            pairs.append("\(key): \(value)")
+        }
+        let joinedPairs = ", ".join(sorted(pairs))
+        return "[\(joinedPairs)]"
     }
 }
 
