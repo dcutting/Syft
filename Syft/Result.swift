@@ -1,10 +1,10 @@
-public protocol MatchResultLike {}
+public protocol ResultLike {}
 
-public enum MatchResult: MatchResultLike, Equatable, Printable {
+public enum Result: ResultLike, Equatable, Printable {
     
     case Failure
     case Match(match: String, index: Int, remainder: String)
-    case Leaf([String: MatchResultLike])
+    case Leaf([String: ResultLike])
 
     public var description: String {
 
@@ -26,27 +26,30 @@ public enum MatchResult: MatchResultLike, Equatable, Printable {
 }
 
 extension Dictionary {
+    
     func sortedDescription() -> String {
+
         var pairs = Array<String>()
         for (key, value) in self {
             pairs.append("\(key): \(value)")
         }
         let joinedPairs = ", ".join(sorted(pairs))
+        
         return "[\(joinedPairs)]"
     }
 }
 
-public func ==(lhs: MatchResult, rhs: MatchResult) -> Bool {
+public func ==(lhs: Result, rhs: Result) -> Bool {
 
     switch (lhs, rhs) {
     
     case let (.Failure, .Failure):
         return true
     
-    case let (MatchResult.Match(match: lhsMatch, index: lhsIndex, remainder: lhsRemainder), MatchResult.Match(match: rhsMatch, index: rhsIndex, remainder: rhsRemainder)):
+    case let (Result.Match(match: lhsMatch, index: lhsIndex, remainder: lhsRemainder), Result.Match(match: rhsMatch, index: rhsIndex, remainder: rhsRemainder)):
         return lhsMatch == rhsMatch && lhsRemainder == rhsRemainder && lhsIndex == rhsIndex
     
-    case let (MatchResult.Leaf(lhsHash), MatchResult.Leaf(rhsHash)):
+    case let (Result.Leaf(lhsHash), Result.Leaf(rhsHash)):
         return hashesEqual(lhsHash, rhsHash)
     
     default:
@@ -54,14 +57,14 @@ public func ==(lhs: MatchResult, rhs: MatchResult) -> Bool {
     }
 }
 
-func hashesEqual(lhsHash: [String: MatchResultLike], rhsHash: [String: MatchResultLike]) -> Bool {
+func hashesEqual(lhsHash: [String: ResultLike], rhsHash: [String: ResultLike]) -> Bool {
     
     if countElements(lhsHash) != countElements(rhsHash) {
         return false
     }
     for (lhsName, lhsMatch) in lhsHash {
-        let lhsMatch2 = lhsMatch as MatchResult
-        if let rhsMatch = rhsHash[lhsName] as? MatchResult {
+        let lhsMatch2 = lhsMatch as Result
+        if let rhsMatch = rhsHash[lhsName] as? Result {
             if lhsMatch2 != rhsMatch {
                 return false
             }

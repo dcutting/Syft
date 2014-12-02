@@ -7,8 +7,8 @@ class NameTests: XCTestCase {
         
         let actual = Syft.Name("number", Syft.Match("563")).parse("563")
         
-        let match = MatchResult.Match(match: "563", index: 0, remainder: "")
-        let expected = MatchResult.Leaf(["number": match])
+        let match = Result.Match(match: "563", index: 0, remainder: "")
+        let expected = Result.Leaf(["number": match])
         XCTAssertEqual(expected, actual)
     }
     
@@ -16,8 +16,8 @@ class NameTests: XCTestCase {
         
         let actual = Syft.Name("number", Syft.Match("563")).parse("123")
         
-        let match = MatchResult.Failure
-        let expected = MatchResult.Failure
+        let match = Result.Failure
+        let expected = Result.Failure
         XCTAssertEqual(expected, actual)
     }
     
@@ -26,8 +26,8 @@ class NameTests: XCTestCase {
         let seq = Syft.Sequence(Syft.Match("abc"), Syft.Match("def"))
         let actual = Syft.Name("alphabet", seq).parse("abcdef")
         
-        let match = MatchResult.Match(match: "abcdef", index: 0, remainder: "")
-        let expected = MatchResult.Leaf(["alphabet": match])
+        let match = Result.Match(match: "abcdef", index: 0, remainder: "")
+        let expected = Result.Leaf(["alphabet": match])
         XCTAssertEqual(expected, actual)
     }
 }

@@ -6,7 +6,7 @@ public enum Syft: SyftLike {
     case Sequence(SyftLike, SyftLike)
     case Name(String, SyftLike)
     
-    public func parse(input: String) -> MatchResult {
+    public func parse(input: String) -> Result {
         switch self {
             
         case let .Match(pattern):
@@ -24,7 +24,7 @@ public enum Syft: SyftLike {
     }
 }
 
-func parseMatch(input: String, pattern: String) -> MatchResult {
+func parseMatch(input: String, pattern: String) -> Result {
     
     if (pattern.isEmpty || input.hasPrefix(pattern)) {
         
@@ -48,7 +48,7 @@ extension String {
     }
 }
 
-func parseSequence(input: String, first: Syft, second: Syft) -> MatchResult {
+func parseSequence(input: String, first: Syft, second: Syft) -> Result {
 
     switch first.parse(input) {
     
@@ -60,7 +60,7 @@ func parseSequence(input: String, first: Syft, second: Syft) -> MatchResult {
     }
 }
 
-func parseSubsequence(input: String, firstRemainder: String, firstMatch: String, second: Syft) -> MatchResult {
+func parseSubsequence(input: String, firstRemainder: String, firstMatch: String, second: Syft) -> Result {
 
     switch second.parse(firstRemainder) {
         
@@ -75,7 +75,7 @@ func parseSubsequence(input: String, firstRemainder: String, firstMatch: String,
     }
 }
 
-func parseName(input: String, name: String, sub: Syft) -> MatchResult {
+func parseName(input: String, name: String, sub: Syft) -> Result {
 
     let result = sub.parse(input)
     
@@ -85,6 +85,6 @@ func parseName(input: String, name: String, sub: Syft) -> MatchResult {
         return .Failure
     
     default:
-        return MatchResult.Leaf([name: result])
+        return Result.Leaf([name: result])
     }
 }

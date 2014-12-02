@@ -10,7 +10,7 @@ class SequenceTests: XCTestCase {
 
         let actual = Syft.Sequence(first, second).parse("abcdefghi")
 
-        let expected = MatchResult.Match(match: "abcdef", index: 0, remainder: "ghi")
+        let expected = Result.Match(match: "abcdef", index: 0, remainder: "ghi")
         XCTAssertEqual(expected, actual)
     }
     
@@ -21,7 +21,7 @@ class SequenceTests: XCTestCase {
         
         let actual = Syft.Sequence(first, second).parse("abcdef")
         
-        let expected = MatchResult.Match(match: "abcdef", index: 0, remainder: "")
+        let expected = Result.Match(match: "abcdef", index: 0, remainder: "")
         XCTAssertEqual(expected, actual)
     }
     
@@ -32,7 +32,7 @@ class SequenceTests: XCTestCase {
         
         let actual = Syft.Sequence(first, second).parse("zdef")
         
-        let expected = MatchResult.Failure
+        let expected = Result.Failure
         XCTAssertEqual(expected, actual)
     }
     
@@ -43,7 +43,7 @@ class SequenceTests: XCTestCase {
         
         let actual = Syft.Sequence(first, second).parse("abcz")
         
-        let expected = MatchResult.Failure
+        let expected = Result.Failure
         XCTAssertEqual(expected, actual)
     }
 }
