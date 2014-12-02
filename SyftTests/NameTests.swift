@@ -16,7 +16,6 @@ class NameTests: XCTestCase {
         
         let actual = Syft.Name("number", Syft.Match("563")).parse("123")
         
-        let match = Result.Failure
         let expected = Result.Failure
         XCTAssertEqual(expected, actual)
     }
