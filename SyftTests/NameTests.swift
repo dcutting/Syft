@@ -29,4 +29,17 @@ class NameTests: XCTestCase {
         let expected = Result.Leaf(["alphabet": match])
         XCTAssertEqual(expected, actual)
     }
+    
+    func test_nameInnerName() {
+        
+        let innerName = Syft.Name("number", Syft.Match("563"))
+        let outerName = Syft.Name("outer", innerName)
+        
+        let actual = outerName.parse("563")
+        
+        let match = Result.Match(match: "563", index: 0, remainder: "")
+        let innerResult = Result.Leaf(["number": match])
+        let expected = Result.Leaf(["outer": innerResult])
+        XCTAssertEqual(expected, actual)
+    }
 }
