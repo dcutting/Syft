@@ -13,7 +13,7 @@ public enum Syft: SyftLike {
             return parseMatch(input, pattern)
 
         case let .Sequence(first as Syft, second as Syft):
-            return parseSequence(input, first, second)
+            return parseSequence(input, [first, second])
             
         case let .Name(name, sub as Syft):
             return parseName(input, name, sub)
@@ -48,30 +48,36 @@ extension String {
     }
 }
 
-func parseSequence(input: String, first: Syft, second: Syft) -> Result {
+func parseSequence(input: String, subs: [Syft]) -> Result {
 
-    switch first.parse(input) {
-    
-    case let .Match(match: firstMatch, index: 0, remainder: firstRemainder):
-        return parseSubsequence(input, firstRemainder, firstMatch, second)
-        
-    default:
-        return .Failure
+    if let head = subs.head {
+        switch head.parse(input) {
+            
+        case let .Match(match: headMatch, index: headIndex, remainder: headRemainder):
+            let parsedTail = parseSequence(headRemainder, subs.tail)
+            switch parsedTail {
+            case let .Match(match: tailMatch, index: tailIndex, remainder: tailRemainder):
+                return .Match(match: headMatch + tailMatch, index: 0, remainder: tailRemainder)
+            default:
+                return .Failure
+            }
+            
+        default:
+            return .Failure
+        }
+    } else {
+        return .Match(match: "", index: 0, remainder: input)
     }
 }
 
-func parseSubsequence(input: String, firstRemainder: String, firstMatch: String, second: Syft) -> Result {
+extension Array {
 
-    switch second.parse(firstRemainder) {
-        
-    case let .Match(match: secondMatch, index: 0, remainder: secondRemainder):
-        
-        let combinedMatch = firstMatch + secondMatch
-        
-        return .Match(match: combinedMatch, index: 0, remainder: secondRemainder)
-        
-    default:
-        return .Failure
+    var head : T? {
+        return self.first
+    }
+    
+    var tail : Array<T> {
+        return count < 1 ? self : Array(self[1..<count])
     }
 }
 
