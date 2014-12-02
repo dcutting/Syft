@@ -5,8 +5,8 @@ class MatchResultTests: XCTestCase {
     
     func test_descriptionFailure() {
         
-        let match = MatchResult.Failure(remainder: "abc")
-        XCTAssertEqual("F(abc)", "\(match)")
+        let match = MatchResult.Failure
+        XCTAssertEqual("<failure>", "\(match)")
     }
     
     func test_descriptionMatch() {
@@ -22,18 +22,10 @@ class MatchResultTests: XCTestCase {
         XCTAssertEqual("{\"symbol\": \"abc\"@5}", "\(leaf)")
     }
     
-    func test_failuresWithDifferentRemainder_unequal() {
+    func test_twoFailures_equal() {
         
-        let left = MatchResult.Failure(remainder: "abc")
-        let right = MatchResult.Failure(remainder: "def")
-        
-        XCTAssertNotEqual(left, right)
-    }
-    
-    func test_failuresWithSameRemainder_equal() {
-        
-        let left = MatchResult.Failure(remainder: "abc")
-        let right = MatchResult.Failure(remainder: "abc")
+        let left = MatchResult.Failure
+        let right = MatchResult.Failure
         
         XCTAssertEqual(left, right)
     }

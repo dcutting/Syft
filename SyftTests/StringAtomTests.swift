@@ -15,7 +15,7 @@ class StringAtomTests: XCTestCase {
         
         let actual = Syft.Match("abc").parse("def")
 
-        let expected = MatchResult.Failure(remainder: "def")
+        let expected = MatchResult.Failure
         XCTAssertEqual(expected, actual)
     }
     

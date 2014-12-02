@@ -19,7 +19,7 @@ public enum Syft: SyftLike {
             return parseName(input, name, sub)
             
         default:
-            return MatchResult.Failure(remainder: input)
+            return .Failure
         }
     }
 }
@@ -31,10 +31,10 @@ func parseMatch(input: String, pattern: String) -> MatchResult {
         let patternLength = pattern.endIndex
         let (head, tail) = input.splitAtIndex(patternLength)
         
-        return MatchResult.Match(match: head, index: 0, remainder: tail)
+        return .Match(match: head, index: 0, remainder: tail)
     }
 
-    return MatchResult.Failure(remainder: input)
+    return .Failure
 }
 
 extension String {
@@ -52,11 +52,11 @@ func parseSequence(input: String, first: Syft, second: Syft) -> MatchResult {
 
     switch first.parse(input) {
     
-    case let MatchResult.Match(match: firstMatch, index: 0, remainder: firstRemainder):
+    case let .Match(match: firstMatch, index: 0, remainder: firstRemainder):
         return parseSubsequence(input, firstRemainder, firstMatch, second)
         
     default:
-        return MatchResult.Failure(remainder: input)
+        return .Failure
     }
 }
 
@@ -64,23 +64,26 @@ func parseSubsequence(input: String, firstRemainder: String, firstMatch: String,
 
     switch second.parse(firstRemainder) {
         
-    case let MatchResult.Match(match: secondMatch, index: 0, remainder: secondRemainder):
+    case let .Match(match: secondMatch, index: 0, remainder: secondRemainder):
         
         let combinedMatch = firstMatch + secondMatch
         
-        return MatchResult.Match(match: combinedMatch, index: 0, remainder: secondRemainder)
+        return .Match(match: combinedMatch, index: 0, remainder: secondRemainder)
         
     default:
-        return MatchResult.Failure(remainder: input)
+        return .Failure
     }
 }
 
 func parseName(input: String, name: String, sub: Syft) -> MatchResult {
 
     let result = sub.parse(input)
+    
     switch result {
-    case let .Failure(remainder: remainder):
-        return MatchResult.Failure(remainder: input)
+
+    case .Failure:
+        return .Failure
+    
     default:
         return MatchResult.Leaf([name: result])
     }

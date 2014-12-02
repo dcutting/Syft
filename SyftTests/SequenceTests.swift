@@ -32,7 +32,7 @@ class SequenceTests: XCTestCase {
         
         let actual = Syft.Sequence(first, second).parse("zdef")
         
-        let expected = MatchResult.Failure(remainder: "zdef")
+        let expected = MatchResult.Failure
         XCTAssertEqual(expected, actual)
     }
     
@@ -43,7 +43,7 @@ class SequenceTests: XCTestCase {
         
         let actual = Syft.Sequence(first, second).parse("abcz")
         
-        let expected = MatchResult.Failure(remainder: "abcz")
+        let expected = MatchResult.Failure
         XCTAssertEqual(expected, actual)
     }
 }
