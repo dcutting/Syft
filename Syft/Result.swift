@@ -4,19 +4,19 @@ public enum Result: ResultLike, Equatable, Printable {
     
     case Failure
     case Match(match: String, index: Int, remainder: String)
-    case Leaf([String: ResultLike])
+    case Leaf([String: ResultLike], remainder: String)
 
     public var description: String {
 
         switch self {
         
-        case let .Failure(remainder: remainder):
+        case let .Failure:
             return "<failure>"
         
-        case let .Match(match: match, index: index, remainder: remainder):
+        case let .Match(match: match, index: index, remainder: _):
             return "\"\(match)\"@\(index)"
         
-        case let .Leaf(hash):
+        case let .Leaf(hash, remainder: _):
             return hash.sortedDescription()
         
         default:
@@ -49,7 +49,7 @@ public func ==(lhs: Result, rhs: Result) -> Bool {
     case let (Result.Match(match: lhsMatch, index: lhsIndex, remainder: lhsRemainder), Result.Match(match: rhsMatch, index: rhsIndex, remainder: rhsRemainder)):
         return lhsMatch == rhsMatch && lhsRemainder == rhsRemainder && lhsIndex == rhsIndex
     
-    case let (Result.Leaf(lhsHash), Result.Leaf(rhsHash)):
+    case let (Result.Leaf(lhsHash, remainder: lhsRemainder), Result.Leaf(rhsHash, remainder: rhsRemainder)):
         return hashesEqual(lhsHash, rhsHash)
     
     default:

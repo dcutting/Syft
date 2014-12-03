@@ -16,7 +16,7 @@ class NameTests: XCTestCase {
         let actual = Syft.Name("number", Syft.Match("563")).parse("563")
         
         let match = Result.Match(match: "563", index: 0, remainder: "")
-        let expected = Result.Leaf(["number": match])
+        let expected = Result.Leaf(["number": match], remainder: "")
         XCTAssertEqual(expected, actual)
     }
     
@@ -28,8 +28,8 @@ class NameTests: XCTestCase {
         let actual = outerName.parse("563")
         
         let match = Result.Match(match: "563", index: 0, remainder: "")
-        let innerResult = Result.Leaf(["number": match])
-        let expected = Result.Leaf(["outer": innerResult])
+        let innerResult = Result.Leaf(["number": match], remainder: "")
+        let expected = Result.Leaf(["outer": innerResult], remainder: "")
         XCTAssertEqual(expected, actual)
     }
     
@@ -39,7 +39,7 @@ class NameTests: XCTestCase {
         let actual = Syft.Name("alphabet", seq).parse("abcdef")
         
         let match = Result.Match(match: "abcdef", index: 0, remainder: "")
-        let expected = Result.Leaf(["alphabet": match])
+        let expected = Result.Leaf(["alphabet": match], remainder: "")
         XCTAssertEqual(expected, actual)
     }
 }

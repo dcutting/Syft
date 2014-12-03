@@ -18,7 +18,7 @@ class ResultTests: XCTestCase {
     func test_descriptionLeaf() {
         
         let match = Result.Match(match: "abc", index: 5, remainder: "def")
-        let leaf = Result.Leaf(["symbol": match, "another": match])
+        let leaf = Result.Leaf(["symbol": match, "another": match], remainder: "")
         XCTAssertEqual("[another: \(match), symbol: \(match)]", "\(leaf)")
     }
     
@@ -65,8 +65,8 @@ class ResultTests: XCTestCase {
     func test_leafWithSameNamesAndMatches_equal() {
         
         let match = Result.Match(match: "aaa", index: 10, remainder: "abc")
-        let left = Result.Leaf(["symbol": match])
-        let right = Result.Leaf(["symbol": match])
+        let left = Result.Leaf(["symbol": match], remainder: "")
+        let right = Result.Leaf(["symbol": match], remainder: "")
         
         XCTAssertEqual(left, right)
     }
@@ -75,8 +75,8 @@ class ResultTests: XCTestCase {
         
         let leftMatch = Result.Match(match: "bbb", index: 10, remainder: "abc")
         let rightMatch = Result.Match(match: "aaa", index: 10, remainder: "abc")
-        let left = Result.Leaf(["symbol": leftMatch])
-        let right = Result.Leaf(["symbol": rightMatch])
+        let left = Result.Leaf(["symbol": leftMatch], remainder: "")
+        let right = Result.Leaf(["symbol": rightMatch], remainder: "")
         
         XCTAssertNotEqual(left, right)
     }
@@ -86,8 +86,8 @@ class ResultTests: XCTestCase {
         let leftMatch1 = Result.Match(match: "aaa", index: 10, remainder: "abc")
         let leftMatch2 = Result.Match(match: "bbb", index: 10, remainder: "abc")
         let rightMatch = Result.Match(match: "aaa", index: 10, remainder: "abc")
-        let left = Result.Leaf(["symbol": leftMatch1, "symbol2": leftMatch2])
-        let right = Result.Leaf(["symbol": rightMatch])
+        let left = Result.Leaf(["symbol": leftMatch1, "symbol2": leftMatch2], remainder: "")
+        let right = Result.Leaf(["symbol": rightMatch], remainder: "")
         
         XCTAssertNotEqual(left, right)
     }
@@ -97,8 +97,8 @@ class ResultTests: XCTestCase {
         let leftMatch = Result.Match(match: "aaa", index: 10, remainder: "abc")
         let rightMatch1 = Result.Match(match: "aaa", index: 10, remainder: "abc")
         let rightMatch2 = Result.Match(match: "bbb", index: 10, remainder: "abc")
-        let left = Result.Leaf(["symbol": leftMatch])
-        let right = Result.Leaf(["symbol": rightMatch1, "symbol2": rightMatch2])
+        let left = Result.Leaf(["symbol": leftMatch], remainder: "")
+        let right = Result.Leaf(["symbol": rightMatch1, "symbol2": rightMatch2], remainder: "")
         
         XCTAssertNotEqual(left, right)
     }
@@ -109,8 +109,8 @@ class ResultTests: XCTestCase {
         let leftMatch2 = Result.Match(match: "bbb", index: 10, remainder: "abc")
         let rightMatch1 = Result.Match(match: "aaa", index: 10, remainder: "abc")
         let rightMatch2 = Result.Match(match: "bbb", index: 10, remainder: "abc")
-        let left = Result.Leaf(["symbol": leftMatch1, "symbol2": leftMatch2])
-        let right = Result.Leaf(["symbol": rightMatch1, "symbol2": rightMatch2])
+        let left = Result.Leaf(["symbol": leftMatch1, "symbol2": leftMatch2], remainder: "")
+        let right = Result.Leaf(["symbol": rightMatch1, "symbol2": rightMatch2], remainder: "")
         
         XCTAssertEqual(left, right)
     }
