@@ -61,6 +61,15 @@ func parseSequence(input: String, subs: [Syft]) -> Result {
             default:
                 return .Failure
             }
+        
+        case let .Leaf(hash, remainder: headRemainder):
+            let parsedTail = parseSequence(headRemainder, subs.tail)
+            switch parsedTail {
+            case let .Match(match: _, index: _, remainder: tailRemainder):
+                return .Leaf(hash, remainder: tailRemainder)
+            default:
+                return .Failure
+            }
             
         default:
             return .Failure
@@ -87,6 +96,12 @@ func parseName(input: String, name: String, sub: Syft) -> Result {
     
     switch result {
 
+    case let .Match(match: _, index: _, remainder: remainder):
+        return .Leaf([name: result], remainder: remainder)
+        
+    case let .Leaf(_, remainder: remainder):
+        return .Leaf([name: result], remainder: remainder)
+    
     case .Failure:
         return .Failure
     
