@@ -54,4 +54,16 @@ class NameTests: XCTestCase {
         let expected = Result.Leaf(["prefix": match], remainder: "")
         XCTAssertEqual(expected, actual)
     }
+    
+    func test_nameSequenceWithNameOnRight() {
+        
+        let innerName = Syft.Name("suffix", Syft.Match("def"))
+        let seq = Syft.Sequence(Syft.Match("abc"), innerName)
+        
+        let actual = seq.parse("abcdef")
+        
+        let match = Result.Match(match: "def", index: 0, remainder: "")
+        let expected = Result.Leaf(["suffix": match], remainder: "")
+        XCTAssertEqual(expected, actual)
+    }
 }
