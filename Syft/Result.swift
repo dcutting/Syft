@@ -3,8 +3,8 @@ public protocol ResultLike {}
 public enum Result: ResultLike, Equatable, Printable {
     
     case Failure
-    case Match(match: String, index: Int, remainder: String)
-    case Leaf([String: ResultLike], remainder: String)
+    case Match(match: String, index: Int, remainder: Remainder)
+    case Leaf([String: ResultLike], remainder: Remainder)
 
     public var description: String {
 

@@ -10,7 +10,7 @@ class SequenceTests: XCTestCase {
 
         let actual = Syft.Sequence(first, second).parse("abcdefghi")
 
-        let expected = Result.Match(match: "abcdef", index: 0, remainder: "ghi")
+        let expected = Result.Match(match: "abcdef", index: 0, remainder: Remainder(text: "ghi", index: 0))
         XCTAssertEqual(expected, actual)
     }
     
@@ -21,7 +21,7 @@ class SequenceTests: XCTestCase {
         
         let actual = Syft.Sequence(first, second).parse("abcdef")
         
-        let expected = Result.Match(match: "abcdef", index: 0, remainder: "")
+        let expected = Result.Match(match: "abcdef", index: 0, remainder: Remainder(text: "", index: 0))
         XCTAssertEqual(expected, actual)
     }
     

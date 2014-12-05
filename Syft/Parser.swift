@@ -7,6 +7,10 @@ public enum Syft: SyftLike {
     case Name(String, SyftLike)
     
     public func parse(input: String) -> Result {
+        return parse(Remainder(text: input, index: 0))
+    }
+    
+    func parse(input: Remainder) -> Result {
         switch self {
             
         case let .Match(pattern):
@@ -24,14 +28,14 @@ public enum Syft: SyftLike {
     }
 }
 
-func parseMatch(input: String, pattern: String) -> Result {
+func parseMatch(input: Remainder, pattern: String) -> Result {
     
-    if (pattern.isEmpty || input.hasPrefix(pattern)) {
+    if (pattern.isEmpty || input.text.hasPrefix(pattern)) {
         
         let patternLength = pattern.endIndex
-        let (head, tail) = input.splitAtIndex(patternLength)
+        let (head, tail) = input.text.splitAtIndex(patternLength)
         
-        return .Match(match: head, index: 0, remainder: tail)
+        return .Match(match: head, index: input.index, remainder: Remainder(text: tail, index: 0))
     }
 
     return .Failure
@@ -48,10 +52,12 @@ extension String {
     }
 }
 
-func parseSequence(input: String, subs: [Syft]) -> Result {
+func parseSequence(remainder: Remainder, subs: [Syft]) -> Result {
 
+    let input = remainder.text
+    let currentIndex = remainder.index
     if let head = subs.head {
-        switch head.parse(input) {
+        switch head.parse(remainder) {
             
         case let .Match(match: headMatch, index: headIndex, remainder: headRemainder):
             let parsedTail = parseSequence(headRemainder, subs.tail)
@@ -77,7 +83,7 @@ func parseSequence(input: String, subs: [Syft]) -> Result {
             return .Failure
         }
     } else {
-        return .Match(match: "", index: 0, remainder: input)
+        return .Match(match: "", index: 0, remainder: Remainder(text: input, index: 0))
     }
 }
 
@@ -92,7 +98,7 @@ extension Array {
     }
 }
 
-func parseName(input: String, name: String, sub: Syft) -> Result {
+func parseName(input: Remainder, name: String, sub: Syft) -> Result {
 
     let result = sub.parse(input)
     
