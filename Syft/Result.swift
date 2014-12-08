@@ -18,9 +18,6 @@ public enum Result: ResultLike, Equatable, Printable {
         
         case let .Leaf(hash, remainder: _):
             return hash.sortedDescription()
-        
-        default:
-            return "<unknown>"
         }
     }
 }
@@ -47,7 +44,7 @@ public func ==(lhs: Result, rhs: Result) -> Bool {
         return true
     
     case let (.Match(match: lhsMatch, index: lhsIndex, remainder: lhsRemainder), .Match(match: rhsMatch, index: rhsIndex, remainder: rhsRemainder)):
-        return lhsMatch == rhsMatch && lhsRemainder == rhsRemainder && lhsIndex == rhsIndex
+        return lhsMatch == rhsMatch && lhsIndex == rhsIndex && lhsRemainder == rhsRemainder
     
     case let (.Leaf(lhsHash, remainder: lhsRemainder), .Leaf(rhsHash, remainder: rhsRemainder)):
         return hashesEqual(lhsHash, rhsHash)

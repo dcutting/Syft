@@ -32,11 +32,11 @@ func parseMatch(input: Remainder, pattern: String) -> Result {
     
     if (pattern.isEmpty || input.text.hasPrefix(pattern)) {
         
-        let patternLength = pattern.endIndex
-        let (head, tail) = input.text.splitAtIndex(patternLength)
-        let tailIndex = input.index + distance(head.startIndex, head.endIndex)
+        let (headText, tailText) = input.text.splitAtIndex(pattern.endIndex)
+        let tailIndex = input.index + distance(headText.startIndex, headText.endIndex)
+        let remainder = Remainder(text: tailText, index: tailIndex)
         
-        return .Match(match: head, index: input.index, remainder: Remainder(text: tail, index: tailIndex))
+        return .Match(match: headText, index: input.index, remainder: remainder)
     }
 
     return .Failure
@@ -58,7 +58,10 @@ func parseSequence(input: Remainder, subs: [Syft]) -> Result {
     if let head = subs.head {
         switch head.parse(input) {
             
-        case let .Match(match: headMatch, index: headIndex, remainder: headRemainder):
+        case .Failure:
+            return .Failure
+            
+        case let .Match(match: headMatch, index: _, remainder: headRemainder):
             let parsedTail = parseSequence(headRemainder, subs.tail)
             switch parsedTail {
             case let .Match(match: tailMatch, index: tailIndex, remainder: tailRemainder):
@@ -70,19 +73,16 @@ func parseSequence(input: Remainder, subs: [Syft]) -> Result {
                 return .Failure
             }
         
-        case let .Leaf(hash, remainder: headRemainder):
+        case let .Leaf(headHash, remainder: headRemainder):
             let parsedTail = parseSequence(headRemainder, subs.tail)
             switch parsedTail {
             case let .Match(match: _, index: _, remainder: tailRemainder):
-                return .Leaf(hash, remainder: tailRemainder)
+                return .Leaf(headHash, remainder: tailRemainder)
             case let .Leaf(tailHash, remainder: tailRemainder):
-                return .Leaf(hash + tailHash, remainder: tailRemainder)
+                return .Leaf(headHash + tailHash, remainder: tailRemainder)
             default:
                 return .Failure
             }
-            
-        default:
-            return .Failure
         }
     } else {
         return .Match(match: "", index: input.index, remainder: input)
@@ -121,13 +121,13 @@ func parseName(input: Remainder, name: String, sub: Syft) -> Result {
     
     switch result {
 
+    case .Failure:
+        return .Failure
+
     case let .Match(match: _, index: _, remainder: remainder):
         return .Leaf([name: result], remainder: remainder)
         
     case let .Leaf(_, remainder: remainder):
         return .Leaf([name: result], remainder: remainder)
-    
-    case .Failure:
-        return .Failure
     }
 }
