@@ -34,8 +34,9 @@ func parseMatch(input: Remainder, pattern: String) -> Result {
         
         let patternLength = pattern.endIndex
         let (head, tail) = input.text.splitAtIndex(patternLength)
+        let tailIndex = input.index + distance(head.startIndex, head.endIndex)
         
-        return .Match(match: head, index: input.index, remainder: Remainder(text: tail, index: 0))
+        return .Match(match: head, index: input.index, remainder: Remainder(text: tail, index: tailIndex))
     }
 
     return .Failure
@@ -52,18 +53,17 @@ extension String {
     }
 }
 
-func parseSequence(remainder: Remainder, subs: [Syft]) -> Result {
+func parseSequence(input: Remainder, subs: [Syft]) -> Result {
 
-    let input = remainder.text
-    let currentIndex = remainder.index
     if let head = subs.head {
-        switch head.parse(remainder) {
+        switch head.parse(input) {
             
         case let .Match(match: headMatch, index: headIndex, remainder: headRemainder):
             let parsedTail = parseSequence(headRemainder, subs.tail)
             switch parsedTail {
             case let .Match(match: tailMatch, index: tailIndex, remainder: tailRemainder):
-                return .Match(match: headMatch + tailMatch, index: 0, remainder: tailRemainder)
+                let sequenceRemainder = Remainder(text: tailRemainder.text, index: tailRemainder.index + tailIndex)
+                return .Match(match: headMatch + tailMatch, index: input.index, remainder: tailRemainder)
             case .Leaf:
                 return parsedTail
             default:
@@ -75,6 +75,8 @@ func parseSequence(remainder: Remainder, subs: [Syft]) -> Result {
             switch parsedTail {
             case let .Match(match: _, index: _, remainder: tailRemainder):
                 return .Leaf(hash, remainder: tailRemainder)
+            case let .Leaf(tailHash, remainder: tailRemainder):
+                return .Leaf(hash + tailHash, remainder: tailRemainder)
             default:
                 return .Failure
             }
@@ -83,7 +85,7 @@ func parseSequence(remainder: Remainder, subs: [Syft]) -> Result {
             return .Failure
         }
     } else {
-        return .Match(match: "", index: 0, remainder: Remainder(text: input, index: 0))
+        return .Match(match: "", index: input.index, remainder: input)
     }
 }
 
@@ -96,6 +98,21 @@ extension Array {
     var tail : Array<T> {
         return count < 1 ? self : Array(self[1..<count])
     }
+}
+
+func +<K, V>(left: Dictionary<K, V>, right: Dictionary<K, V>) -> Dictionary<K, V> {
+    
+    var map = Dictionary<K, V>()
+    
+    for (k, v) in left {
+        map[k] = v
+    }
+    
+    for (k, v) in right {
+        map[k] = v
+    }
+    
+    return map
 }
 
 func parseName(input: Remainder, name: String, sub: Syft) -> Result {

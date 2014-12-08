@@ -23,7 +23,7 @@ class StringAtomTests: XCTestCase {
         
         let actual = Syft.Match("abc").parse("abcdef")
         
-        let expected = Result.Match(match: "abc", index: 0, remainder: Remainder(text: "def", index: 0))
+        let expected = Result.Match(match: "abc", index: 0, remainder: Remainder(text: "def", index: 3))
         XCTAssertEqual(expected, actual)
     }
     
