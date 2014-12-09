@@ -61,31 +61,44 @@ func parseSequence(input: Remainder, subs: [Syft]) -> Result {
         case .Failure:
             return .Failure
             
-        case let .Match(match: headMatch, index: _, remainder: headRemainder):
-            let parsedTail = parseSequence(headRemainder, subs.tail)
-            switch parsedTail {
-            case let .Match(match: tailMatch, index: tailIndex, remainder: tailRemainder):
-                let sequenceRemainder = Remainder(text: tailRemainder.text, index: tailRemainder.index + tailIndex)
-                return .Match(match: headMatch + tailMatch, index: input.index, remainder: tailRemainder)
-            case .Leaf:
-                return parsedTail
-            default:
-                return .Failure
-            }
+        case let .Match(match: headText, index: headIndex, remainder: headRemainder):
+            let tail = parseSequence(headRemainder, subs.tail)
+            return combineSequenceMatch(headText, headIndex, tail)
         
         case let .Leaf(headHash, remainder: headRemainder):
             let parsedTail = parseSequence(headRemainder, subs.tail)
+
             switch parsedTail {
+
+            case .Failure:
+                return .Failure
+                
             case let .Match(match: _, index: _, remainder: tailRemainder):
                 return .Leaf(headHash, remainder: tailRemainder)
+            
             case let .Leaf(tailHash, remainder: tailRemainder):
                 return .Leaf(headHash + tailHash, remainder: tailRemainder)
-            default:
-                return .Failure
             }
         }
     } else {
         return .Match(match: "", index: input.index, remainder: input)
+    }
+}
+
+func combineSequenceMatch(headText: String, headIndex: Int, tail: Result) -> Result {
+    
+    switch tail {
+        
+    case .Failure:
+        return .Failure
+        
+    case let .Match(match: tailMatch, index: tailIndex, remainder: tailRemainder):
+        let sequenceRemainder = Remainder(text: tailRemainder.text, index: tailRemainder.index + tailIndex)
+        return .Match(match: headText + tailMatch, index: headIndex, remainder: tailRemainder)
+        
+    case .Leaf:
+        return tail
+        
     }
 }
 
