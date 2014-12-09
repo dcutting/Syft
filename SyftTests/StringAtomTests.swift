@@ -3,7 +3,7 @@ import Syft
 
 class StringAtomTests: XCTestCase {
 
-    func test_emptyTemplate_matchesEmptyInput() {
+    func test_emptyPatternAndInput_matches() {
     
         let actual = Syft.Match("").parse("")
         
@@ -11,7 +11,7 @@ class StringAtomTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
     
-    func test_differentTemplateAndInput_doNotMatch() {
+    func test_differentPatternAndInput_fails() {
         
         let actual = Syft.Match("abc").parse("def")
 
@@ -19,7 +19,7 @@ class StringAtomTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
     
-    func test_templateMatchesInputWithSamePrefix() {
+    func test_inputWithPrefixMatchingPattern_matches() {
         
         let actual = Syft.Match("abc").parse("abcdef")
         
@@ -27,7 +27,7 @@ class StringAtomTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
     
-    func test_emptyPattern_matchesAnyInput() {
+    func test_emptyPatternAnyInput_matches() {
         
         let actual = Syft.Match("").parse("abc")
         

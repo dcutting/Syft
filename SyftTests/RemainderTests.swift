@@ -3,7 +3,7 @@ import Syft
 
 class RemainderTests: XCTestCase {
     
-    func test_equal_equates() {
+    func test_sameTextAndIndex_equal() {
         
         let leftRemainder = Remainder(text: "abc", index: 5)
         let rightRemainder = Remainder(text: "abc", index: 5)
@@ -11,7 +11,7 @@ class RemainderTests: XCTestCase {
         XCTAssertEqual(leftRemainder, rightRemainder)
     }
     
-    func test_differentText_doesNotEquate() {
+    func test_differentText_unequal() {
         
         let leftRemainder = Remainder(text: "abc", index: 5)
         let rightRemainder = Remainder(text: "def", index: 5)
@@ -19,7 +19,7 @@ class RemainderTests: XCTestCase {
         XCTAssertNotEqual(leftRemainder, rightRemainder)
     }
     
-    func test_differentIndex_doesNotEquate() {
+    func test_differentIndex_unequal() {
         
         let leftRemainder = Remainder(text: "abc", index: 1)
         let rightRemainder = Remainder(text: "abc", index: 5)

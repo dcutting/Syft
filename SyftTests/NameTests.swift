@@ -3,7 +3,7 @@ import Syft
 
 class NameTests: XCTestCase {
     
-    func test_nameFailure() {
+    func test_matchFails_nameFails() {
         
         let actual = Syft.Name("number", Syft.Match("563")).parse("123")
         
@@ -11,7 +11,7 @@ class NameTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
     
-    func test_nameMatch() {
+    func test_matchSucceeds_nameSucceeds() {
         
         let actual = Syft.Name("number", Syft.Match("563")).parse("563")
         
@@ -20,7 +20,7 @@ class NameTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
     
-    func test_nameInnerName() {
+    func test_nestedNamesSucceeds_nameSucceeds() {
         
         let innerName = Syft.Name("number", Syft.Match("563"))
         let outerName = Syft.Name("outer", innerName)
@@ -33,47 +33,47 @@ class NameTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
     
-    func test_nameSequenceOfMatches() {
+    func test_sequenceOfMatchesSucceeds_nameSucceeds() {
         
-        let seq = Syft.Sequence(Syft.Match("abc"), Syft.Match("def"))
-        let actual = Syft.Name("alphabet", seq).parse("abcdef")
+        let sequence = Syft.Sequence(Syft.Match("abc"), Syft.Match("def"))
+        let actual = Syft.Name("alphabet", sequence).parse("abcdef")
         
         let match = Result.Match(match: "abcdef", index: 0, remainder: Remainder(text: "", index: 6))
         let expected = Result.Leaf(["alphabet": match], remainder: Remainder(text: "", index: 6))
         XCTAssertEqual(expected, actual)
     }
 
-    func test_sequenceWithNameOnLeft() {
+    func test_sequenceWithNestedNameOnLeftSucceeds_unnamedMatchesOmitted() {
         
         let innerName = Syft.Name("prefix", Syft.Match("abc"))
-        let seq = Syft.Sequence(innerName, Syft.Match("def"))
+        let sequence = Syft.Sequence(innerName, Syft.Match("def"))
 
-        let actual = seq.parse("abcdef")
+        let actual = sequence.parse("abcdef")
         
         let match = Result.Match(match: "abc", index: 0, remainder: Remainder(text: "def", index: 3))
         let expected = Result.Leaf(["prefix": match], remainder: Remainder(text: "", index: 6))
         XCTAssertEqual(expected, actual)
     }
     
-    func test_sequenceWithNameOnRight() {
+    func test_sequenceWithNestedNameOnRightSucceeds_unnamedMatchesOmitted() {
         
         let innerName = Syft.Name("suffix", Syft.Match("def"))
-        let seq = Syft.Sequence(Syft.Match("abc"), innerName)
+        let sequence = Syft.Sequence(Syft.Match("abc"), innerName)
         
-        let actual = seq.parse("abcdef")
+        let actual = sequence.parse("abcdef")
         
         let match = Result.Match(match: "def", index: 3, remainder: Remainder(text: "", index: 6))
         let expected = Result.Leaf(["suffix": match], remainder: Remainder(text: "", index: 6))
         XCTAssertEqual(expected, actual)
     }
     
-    func test_sequenceOfTwoSubnames() {
+    func test_sequenceWithTwoNestedNames_bothLeavesReturned() {
         
         let leftInnerName = Syft.Name("prefix", Syft.Match("abc"))
         let rightInnerName = Syft.Name("suffix", Syft.Match("def"))
-        let seq = Syft.Sequence(leftInnerName, rightInnerName)
+        let sequence = Syft.Sequence(leftInnerName, rightInnerName)
         
-        let actual = seq.parse("abcdef")
+        let actual = sequence.parse("abcdef")
         
         let leftMatch = Result.Match(match: "abc", index: 0, remainder: Remainder(text: "def", index: 3))
         let rightMatch = Result.Match(match: "def", index: 3, remainder: Remainder(text: "", index: 6))
@@ -81,13 +81,13 @@ class NameTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
     
-    func test_nameSequenceContainingName() {
+    func test_namedSequenceWithNestedName_innerLeafWrappedInOuterLeaf() {
         
         let innerName = Syft.Name("suffix", Syft.Match("efg"))
-        let seq = Syft.Sequence(Syft.Match("abcd"), innerName)
+        let sequence = Syft.Sequence(Syft.Match("abcd"), innerName)
         
-        let nameSeq = Syft.Name("total", seq)
-        let actual = nameSeq.parse("abcdefg")
+        let nameSequence = Syft.Name("total", sequence)
+        let actual = nameSequence.parse("abcdefg")
         
         let innerMatch = Result.Match(match: "efg", index: 4, remainder: Remainder(text: "", index: 7))
         let innerResult = Result.Leaf(["suffix": innerMatch], remainder: Remainder(text: "", index: 7))
