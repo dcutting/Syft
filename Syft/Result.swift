@@ -47,7 +47,7 @@ public func ==(lhs: Result, rhs: Result) -> Bool {
         return lhsMatch == rhsMatch && lhsIndex == rhsIndex && lhsRemainder == rhsRemainder
     
     case let (.Leaf(lhsHash, remainder: lhsRemainder), .Leaf(rhsHash, remainder: rhsRemainder)):
-        return hashesEqual(lhsHash, rhsHash)
+        return hashesEqual(lhsHash, rhsHash) && lhsRemainder == rhsRemainder
     
     default:
         return false

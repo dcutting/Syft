@@ -114,4 +114,16 @@ class ResultTests: XCTestCase {
         
         XCTAssertEqual(left, right)
     }
+    
+    func test_leafWithDifferentRemainders_unequal() {
+        
+        let leftMatch = Result.Match(match: "aaa", index: 10, remainder: Remainder(text: "abc", index: 0))
+        let rightMatch = Result.Match(match: "aaa", index: 10, remainder: Remainder(text: "abc", index: 0))
+        let leftRemainder = Remainder(text: "remainder", index: 5)
+        let rightRemainder = Remainder(text: "other", index: 5)
+        let left = Result.Leaf(["symbol": leftMatch], remainder: leftRemainder)
+        let right = Result.Leaf(["symbol": rightMatch], remainder: rightRemainder)
+        
+        XCTAssertNotEqual(left, right)
+    }
 }
