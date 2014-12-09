@@ -56,20 +56,7 @@ extension String {
 func parseSequence(input: Remainder, subs: [Syft]) -> Result {
 
     if let head = subs.head {
-        switch head.parse(input) {
-            
-        case .Failure:
-            return .Failure
-            
-        case let .Match(match: headText, index: headIndex, remainder: headRemainder):
-            let tail = parseSequence(headRemainder, subs.tail)
-            return combineSequenceMatch(headText, headIndex, tail)
-        
-        case let .Leaf(headHash, remainder: headRemainder):
-            let tail = parseSequence(headRemainder, subs.tail)
-            return combineSequenceLeaf(headHash, tail)
-
-        }
+        return parseSequence(input, head, subs.tail)
     } else {
         return .Match(match: "", index: input.index, remainder: input)
     }
@@ -83,6 +70,23 @@ extension Array {
     
     var tail : Array<T> {
         return count < 1 ? self : Array(self[1..<count])
+    }
+}
+
+func parseSequence(input: Remainder, head: Syft, tail: [Syft]) -> Result {
+
+    switch head.parse(input) {
+        
+    case .Failure:
+        return .Failure
+        
+    case let .Match(match: headText, index: headIndex, remainder: headRemainder):
+        let tailResult = parseSequence(headRemainder, tail)
+        return combineSequenceMatch(headText, headIndex, tailResult)
+        
+    case let .Leaf(headHash, remainder: headRemainder):
+        let tailResult = parseSequence(headRemainder, tail)
+        return combineSequenceLeaf(headHash, tailResult)
     }
 }
 
