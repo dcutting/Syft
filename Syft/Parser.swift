@@ -66,22 +66,23 @@ func parseSequence(input: Remainder, subs: [Syft]) -> Result {
             return combineSequenceMatch(headText, headIndex, tail)
         
         case let .Leaf(headHash, remainder: headRemainder):
-            let parsedTail = parseSequence(headRemainder, subs.tail)
+            let tail = parseSequence(headRemainder, subs.tail)
+            return combineSequenceLeaf(headHash, tail)
 
-            switch parsedTail {
-
-            case .Failure:
-                return .Failure
-                
-            case let .Match(match: _, index: _, remainder: tailRemainder):
-                return .Leaf(headHash, remainder: tailRemainder)
-            
-            case let .Leaf(tailHash, remainder: tailRemainder):
-                return .Leaf(headHash + tailHash, remainder: tailRemainder)
-            }
         }
     } else {
         return .Match(match: "", index: input.index, remainder: input)
+    }
+}
+
+extension Array {
+    
+    var head : T? {
+        return self.first
+    }
+    
+    var tail : Array<T> {
+        return count < 1 ? self : Array(self[1..<count])
     }
 }
 
@@ -98,18 +99,21 @@ func combineSequenceMatch(headText: String, headIndex: Int, tail: Result) -> Res
         
     case .Leaf:
         return tail
-        
     }
 }
 
-extension Array {
+func combineSequenceLeaf(headHash: [String: ResultLike], tail: Result) -> Result {
 
-    var head : T? {
-        return self.first
-    }
-    
-    var tail : Array<T> {
-        return count < 1 ? self : Array(self[1..<count])
+    switch tail {
+        
+    case .Failure:
+        return .Failure
+        
+    case let .Match(match: _, index: _, remainder: tailRemainder):
+        return .Leaf(headHash, remainder: tailRemainder)
+        
+    case let .Leaf(tailHash, remainder: tailRemainder):
+        return .Leaf(headHash + tailHash, remainder: tailRemainder)
     }
 }
 
