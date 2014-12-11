@@ -105,8 +105,8 @@
 				C869B81A1A246AC900904675 /* StringAtomTests.swift */,
 				C806656A1A247E3F00FB3508 /* SequenceTests.swift */,
 				C8CCF0A21A29FF0200C75DB3 /* NameTests.swift */,
-				C85DB4151A19229B00279078 /* Supporting Files */,
 				C8BEDFE81A39D391006651CC /* RepeatTests.swift */,
+				C85DB4151A19229B00279078 /* Supporting Files */,
 			);
 			path = SyftTests;
 			sourceTree = "<group>";

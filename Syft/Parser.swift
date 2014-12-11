@@ -23,6 +23,9 @@ public enum Syft: SyftLike {
         case let .Name(name, sub as Syft):
             return parseName(input, name, sub)
             
+        case let .Repeat(sub as Syft, minimum, maximum):
+            return sub.parse(input)
+            
         default:
             return .Failure
         }
