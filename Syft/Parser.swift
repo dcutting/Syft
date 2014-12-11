@@ -165,7 +165,8 @@ func parseRepeat(input: Remainder, sub: Syft, minimum: Int, maximum: Int) -> Res
     }
     switch result {
     case let .Match(match: match, index: index, remainder: remainder):
-        return parseRepeat(remainder, sub, minimum-1, 0)
+        let tailResult = parseRepeat(remainder, sub, minimum-1, 0)
+        return combineSequenceMatch(match, index, tailResult)
     default:
         return .Failure
     }
