@@ -159,6 +159,9 @@ func parseName(input: Remainder, name: String, sub: Syft) -> Result {
 
 func parseRepeat(input: Remainder, sub: Syft, minimum: Int, maximum: Int) -> Result {
 
+    if 0 == minimum {
+        return Result.Match(match: "", index: 0, remainder: input)
+    }
     let result = sub.parse(input)
     if 1 == minimum {
         return result

@@ -46,4 +46,15 @@ class RepeatTests: XCTestCase {
         let expected = Result.Match(match: "aa", index: 0, remainder: Remainder(text: "", index: 2))
         XCTAssertEqual(expected, actual)
     }
+    
+    func test_repeatMinimum0_withoutMatch_matches() {
+        
+        let strA = Syft.Match("a")
+        let repeat = Syft.Repeat(strA, minimum: 0, maximum: 0)
+        
+        let actual = repeat.parse("bb")
+        
+        let expected = Result.Match(match: "", index: 0, remainder: Remainder(text: "bb", index: 0))
+        XCTAssertEqual(expected, actual)
+    }
 }
