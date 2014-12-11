@@ -24,7 +24,7 @@ public enum Syft: SyftLike {
             return parseName(input, name, sub)
             
         case let .Repeat(sub as Syft, minimum, maximum):
-            return sub.parse(input)
+            return parseRepeat(input, sub, minimum, maximum)
             
         default:
             return .Failure
@@ -154,5 +154,19 @@ func parseName(input: Remainder, name: String, sub: Syft) -> Result {
         
     case let .Leaf(_, remainder: remainder):
         return .Leaf([name: result], remainder: remainder)
+    }
+}
+
+func parseRepeat(input: Remainder, sub: Syft, minimum: Int, maximum: Int) -> Result {
+
+    let result = sub.parse(input)
+    if 1 == minimum {
+        return result
+    }
+    switch result {
+    case let .Match(match: match, index: index, remainder: remainder):
+        return parseRepeat(remainder, sub, minimum-1, 0)
+    default:
+        return .Failure
     }
 }
