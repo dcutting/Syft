@@ -5,6 +5,7 @@ public enum Syft: SyftLike {
     case Match(String)
     case Sequence(SyftLike, SyftLike)
     case Name(String, SyftLike)
+    case Repeat(SyftLike, minimum: Int, maximum: Int)
     
     public func parse(input: String) -> Result {
         return parse(Remainder(text: input, index: 0))

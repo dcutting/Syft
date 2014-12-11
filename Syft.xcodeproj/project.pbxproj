@@ -17,6 +17,7 @@
 		C8B2B8C71A25BDF000E6E54E /* ResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B2B8C61A25BDF000E6E54E /* ResultTests.swift */; };
 		C8B2B8C91A25BF0A00E6E54E /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B2B8C81A25BF0A00E6E54E /* Result.swift */; };
 		C8B2B8CA1A25BF2200E6E54E /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B2B8C81A25BF0A00E6E54E /* Result.swift */; };
+		C8BEDFE91A39D391006651CC /* RepeatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BEDFE81A39D391006651CC /* RepeatTests.swift */; };
 		C8CCF0A11A29FDCC00C75DB3 /* SequenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C806656A1A247E3F00FB3508 /* SequenceTests.swift */; };
 		C8CCF0A31A29FF0200C75DB3 /* NameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CCF0A21A29FF0200C75DB3 /* NameTests.swift */; };
 /* End PBXBuildFile section */
@@ -45,6 +46,7 @@
 		C869B81C1A246DE100904675 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		C8B2B8C61A25BDF000E6E54E /* ResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTests.swift; sourceTree = "<group>"; };
 		C8B2B8C81A25BF0A00E6E54E /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		C8BEDFE81A39D391006651CC /* RepeatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepeatTests.swift; sourceTree = "<group>"; };
 		C8CCF0A21A29FF0200C75DB3 /* NameTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -104,6 +106,7 @@
 				C806656A1A247E3F00FB3508 /* SequenceTests.swift */,
 				C8CCF0A21A29FF0200C75DB3 /* NameTests.swift */,
 				C85DB4151A19229B00279078 /* Supporting Files */,
+				C8BEDFE81A39D391006651CC /* RepeatTests.swift */,
 			);
 			path = SyftTests;
 			sourceTree = "<group>";
@@ -216,6 +219,7 @@
 			files = (
 				C8B2B8C71A25BDF000E6E54E /* ResultTests.swift in Sources */,
 				C83302D41A322E0B00C77D2C /* Remainder.swift in Sources */,
+				C8BEDFE91A39D391006651CC /* RepeatTests.swift in Sources */,
 				C83302D11A31B4BA00C77D2C /* RemainderTests.swift in Sources */,
 				C869B81E1A246E5300904675 /* Parser.swift in Sources */,
 				C8CCF0A31A29FF0200C75DB3 /* NameTests.swift in Sources */,
