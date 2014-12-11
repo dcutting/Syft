@@ -30,7 +30,7 @@ class RepeatTests: XCTestCase {
         let strA = Syft.Match("a")
         let repeat = Syft.Repeat(strA, minimum: 2, maximum: 2)
         
-        let actual = repeat.parse("a")
+        let actual = repeat.parse("ab")
         
         let expected = Result.Failure
         XCTAssertEqual(expected, actual)
