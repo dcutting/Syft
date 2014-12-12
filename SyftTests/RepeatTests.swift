@@ -57,4 +57,15 @@ class RepeatTests: XCTestCase {
         let expected = Result.Match(match: "", index: 0, remainder: Remainder(text: "bb", index: 0))
         XCTAssertEqual(expected, actual)
     }
+    
+    func test_repeatWithSuitableInput_matchesUpToMaximumTimes() {
+        
+        let strA = Syft.Match("a")
+        let repeat = Syft.Repeat(strA, minimum: 0, maximum: 5)
+        
+        let actual = repeat.parse("aaaaaaaa")
+        
+        let expected = Result.Match(match: "aaaaa", index: 0, remainder: Remainder(text: "aaa", index: 5))
+        XCTAssertEqual(expected, actual)
+    }
 }
