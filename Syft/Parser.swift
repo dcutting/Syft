@@ -177,6 +177,14 @@ func parseRepeat(input: Remainder, sub: Syft, #minimum: Int, #maximum: Int, #cou
             return result
         }
     default:
-        return .Failure
+        if counter < minimum {
+            return .Failure
+        } else {
+            if 0 == counter {
+                return Result.Match(match: "", index: 0, remainder: input)
+            } else {
+                return .Failure
+            }
+        }
     }
 }
