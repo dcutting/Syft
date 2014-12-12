@@ -167,7 +167,12 @@ func parseRepeat(input: Remainder, sub: Syft, #minimum: Int, #maximum: Int, #cou
     case let .Match(match: match, index: index, remainder: remainder):
         if counter < maximum {
             let tailResult = parseRepeat(remainder, sub, minimum: minimum, maximum: maximum, counter: counter + 1)
-            return combineSequenceMatch(match, index, tailResult)
+            switch tailResult {
+            case .Failure:
+                return counter < minimum ? .Failure : result
+            default:
+                return combineSequenceMatch(match, index, tailResult)
+            }
         } else {
             return result
         }
