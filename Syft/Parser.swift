@@ -24,7 +24,7 @@ public enum Syft: SyftLike {
             return parseName(input, name, sub)
             
         case let .Repeat(sub as Syft, minimum, maximum):
-            return parseRepeat(input, sub, minimum: minimum, maximum: maximum, counter: 0)
+            return parseRepeat(input, sub, minimum: minimum, maximum: maximum, matchesSoFar: 0)
             
         default:
             return .Failure
@@ -157,34 +157,33 @@ func parseName(input: Remainder, name: String, sub: Syft) -> Result {
     }
 }
 
-func parseRepeat(input: Remainder, sub: Syft, #minimum: Int, #maximum: Int, #counter: Int) -> Result {
+func parseRepeat(input: Remainder, sub: Syft, #minimum: Int, #maximum: Int, #matchesSoFar: Int) -> Result {
 
-    if counter >= maximum {
+    if matchesSoFar >= maximum {
         return Result.Match(match: "", index: 0, remainder: input)
     }
     let result = sub.parse(input)
+
     switch result {
+    
     case let .Match(match: match, index: index, remainder: remainder):
-        if counter < maximum {
-            let tailResult = parseRepeat(remainder, sub, minimum: minimum, maximum: maximum, counter: counter + 1)
-            switch tailResult {
-            case .Failure:
-                return counter < minimum ? .Failure : result
-            default:
-                return combineSequenceMatch(match, index, tailResult)
-            }
-        } else {
-            return result
+        let tailResult = parseRepeat(remainder, sub, minimum: minimum, maximum: maximum, matchesSoFar: matchesSoFar + 1)
+    
+        switch tailResult {
+        
+        case .Failure:
+            return matchesSoFar < minimum ? .Failure : result
+        
+        default:
+            return combineSequenceMatch(match, index, tailResult)
         }
+
     default:
-        if counter < minimum {
+    
+        if minimum > 0 && matchesSoFar < minimum {
             return .Failure
         } else {
-            if 0 == counter {
-                return Result.Match(match: "", index: 0, remainder: input)
-            } else {
-                return .Failure
-            }
+            return Result.Match(match: "", index: 0, remainder: input)
         }
     }
 }
