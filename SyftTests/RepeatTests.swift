@@ -101,4 +101,26 @@ class RepeatTests: XCTestCase {
         let expected = Result.Match(match: "abc", index: 0, remainder: Remainder(text: "def", index: 3))
         XCTAssertEqual(expected, actual)
     }
+    
+    func test_repeat1orMore_input1_matches() {
+        
+        let strA = Syft.Match("abc")
+        let repeat = Syft.Repeat(strA, minimum: 1, maximum: -1)
+        
+        let actual = repeat.parse("abcdef")
+        
+        let expected = Result.Match(match: "abc", index: 0, remainder: Remainder(text: "def", index: 3))
+        XCTAssertEqual(expected, actual)
+    }
+    
+    func test_repeat1orMore_input10_matches() {
+        
+        let strA = Syft.Match("abc")
+        let repeat = Syft.Repeat(strA, minimum: 1, maximum: -1)
+        
+        let actual = repeat.parse("abcabcabcabcabcabcabcabcabcabcdef")
+        
+        let expected = Result.Match(match: "abcabcabcabcabcabcabcabcabcabc", index: 0, remainder: Remainder(text: "def", index: 30))
+        XCTAssertEqual(expected, actual)
+    }
 }

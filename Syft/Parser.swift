@@ -158,7 +158,9 @@ func parseName(input: Remainder, name: String, sub: Syft) -> Result {
 }
 
 func parseRepeat(input: Remainder, sub: Syft, minimum: Int, maximum: Int, #matchesSoFar: Int) -> Result {
-    if matchesSoFar < maximum {
+    let shouldAttemptAnotherMatch = matchesSoFar < maximum || maximum < 0
+    
+    if shouldAttemptAnotherMatch {
         let result = sub.parse(input)
         switch result {
             
