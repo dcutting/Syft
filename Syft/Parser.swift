@@ -24,7 +24,7 @@ public enum Syft: SyftLike {
             return parseName(input, name, sub)
             
         case let .Repeat(sub as Syft, minimum, maximum):
-            return parseRepeat(input, sub, minimum: minimum, maximum: maximum, matchesSoFar: 0)
+            return parseRepeat(input, sub, minimum, maximum, matchesSoFar: 0)
             
         default:
             return .Failure
@@ -157,33 +157,34 @@ func parseName(input: Remainder, name: String, sub: Syft) -> Result {
     }
 }
 
-func parseRepeat(input: Remainder, sub: Syft, #minimum: Int, #maximum: Int, #matchesSoFar: Int) -> Result {
-
-    if matchesSoFar >= maximum {
-        return Result.Match(match: "", index: 0, remainder: input)
-    }
-    let result = sub.parse(input)
-
-    switch result {
-    
-    case let .Match(match: match, index: index, remainder: remainder):
-        let tailResult = parseRepeat(remainder, sub, minimum: minimum, maximum: maximum, matchesSoFar: matchesSoFar + 1)
-    
-        switch tailResult {
-        
+func parseRepeat(input: Remainder, sub: Syft, minimum: Int, maximum: Int, #matchesSoFar: Int) -> Result {
+    if matchesSoFar < maximum {
+        let result = sub.parse(input)
+        switch result {
+            
         case .Failure:
-            return matchesSoFar < minimum ? .Failure : result
-        
-        default:
-            return combineSequenceMatch(match, index, tailResult)
-        }
-
-    default:
-    
-        if minimum > 0 && matchesSoFar < minimum {
+            if minimum > 0 && matchesSoFar < minimum {
+                return .Failure
+            } else {
+                return Result.Match(match: "", index: 0, remainder: input)
+            }
+            
+        case let .Match(match: match, index: index, remainder: remainder):
+            let tailResult = parseRepeat(remainder, sub, minimum, maximum, matchesSoFar: matchesSoFar + 1)
+            
+            switch tailResult {
+                
+            case .Failure:
+                return matchesSoFar < minimum ? .Failure : result
+                
+            default:
+                return combineSequenceMatch(match, index, tailResult)
+            }
+            
+        case .Leaf:
             return .Failure
-        } else {
-            return Result.Match(match: "", index: 0, remainder: input)
         }
+    } else {
+        return Result.Match(match: "", index: 0, remainder: input)
     }
 }
