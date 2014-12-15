@@ -91,6 +91,9 @@ func parseSequence(input: Remainder, head: Syft, tail: [Syft]) -> Result {
     case let .Leaf(headHash, remainder: headRemainder):
         let tailResult = parseSequence(headRemainder, tail)
         return combineSequenceLeaf(headHash, tailResult)
+        
+    case .Array:
+        return .Failure
     }
 }
 
@@ -107,6 +110,9 @@ func combineSequenceMatch(headText: String, headIndex: Int, tail: Result) -> Res
         
     case .Leaf:
         return tail
+        
+    case .Array:
+        return .Failure
     }
 }
 
@@ -122,6 +128,9 @@ func combineSequenceLeaf(headHash: [String: ResultLike], tail: Result) -> Result
         
     case let .Leaf(tailHash, remainder: tailRemainder):
         return .Leaf(headHash + tailHash, remainder: tailRemainder)
+        
+    case .Array:
+        return .Failure
     }
 }
 
@@ -154,6 +163,9 @@ func parseName(input: Remainder, name: String, sub: Syft) -> Result {
         
     case let .Leaf(_, remainder: remainder):
         return .Leaf([name: result], remainder: remainder)
+        
+    case .Array:
+        return .Failure
     }
 }
 

@@ -5,6 +5,7 @@ public enum Result: ResultLike, Equatable, Printable {
     case Failure
     case Match(match: String, index: Int, remainder: Remainder)
     case Leaf([String: ResultLike], remainder: Remainder)
+    case Array([ResultLike], remainder: Remainder)
 
     public var description: String {
 
@@ -18,6 +19,9 @@ public enum Result: ResultLike, Equatable, Printable {
         
         case let .Leaf(hash, remainder: _):
             return hash.sortedDescription()
+            
+        case let .Array(array, remainder: remainder):
+            return array.sortedDescription()
         }
     }
 }
@@ -33,6 +37,16 @@ extension Dictionary {
         let joinedPairs = ", ".join(sorted(pairs))
         
         return "[\(joinedPairs)]"
+    }
+}
+
+extension Array {
+    
+    func sortedDescription() -> String {
+        
+        let joined = ", ".join(self.map { "\($0)" }.sorted { $0 < $1 })
+        
+        return "[\(joined)]"
     }
 }
 

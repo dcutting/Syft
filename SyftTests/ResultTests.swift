@@ -23,6 +23,14 @@ class ResultTests: XCTestCase {
         XCTAssertEqual("[another: \(match2), symbol: \(match1)]", "\(leaf)")
     }
     
+    func test_descriptionArray() {
+        
+        let match1 = Result.Match(match: "abc", index: 5, remainder: Remainder(text: "def", index: 0))
+        let match2 = Result.Match(match: "zz", index: 10, remainder: Remainder(text: "aaa", index: 5))
+        let array = Result.Array([match1, match2], remainder: Remainder(text: "", index: 0))
+        XCTAssertEqual("[\(match1), \(match2)]", "\(array)")
+    }
+    
     func test_twoFailures_equal() {
         
         let left = Result.Failure
