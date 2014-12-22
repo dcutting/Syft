@@ -12,7 +12,7 @@ class ResultTests: XCTestCase {
     func test_descriptionMatch() {
         
         let match = Result.Match(match: "abc", index: 5, remainder: Remainder(text: "def", index: 0))
-        XCTAssertEqual("\"abc\"@5", "\(match)")
+        XCTAssertEqual("\"abc\"@5[def:0]", "\(match)")
     }
     
     func test_descriptionLeaf() {
