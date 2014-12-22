@@ -14,8 +14,8 @@ public enum Result: ResultLike, Equatable, Printable {
         case let .Failure:
             return "<failure>"
         
-        case let .Match(match: match, index: index, remainder: _):
-            return "\"\(match)\"@\(index)"
+        case let .Match(match: match, index: index, remainder: remainder):
+            return "\"\(match)\"@\(index)[\(remainder.text):\(remainder.index)]"
         
         case let .Leaf(hash, remainder: _):
             return hash.sortedDescription()
