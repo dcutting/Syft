@@ -62,6 +62,9 @@ public func ==(lhs: Result, rhs: Result) -> Bool {
     
     case let (.Leaf(lhsHash, remainder: lhsRemainder), .Leaf(rhsHash, remainder: rhsRemainder)):
         return hashesEqual(lhsHash, rhsHash) && lhsRemainder == rhsRemainder
+        
+    case let (.Array(lhsResults, remainder: lhsRemainder), .Array(rhsResults, remainder: rhsRemainder)):
+        return arraysEqual(lhsResults, rhsResults) && lhsRemainder == rhsRemainder
     
     default:
         return false
@@ -82,6 +85,22 @@ func hashesEqual(lhsHash: [String: ResultLike], rhsHash: [String: ResultLike]) -
         } else {
             return false
         }
+    }
+    return true
+}
+
+func arraysEqual(lhsArray: [ResultLike], rhsArray: [ResultLike]) -> Bool {
+    if countElements(lhsArray) != countElements(rhsArray) {
+        return false
+    }
+    var i = 0
+    while i < countElements(lhsArray) {
+        let leftResult = lhsArray[i] as Result
+        let rightResult = rhsArray[i] as Result
+        if leftResult != rightResult {
+            return false
+        }
+        i++
     }
     return true
 }

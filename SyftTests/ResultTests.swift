@@ -148,4 +148,27 @@ class ResultTests: XCTestCase {
         
         XCTAssertNotEqual(left, right)
     }
+    
+    func test_twoEmptyArraysAndSameRemainder_equal() {
+        
+        let left = Result.Array([], remainder: Remainder(text: "", index: 0))
+        let right = Result.Array([], remainder: Remainder(text: "", index: 0))
+        XCTAssertEqual(left, right)
+    }
+    
+    func test_twoEmptyArraysAndDifferentRemainder_unequal() {
+        
+        let left = Result.Array([], remainder: Remainder(text: "hi", index: 0))
+        let right = Result.Array([], remainder: Remainder(text: "", index: 0))
+        XCTAssertNotEqual(left, right)
+    }
+    
+    func test_twoSameArraysAndSameRemainders_equal() {
+        
+        let resultA = Result.Match(match: "hello", index: 5, remainder: Remainder(text: "", index: 10))
+        let resultB = Result.Match(match: "hello", index: 5, remainder: Remainder(text: "", index: 10))
+        let left = Result.Array([resultA, resultB], remainder: Remainder(text: "", index: 0))
+        let right = Result.Array([resultA, resultB], remainder: Remainder(text: "", index: 0))
+        XCTAssertEqual(left, right)
+    }
 }
