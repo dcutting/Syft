@@ -21,7 +21,7 @@ public enum Result: ResultLike, Equatable, Printable {
             return hash.sortedDescription()
             
         case let .Array(array, remainder: remainder):
-            return array.sortedDescription()
+            return "\(array.sortedDescription())[\(remainder.text):\(remainder.index)]"
         }
     }
 }
