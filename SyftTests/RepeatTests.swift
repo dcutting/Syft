@@ -156,4 +156,20 @@ class RepeatTests: XCTestCase {
         let expected = Result.Match(match: "abcabcabcabcabcabcabcabcabcabc", index: 0, remainder: Remainder(text: "def", index: 30))
         XCTAssertEqual(expected, actual)
     }
+    
+    func test_repeatNamedElements_returnsArrayOfLeafs() {
+        
+        let strA = Syft.Match("a")
+        let namedA = Syft.Name("anA", strA)
+        let repeat = Syft.Repeat(namedA, minimum: 2, maximum: 2)
+        
+        let actual = repeat.parse("aa")
+        
+        let string1 = Result.Match(match: "a", index: 0, remainder: Remainder(text: "a", index: 1))
+        let string2 = Result.Match(match: "a", index: 1, remainder: Remainder(text: "", index: 2))
+        let hash1 = Result.Leaf(["anA": string1], remainder: Remainder(text: "a", index: 1))
+        let hash2 = Result.Leaf(["anA": string2], remainder: Remainder(text: "", index: 2))
+        let expected = Result.Array([hash1, hash2], remainder: Remainder(text: "", index: 2))
+        XCTAssertEqual(expected, actual)
+    }
 }

@@ -195,7 +195,22 @@ func parseRepeat(input: Remainder, sub: Syft, minimum: Int, maximum: Int, #match
                 return combineSequenceMatch(match, index, tailResult)
             }
             
-        case .Leaf:
+        case let .Leaf(_, remainder: remainder):
+            let tailResult = parseRepeat(remainder, sub, minimum, maximum, matchesSoFar: matchesSoFar + 1)
+
+            switch tailResult {
+            case let .Match(match: tailMatch, index: tailIndex, remainder: tailRemainder):
+                return Result.Array([result], remainder: tailRemainder)
+            case var .Array(array, remainder: remainder):
+                array.insert(result, atIndex: 0)
+                return Result.Array(array, remainder: remainder)
+            case let .Leaf(tailHash, remainder: tailRemainder):
+                return Result.Array([tailResult], remainder: tailRemainder)
+            default:
+                return .Failure
+            }
+            
+        case .Array:
             return .Failure
         }
     } else {
