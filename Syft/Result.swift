@@ -4,7 +4,7 @@ public enum Result: ResultLike, Equatable, Printable {
     
     case Failure
     case Match(match: String, index: Int, remainder: Remainder)
-    case Leaf([String: ResultLike], remainder: Remainder)
+    case Hash([String: ResultLike], remainder: Remainder)
     case Array([ResultLike], remainder: Remainder)
 
     public var description: String {
@@ -17,7 +17,7 @@ public enum Result: ResultLike, Equatable, Printable {
         case let .Match(match: match, index: index, remainder: remainder):
             return "\"\(match)\"@\(index)[\(remainder.text):\(remainder.index)]"
         
-        case let .Leaf(hash, remainder: _):
+        case let .Hash(hash, remainder: _):
             return hash.sortedDescription()
             
         case let .Array(array, remainder: remainder):
@@ -60,7 +60,7 @@ public func ==(lhs: Result, rhs: Result) -> Bool {
     case let (.Match(match: lhsMatch, index: lhsIndex, remainder: lhsRemainder), .Match(match: rhsMatch, index: rhsIndex, remainder: rhsRemainder)):
         return lhsMatch == rhsMatch && lhsIndex == rhsIndex && lhsRemainder == rhsRemainder
     
-    case let (.Leaf(lhsHash, remainder: lhsRemainder), .Leaf(rhsHash, remainder: rhsRemainder)):
+    case let (.Hash(lhsHash, remainder: lhsRemainder), .Hash(rhsHash, remainder: rhsRemainder)):
         return hashesEqual(lhsHash, rhsHash) && lhsRemainder == rhsRemainder
         
     case let (.Array(lhsResults, remainder: lhsRemainder), .Array(rhsResults, remainder: rhsRemainder)):

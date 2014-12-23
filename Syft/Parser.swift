@@ -88,9 +88,9 @@ func parseSequence(input: Remainder, head: Syft, tail: [Syft]) -> Result {
         let tailResult = parseSequence(headRemainder, tail)
         return combineSequenceMatch(headText, headIndex, tailResult)
         
-    case let .Leaf(headHash, remainder: headRemainder):
+    case let .Hash(headHash, remainder: headRemainder):
         let tailResult = parseSequence(headRemainder, tail)
-        return combineSequenceLeaf(headHash, tailResult)
+        return combineSequenceHash(headHash, tailResult)
         
     case .Array:
         return .Failure
@@ -108,7 +108,7 @@ func combineSequenceMatch(headText: String, headIndex: Int, tail: Result) -> Res
         let sequenceRemainder = Remainder(text: tailRemainder.text, index: tailRemainder.index + tailIndex)
         return .Match(match: headText + tailMatch, index: headIndex, remainder: tailRemainder)
         
-    case .Leaf:
+    case .Hash:
         return tail
         
     case .Array:
@@ -116,7 +116,7 @@ func combineSequenceMatch(headText: String, headIndex: Int, tail: Result) -> Res
     }
 }
 
-func combineSequenceLeaf(headHash: [String: ResultLike], tail: Result) -> Result {
+func combineSequenceHash(headHash: [String: ResultLike], tail: Result) -> Result {
 
     switch tail {
         
@@ -124,10 +124,10 @@ func combineSequenceLeaf(headHash: [String: ResultLike], tail: Result) -> Result
         return .Failure
         
     case let .Match(match: _, index: _, remainder: tailRemainder):
-        return .Leaf(headHash, remainder: tailRemainder)
+        return .Hash(headHash, remainder: tailRemainder)
         
-    case let .Leaf(tailHash, remainder: tailRemainder):
-        return .Leaf(headHash + tailHash, remainder: tailRemainder)
+    case let .Hash(tailHash, remainder: tailRemainder):
+        return .Hash(headHash + tailHash, remainder: tailRemainder)
         
     case .Array:
         return .Failure
@@ -159,10 +159,10 @@ func parseName(input: Remainder, name: String, sub: Syft) -> Result {
         return .Failure
 
     case let .Match(match: _, index: _, remainder: remainder):
-        return .Leaf([name: result], remainder: remainder)
+        return .Hash([name: result], remainder: remainder)
         
-    case let .Leaf(_, remainder: remainder):
-        return .Leaf([name: result], remainder: remainder)
+    case let .Hash(_, remainder: remainder):
+        return .Hash([name: result], remainder: remainder)
         
     case .Array:
         return .Failure
@@ -195,7 +195,7 @@ func parseRepeat(input: Remainder, sub: Syft, minimum: Int, maximum: Int, #match
                 return combineSequenceMatch(match, index, tailResult)
             }
             
-        case let .Leaf(_, remainder: remainder):
+        case let .Hash(_, remainder: remainder):
             let tailResult = parseRepeat(remainder, sub, minimum, maximum, matchesSoFar: matchesSoFar + 1)
 
             switch tailResult {
@@ -204,7 +204,7 @@ func parseRepeat(input: Remainder, sub: Syft, minimum: Int, maximum: Int, #match
             case var .Array(array, remainder: remainder):
                 array.insert(result, atIndex: 0)
                 return Result.Array(array, remainder: remainder)
-            case let .Leaf(tailHash, remainder: tailRemainder):
+            case let .Hash(tailHash, remainder: tailRemainder):
                 return Result.Array([tailResult], remainder: tailRemainder)
             default:
                 return .Failure
