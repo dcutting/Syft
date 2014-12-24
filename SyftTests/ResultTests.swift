@@ -5,8 +5,8 @@ class ResultTests: XCTestCase {
     
     func test_descriptionFailure() {
         
-        let match = Result.Failure
-        XCTAssertEqual("<failure>", "\(match)")
+        let result = Result.Failure
+        XCTAssertEqual("<failure>", "\(result)")
     }
     
     func test_descriptionMatch() {

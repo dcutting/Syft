@@ -76,10 +76,10 @@ func hashesEqual(lhsHash: [String: ResultLike], rhsHash: [String: ResultLike]) -
     if countElements(lhsHash) != countElements(rhsHash) {
         return false
     }
-    for (lhsName, lhsMatch) in lhsHash {
-        let lhsMatch2 = lhsMatch as Result
-        if let rhsMatch = rhsHash[lhsName] as? Result {
-            if lhsMatch2 != rhsMatch {
+    for (lhsName, lhsResultLike) in lhsHash {
+        let lhsResult = lhsResultLike as Result
+        if let rhsResult = rhsHash[lhsName] as? Result {
+            if lhsResult != rhsResult {
                 return false
             }
         } else {

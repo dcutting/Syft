@@ -5,7 +5,7 @@ class SequenceTests: XCTestCase {
     
     func test_twoPatternsMatchInputPrefix_sequenceMatches() {
         
-        let sequence = Syft.Sequence(Syft.Match("abcd"), Syft.Match("efg"))
+        let sequence = Syft.Sequence(Syft.Str("abcd"), Syft.Str("efg"))
 
         let actual = sequence.parse("abcdefghij")
 
@@ -15,7 +15,7 @@ class SequenceTests: XCTestCase {
     
     func test_twoPatternsMatchInputExactly_sequenceMatches() {
         
-        let sequence = Syft.Sequence(Syft.Match("abc"), Syft.Match("def"))
+        let sequence = Syft.Sequence(Syft.Str("abc"), Syft.Str("def"))
         
         let actual = sequence.parse("abcdef")
         
@@ -25,8 +25,8 @@ class SequenceTests: XCTestCase {
     
     func test_firstElementDoesNotMatchInput_sequenceDoesNotMatch() {
         
-        let first = Syft.Match("abc")
-        let second = Syft.Match("def")
+        let first = Syft.Str("abc")
+        let second = Syft.Str("def")
         
         let actual = Syft.Sequence(first, second).parse("zdef")
         
@@ -36,8 +36,8 @@ class SequenceTests: XCTestCase {
     
     func test_secondElementDoesNotMatchInput_sequenceDoesNotMatch() {
         
-        let first = Syft.Match("abc")
-        let second = Syft.Match("def")
+        let first = Syft.Str("abc")
+        let second = Syft.Str("def")
         
         let actual = Syft.Sequence(first, second).parse("abcz")
         

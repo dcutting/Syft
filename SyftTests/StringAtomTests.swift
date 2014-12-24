@@ -5,7 +5,7 @@ class StringAtomTests: XCTestCase {
 
     func test_emptyPatternAndInput_matches() {
     
-        let actual = Syft.Match("").parse("")
+        let actual = Syft.Str("").parse("")
         
         let expected = Result.Match(match: "", index: 0, remainder: Remainder(text: "", index: 0))
         XCTAssertEqual(expected, actual)
@@ -13,7 +13,7 @@ class StringAtomTests: XCTestCase {
     
     func test_differentPatternAndInput_fails() {
         
-        let actual = Syft.Match("abc").parse("def")
+        let actual = Syft.Str("abc").parse("def")
 
         let expected = Result.Failure
         XCTAssertEqual(expected, actual)
@@ -21,7 +21,7 @@ class StringAtomTests: XCTestCase {
     
     func test_inputWithPrefixMatchingPattern_matches() {
         
-        let actual = Syft.Match("abc").parse("abcdef")
+        let actual = Syft.Str("abc").parse("abcdef")
         
         let expected = Result.Match(match: "abc", index: 0, remainder: Remainder(text: "def", index: 3))
         XCTAssertEqual(expected, actual)
@@ -29,7 +29,7 @@ class StringAtomTests: XCTestCase {
     
     func test_emptyPatternAnyInput_matches() {
         
-        let actual = Syft.Match("").parse("abc")
+        let actual = Syft.Str("").parse("abc")
         
         let expected = Result.Match(match: "", index: 0, remainder: Remainder(text: "abc", index: 0))
         XCTAssertEqual(expected, actual)

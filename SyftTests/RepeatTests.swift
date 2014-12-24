@@ -5,7 +5,7 @@ class RepeatTests: XCTestCase {
     
     func test_repeatMinimum1_withoutMatch_fails() {
         
-        let strA = Syft.Match("a")
+        let strA = Syft.Str("a")
         let repeat = Syft.Repeat(strA, minimum: 1, maximum: 1)
         
         let actual = repeat.parse("b")
@@ -16,7 +16,7 @@ class RepeatTests: XCTestCase {
     
     func test_repeatMinimum1_withMatch_matches() {
         
-        let strA = Syft.Match("a")
+        let strA = Syft.Str("a")
         let repeat = Syft.Repeat(strA, minimum: 1, maximum: 1)
         
         let actual = repeat.parse("a")
@@ -27,7 +27,7 @@ class RepeatTests: XCTestCase {
     
     func test_repeatMinimum2_withoutEnoughMatches_fails() {
         
-        let strA = Syft.Match("a")
+        let strA = Syft.Str("a")
         let repeat = Syft.Repeat(strA, minimum: 2, maximum: 2)
         
         let actual = repeat.parse("ab")
@@ -38,7 +38,7 @@ class RepeatTests: XCTestCase {
     
     func test_repeatMinimum2_with2Matches_matches() {
         
-        let strA = Syft.Match("a")
+        let strA = Syft.Str("a")
         let repeat = Syft.Repeat(strA, minimum: 2, maximum: 2)
         
         let actual = repeat.parse("aa")
@@ -49,7 +49,7 @@ class RepeatTests: XCTestCase {
     
     func test_repeatMinimum0_withoutMatch_matches() {
         
-        let strA = Syft.Match("a")
+        let strA = Syft.Str("a")
         let repeat = Syft.Repeat(strA, minimum: 0, maximum: 0)
         
         let actual = repeat.parse("bb")
@@ -60,7 +60,7 @@ class RepeatTests: XCTestCase {
     
     func test_repeatWithSuitableInput_matchesUpToMaximumTimes() {
         
-        let strA = Syft.Match("a")
+        let strA = Syft.Str("a")
         let repeat = Syft.Repeat(strA, minimum: 0, maximum: 5)
         
         let actual = repeat.parse("aaaaaaaa")
@@ -71,7 +71,7 @@ class RepeatTests: XCTestCase {
     
     func test_repeatInputHasMatchesBetweenMinimumAndMaximum_matches() {
         
-        let strA = Syft.Match("a")
+        let strA = Syft.Str("a")
         let repeat = Syft.Repeat(strA, minimum: 1, maximum: 3)
         
         let actual = repeat.parse("aa")
@@ -82,7 +82,7 @@ class RepeatTests: XCTestCase {
     
     func test_repeat0or1_input0_matches() {
         
-        let strA = Syft.Match("abc")
+        let strA = Syft.Str("abc")
         let repeat = Syft.Repeat(strA, minimum: 0, maximum: 1)
         
         let actual = repeat.parse("def")
@@ -93,7 +93,7 @@ class RepeatTests: XCTestCase {
 
     func test_repeat0or1_input1_matches() {
 
-        let strA = Syft.Match("abc")
+        let strA = Syft.Str("abc")
         let repeat = Syft.Repeat(strA, minimum: 0, maximum: 1)
 
         let actual = repeat.parse("abcdef")
@@ -104,7 +104,7 @@ class RepeatTests: XCTestCase {
     
     func test_repeat1orMore_input1_matches() {
         
-        let strA = Syft.Match("abc")
+        let strA = Syft.Str("abc")
         let repeat = Syft.Repeat(strA, minimum: 1, maximum: -1)
         
         let actual = repeat.parse("abcdef")
@@ -115,7 +115,7 @@ class RepeatTests: XCTestCase {
     
     func test_repeat1orMore_input10_matches() {
         
-        let strA = Syft.Match("abc")
+        let strA = Syft.Str("abc")
         let repeat = Syft.Repeat(strA, minimum: 1, maximum: -1)
         
         let actual = repeat.parse("abcabcabcabcabcabcabcabcabcabcdef")
@@ -126,7 +126,7 @@ class RepeatTests: XCTestCase {
     
     func test_repeat0orMore_input0_matches() {
         
-        let strA = Syft.Match("abc")
+        let strA = Syft.Str("abc")
         let repeat = Syft.Repeat(strA, minimum: 0, maximum: -1)
         
         let actual = repeat.parse("def")
@@ -137,7 +137,7 @@ class RepeatTests: XCTestCase {
     
     func test_repeat0orMore_input1_matches() {
         
-        let strA = Syft.Match("abc")
+        let strA = Syft.Str("abc")
         let repeat = Syft.Repeat(strA, minimum: 0, maximum: -1)
         
         let actual = repeat.parse("abcdef")
@@ -148,7 +148,7 @@ class RepeatTests: XCTestCase {
     
     func test_repeat0orMore_input10_matches() {
         
-        let strA = Syft.Match("abc")
+        let strA = Syft.Str("abc")
         let repeat = Syft.Repeat(strA, minimum: 0, maximum: -1)
         
         let actual = repeat.parse("abcabcabcabcabcabcabcabcabcabcdef")
@@ -159,7 +159,7 @@ class RepeatTests: XCTestCase {
     
     func test_repeatNamedElements_returnsArrayOfHashes() {
         
-        let strA = Syft.Match("a")
+        let strA = Syft.Str("a")
         let namedA = Syft.Name("anA", strA)
         let repeat = Syft.Repeat(namedA, minimum: 2, maximum: 2)
         

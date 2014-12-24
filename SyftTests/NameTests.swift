@@ -3,17 +3,17 @@ import Syft
 
 class NameTests: XCTestCase {
     
-    func test_matchFails_nameFails() {
+    func test_strFails_nameFails() {
         
-        let actual = Syft.Name("number", Syft.Match("563")).parse("123")
+        let actual = Syft.Name("number", Syft.Str("563")).parse("123")
         
         let expected = Result.Failure
         XCTAssertEqual(expected, actual)
     }
     
-    func test_matchSucceeds_nameSucceeds() {
+    func test_strSucceeds_nameSucceeds() {
         
-        let actual = Syft.Name("number", Syft.Match("563")).parse("563")
+        let actual = Syft.Name("number", Syft.Str("563")).parse("563")
         
         let match = Result.Match(match: "563", index: 0, remainder: Remainder(text: "", index: 3))
         let expected = Result.Hash(["number": match], remainder: Remainder(text: "", index: 3))
@@ -22,7 +22,7 @@ class NameTests: XCTestCase {
     
     func test_nestedNamesSucceeds_nameSucceeds() {
         
-        let innerName = Syft.Name("number", Syft.Match("563"))
+        let innerName = Syft.Name("number", Syft.Str("563"))
         let outerName = Syft.Name("outer", innerName)
         
         let actual = outerName.parse("563")
@@ -33,9 +33,9 @@ class NameTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
     
-    func test_sequenceOfMatchesSucceeds_nameSucceeds() {
+    func test_sequenceOfStrsSucceeds_nameSucceeds() {
         
-        let sequence = Syft.Sequence(Syft.Match("abc"), Syft.Match("def"))
+        let sequence = Syft.Sequence(Syft.Str("abc"), Syft.Str("def"))
         let actual = Syft.Name("alphabet", sequence).parse("abcdef")
         
         let match = Result.Match(match: "abcdef", index: 0, remainder: Remainder(text: "", index: 6))
@@ -45,8 +45,8 @@ class NameTests: XCTestCase {
 
     func test_sequenceWithNestedNameOnLeftSucceeds_unnamedMatchesOmitted() {
         
-        let innerName = Syft.Name("prefix", Syft.Match("abc"))
-        let sequence = Syft.Sequence(innerName, Syft.Match("def"))
+        let innerName = Syft.Name("prefix", Syft.Str("abc"))
+        let sequence = Syft.Sequence(innerName, Syft.Str("def"))
 
         let actual = sequence.parse("abcdef")
         
@@ -57,8 +57,8 @@ class NameTests: XCTestCase {
     
     func test_sequenceWithNestedNameOnRightSucceeds_unnamedMatchesOmitted() {
         
-        let innerName = Syft.Name("suffix", Syft.Match("def"))
-        let sequence = Syft.Sequence(Syft.Match("abc"), innerName)
+        let innerName = Syft.Name("suffix", Syft.Str("def"))
+        let sequence = Syft.Sequence(Syft.Str("abc"), innerName)
         
         let actual = sequence.parse("abcdef")
         
@@ -69,8 +69,8 @@ class NameTests: XCTestCase {
     
     func test_sequenceWithTwoNestedNames_bothLeavesReturned() {
         
-        let leftInnerName = Syft.Name("prefix", Syft.Match("abc"))
-        let rightInnerName = Syft.Name("suffix", Syft.Match("def"))
+        let leftInnerName = Syft.Name("prefix", Syft.Str("abc"))
+        let rightInnerName = Syft.Name("suffix", Syft.Str("def"))
         let sequence = Syft.Sequence(leftInnerName, rightInnerName)
         
         let actual = sequence.parse("abcdef")
@@ -83,8 +83,8 @@ class NameTests: XCTestCase {
     
     func test_namedSequenceWithNestedName_innerHashWrappedInOuterHash() {
         
-        let innerName = Syft.Name("suffix", Syft.Match("efg"))
-        let sequence = Syft.Sequence(Syft.Match("abcd"), innerName)
+        let innerName = Syft.Name("suffix", Syft.Str("efg"))
+        let sequence = Syft.Sequence(Syft.Str("abcd"), innerName)
         
         let nameSequence = Syft.Name("total", sequence)
         let actual = nameSequence.parse("abcdefg")

@@ -2,7 +2,7 @@ public protocol SyftLike {}
 
 public enum Syft: SyftLike {
 
-    case Match(String)
+    case Str(String)
     case Sequence(SyftLike, SyftLike)
     case Name(String, SyftLike)
     case Repeat(SyftLike, minimum: Int, maximum: Int)
@@ -14,8 +14,8 @@ public enum Syft: SyftLike {
     func parse(input: Remainder) -> Result {
         switch self {
             
-        case let .Match(pattern):
-            return parseMatch(input, pattern)
+        case let .Str(pattern):
+            return parseStr(input, pattern)
 
         case let .Sequence(first as Syft, second as Syft):
             return parseSequence(input, [first, second])
@@ -32,7 +32,7 @@ public enum Syft: SyftLike {
     }
 }
 
-func parseMatch(input: Remainder, pattern: String) -> Result {
+func parseStr(input: Remainder, pattern: String) -> Result {
     
     if (pattern.isEmpty || input.text.hasPrefix(pattern)) {
         
