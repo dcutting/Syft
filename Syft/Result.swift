@@ -26,30 +26,6 @@ public enum Result: ResultLike, Equatable, Printable {
     }
 }
 
-extension Dictionary {
-    
-    func sortedDescription() -> String {
-
-        var pairs = Array<String>()
-        for (key, value) in self {
-            pairs.append("\(key): \(value)")
-        }
-        let joinedPairs = ", ".join(sorted(pairs))
-        
-        return "[\(joinedPairs)]"
-    }
-}
-
-extension Array {
-    
-    func sortedDescription() -> String {
-        
-        let joined = ", ".join(self.map { "\($0)" }.sorted { $0 < $1 })
-        
-        return "[\(joined)]"
-    }
-}
-
 public func ==(lhs: Result, rhs: Result) -> Bool {
 
     switch (lhs, rhs) {

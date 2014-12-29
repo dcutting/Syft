@@ -46,34 +46,12 @@ func parseStr(input: Remainder, pattern: String) -> Result {
     return .Failure
 }
 
-extension String {
-
-    func splitAtIndex(index: String.Index) -> (String, String) {
-        
-        let head = self[self.startIndex..<index]
-        let tail = self[index..<self.endIndex]
-        
-        return (head, tail)
-    }
-}
-
 func parseSequence(input: Remainder, subs: [Syft]) -> Result {
 
     if let head = subs.head {
         return parseSequence(input, head, subs.tail)
     } else {
         return .Match(match: "", index: input.index, remainder: input)
-    }
-}
-
-extension Array {
-    
-    var head : T? {
-        return self.first
-    }
-    
-    var tail : Array<T> {
-        return count < 1 ? self : Array(self[1..<count])
     }
 }
 
@@ -132,21 +110,6 @@ func combineSequenceHash(headHash: [String: ResultLike], tail: Result) -> Result
     case .Array:
         return .Failure
     }
-}
-
-func +<K, V>(left: Dictionary<K, V>, right: Dictionary<K, V>) -> Dictionary<K, V> {
-    
-    var map = Dictionary<K, V>()
-    
-    for (k, v) in left {
-        map[k] = v
-    }
-    
-    for (k, v) in right {
-        map[k] = v
-    }
-    
-    return map
 }
 
 func parseName(input: Remainder, name: String, sub: Syft) -> Result {
