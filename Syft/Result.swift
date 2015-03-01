@@ -49,11 +49,11 @@ public func ==(lhs: Result, rhs: Result) -> Bool {
 
 func hashesEqual(lhsHash: [String: ResultLike], rhsHash: [String: ResultLike]) -> Bool {
     
-    if countElements(lhsHash) != countElements(rhsHash) {
+    if count(lhsHash) != count(rhsHash) {
         return false
     }
     for (lhsName, lhsResultLike) in lhsHash {
-        let lhsResult = lhsResultLike as Result
+        let lhsResult = lhsResultLike as! Result
         if let rhsResult = rhsHash[lhsName] as? Result {
             if lhsResult != rhsResult {
                 return false
@@ -66,13 +66,13 @@ func hashesEqual(lhsHash: [String: ResultLike], rhsHash: [String: ResultLike]) -
 }
 
 func arraysEqual(lhsArray: [ResultLike], rhsArray: [ResultLike]) -> Bool {
-    if countElements(lhsArray) != countElements(rhsArray) {
+    if count(lhsArray) != count(rhsArray) {
         return false
     }
     var i = 0
-    while i < countElements(lhsArray) {
-        let leftResult = lhsArray[i] as Result
-        let rightResult = rhsArray[i] as Result
+    while i < count(lhsArray) {
+        let leftResult = lhsArray[i] as! Result
+        let rightResult = rhsArray[i] as! Result
         if leftResult != rightResult {
             return false
         }
