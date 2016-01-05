@@ -1,11 +1,9 @@
-public protocol ResultLike {}
-
-public enum Result: ResultLike, Equatable, CustomStringConvertible {
+public indirect enum Result: Equatable, CustomStringConvertible {
     
     case Failure
     case Match(match: String, index: Int, remainder: Remainder)
-    case Hash([String: ResultLike], remainder: Remainder)
-    case Array([ResultLike], remainder: Remainder)
+    case Hash([String: Result], remainder: Remainder)
+    case Array([Result], remainder: Remainder)
 
     public var description: String {
 
@@ -47,32 +45,28 @@ public func ==(lhs: Result, rhs: Result) -> Bool {
     }
 }
 
-func hashesEqual(lhsHash: [String: ResultLike], rhsHash: [String: ResultLike]) -> Bool {
+func hashesEqual(lhsHash: [String: Result], rhsHash: [String: Result]) -> Bool {
     
     if lhsHash.count != rhsHash.count {
         return false
     }
-    for (lhsName, lhsResultLike) in lhsHash {
-        let lhsResult = lhsResultLike as! Result
-        if let rhsResult = rhsHash[lhsName] as? Result {
-            if lhsResult != rhsResult {
-                return false
-            }
-        } else {
+    for (lhsName, lhsResult) in lhsHash {
+        let rhsResult = rhsHash[lhsName]
+        if lhsResult != rhsResult {
             return false
         }
     }
     return true
 }
 
-func arraysEqual(lhsArray: [ResultLike], rhsArray: [ResultLike]) -> Bool {
+func arraysEqual(lhsArray: [Result], rhsArray: [Result]) -> Bool {
     if lhsArray.count != rhsArray.count {
         return false
     }
     var i = 0
     while i < lhsArray.count {
-        let leftResult = lhsArray[i] as! Result
-        let rightResult = rhsArray[i] as! Result
+        let leftResult = lhsArray[i]
+        let rightResult = rhsArray[i]
         if leftResult != rightResult {
             return false
         }

@@ -89,7 +89,7 @@ func combineSequenceMatch(headText: String, headIndex: Int, tail: Result) -> Res
     }
 }
 
-func combineSequenceHash(headHash: [String: ResultLike], tail: Result) -> Result {
+func combineSequenceHash(headHash: [String: Result], tail: Result) -> Result {
 
     switch tail {
         
