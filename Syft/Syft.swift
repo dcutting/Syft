@@ -15,16 +15,16 @@ public enum Syft: SyftLike {
         switch self {
             
         case let .Str(pattern):
-            return parseStr(input, pattern)
+            return parseStr(input, pattern: pattern)
 
         case let .Sequence(first as Syft, second as Syft):
-            return parseSequence(input, [first, second])
+            return parseSequence(input, subs: [first, second])
             
         case let .Name(name, sub as Syft):
-            return parseName(input, name, sub)
+            return parseName(input, name: name, sub: sub)
             
         case let .Repeat(sub as Syft, minimum, maximum):
-            return parseRepeat(input, sub, minimum, maximum, matchesSoFar: 0)
+            return parseRepeat(input, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: 0)
             
         default:
             return .Failure
@@ -37,7 +37,7 @@ func parseStr(input: Remainder, pattern: String) -> Result {
     if (pattern.isEmpty || input.text.hasPrefix(pattern)) {
         
         let (headText, tailText) = input.text.splitAtIndex(pattern.endIndex)
-        let tailIndex = input.index + distance(headText.startIndex, headText.endIndex)
+        let tailIndex = input.index + headText.startIndex.distanceTo(headText.endIndex)
         let remainder = Remainder(text: tailText, index: tailIndex)
         
         return .Match(match: headText, index: input.index, remainder: remainder)
@@ -49,7 +49,7 @@ func parseStr(input: Remainder, pattern: String) -> Result {
 func parseSequence(input: Remainder, subs: [Syft]) -> Result {
 
     if let head = subs.head {
-        return parseSequence(input, head, subs.tail)
+        return parseSequence(input, head: head, tail: subs.tail)
     } else {
         return .Match(match: "", index: input.index, remainder: input)
     }
@@ -63,12 +63,12 @@ func parseSequence(input: Remainder, head: Syft, tail: [Syft]) -> Result {
         return .Failure
         
     case let .Match(match: headText, index: headIndex, remainder: headRemainder):
-        let tailResult = parseSequence(headRemainder, tail)
-        return combineSequenceMatch(headText, headIndex, tailResult)
+        let tailResult = parseSequence(headRemainder, subs: tail)
+        return combineSequenceMatch(headText, headIndex: headIndex, tail: tailResult)
         
     case let .Hash(headHash, remainder: headRemainder):
-        let tailResult = parseSequence(headRemainder, tail)
-        return combineSequenceHash(headHash, tailResult)
+        let tailResult = parseSequence(headRemainder, subs: tail)
+        return combineSequenceHash(headHash, tail: tailResult)
         
     case .Array:
         return .Failure
@@ -83,7 +83,7 @@ func combineSequenceMatch(headText: String, headIndex: Int, tail: Result) -> Res
         return .Failure
         
     case let .Match(match: tailMatch, index: tailIndex, remainder: tailRemainder):
-        let sequenceRemainder = Remainder(text: tailRemainder.text, index: tailRemainder.index + tailIndex)
+        _ = Remainder(text: tailRemainder.text, index: tailRemainder.index + tailIndex)
         return .Match(match: headText + tailMatch, index: headIndex, remainder: tailRemainder)
         
     case .Hash:
@@ -132,7 +132,7 @@ func parseName(input: Remainder, name: String, sub: Syft) -> Result {
     }
 }
 
-func parseRepeat(input: Remainder, sub: Syft, minimum: Int, maximum: Int, #matchesSoFar: Int) -> Result {
+func parseRepeat(input: Remainder, sub: Syft, minimum: Int, maximum: Int, matchesSoFar: Int) -> Result {
     let shouldAttemptAnotherMatch = matchesSoFar < maximum || maximum < 0
     
     if shouldAttemptAnotherMatch {
@@ -147,7 +147,7 @@ func parseRepeat(input: Remainder, sub: Syft, minimum: Int, maximum: Int, #match
             }
             
         case let .Match(match: match, index: index, remainder: remainder):
-            let tailResult = parseRepeat(remainder, sub, minimum, maximum, matchesSoFar: matchesSoFar + 1)
+            let tailResult = parseRepeat(remainder, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: matchesSoFar + 1)
             
             switch tailResult {
                 
@@ -155,19 +155,19 @@ func parseRepeat(input: Remainder, sub: Syft, minimum: Int, maximum: Int, #match
                 return matchesSoFar < minimum ? .Failure : result
                 
             default:
-                return combineSequenceMatch(match, index, tailResult)
+                return combineSequenceMatch(match, headIndex: index, tail: tailResult)
             }
             
         case let .Hash(_, remainder: remainder):
-            let tailResult = parseRepeat(remainder, sub, minimum, maximum, matchesSoFar: matchesSoFar + 1)
+            let tailResult = parseRepeat(remainder, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: matchesSoFar + 1)
 
             switch tailResult {
-            case let .Match(match: tailMatch, index: tailIndex, remainder: tailRemainder):
+            case let .Match(match: _, index: _, remainder: tailRemainder):
                 return Result.Array([result], remainder: tailRemainder)
-            case var .Array(array, remainder: remainder):
+            case .Array(var array, remainder: let remainder):
                 array.insert(result, atIndex: 0)
                 return Result.Array(array, remainder: remainder)
-            case let .Hash(tailHash, remainder: tailRemainder):
+            case let .Hash(_, remainder: tailRemainder):
                 return Result.Array([tailResult], remainder: tailRemainder)
             default:
                 return .Failure

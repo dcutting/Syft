@@ -1,4 +1,4 @@
-println("Syft")
+print("Syft")
 
 let a = Syft.Name("anA", Syft.Str("a"))
 let someAs = Syft.Repeat(a, minimum: 0, maximum: 10)
@@ -11,4 +11,4 @@ let sequence = Syft.Sequence(someAs, someBs)
 
 let result = someAs.parse("aa")
 
-println(result)
+print(result)

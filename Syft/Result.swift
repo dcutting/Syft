@@ -1,6 +1,6 @@
 public protocol ResultLike {}
 
-public enum Result: ResultLike, Equatable, Printable {
+public enum Result: ResultLike, Equatable, CustomStringConvertible {
     
     case Failure
     case Match(match: String, index: Int, remainder: Remainder)
@@ -11,7 +11,7 @@ public enum Result: ResultLike, Equatable, Printable {
 
         switch self {
         
-        case let .Failure:
+        case .Failure:
             return "<failure>"
         
         case let .Match(match: match, index: index, remainder: remainder):
@@ -30,17 +30,17 @@ public func ==(lhs: Result, rhs: Result) -> Bool {
 
     switch (lhs, rhs) {
     
-    case let (.Failure, .Failure):
+    case (.Failure, .Failure):
         return true
     
     case let (.Match(match: lhsMatch, index: lhsIndex, remainder: lhsRemainder), .Match(match: rhsMatch, index: rhsIndex, remainder: rhsRemainder)):
         return lhsMatch == rhsMatch && lhsIndex == rhsIndex && lhsRemainder == rhsRemainder
     
     case let (.Hash(lhsHash, remainder: lhsRemainder), .Hash(rhsHash, remainder: rhsRemainder)):
-        return hashesEqual(lhsHash, rhsHash) && lhsRemainder == rhsRemainder
+        return hashesEqual(lhsHash, rhsHash: rhsHash) && lhsRemainder == rhsRemainder
         
     case let (.Array(lhsResults, remainder: lhsRemainder), .Array(rhsResults, remainder: rhsRemainder)):
-        return arraysEqual(lhsResults, rhsResults) && lhsRemainder == rhsRemainder
+        return arraysEqual(lhsResults, rhsArray: rhsResults) && lhsRemainder == rhsRemainder
     
     default:
         return false
@@ -49,7 +49,7 @@ public func ==(lhs: Result, rhs: Result) -> Bool {
 
 func hashesEqual(lhsHash: [String: ResultLike], rhsHash: [String: ResultLike]) -> Bool {
     
-    if count(lhsHash) != count(rhsHash) {
+    if lhsHash.count != rhsHash.count {
         return false
     }
     for (lhsName, lhsResultLike) in lhsHash {
@@ -66,11 +66,11 @@ func hashesEqual(lhsHash: [String: ResultLike], rhsHash: [String: ResultLike]) -
 }
 
 func arraysEqual(lhsArray: [ResultLike], rhsArray: [ResultLike]) -> Bool {
-    if count(lhsArray) != count(rhsArray) {
+    if lhsArray.count != rhsArray.count {
         return false
     }
     var i = 0
-    while i < count(lhsArray) {
+    while i < lhsArray.count {
         let leftResult = lhsArray[i] as! Result
         let rightResult = rhsArray[i] as! Result
         if leftResult != rightResult {
