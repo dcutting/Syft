@@ -12,27 +12,27 @@ class ResultTests: XCTestCase {
     
     func test_descriptionMatch() {
         
-        let match = Result.Match(match: "abc", index: 5)
+        let result = Result.Match(match: "abc", index: 5)
         
-        XCTAssertEqual("\"abc\"@5", "\(match)")
+        XCTAssertEqual("\"abc\"@5", "\(result)")
     }
     
-    func test_descriptionHash() {
+    func test_descriptionTagged() {
         
         let match1 = Result.Match(match: "abc", index: 5)
         let match2 = Result.Match(match: "zz", index: 10)
-        let hash = Result.Tagged(["symbol": match1, "another": match2])
+        let result = Result.Tagged(["symbol": match1, "another": match2])
         
-        XCTAssertEqual("[another: \(match2), symbol: \(match1)]", "\(hash)")
+        XCTAssertEqual("[another: \(match2), symbol: \(match1)]", "\(result)")
     }
     
     func test_descriptionArray() {
         
         let match1 = Result.Match(match: "abc", index: 5)
         let match2 = Result.Match(match: "zz", index: 10)
-        let array = Result.Array([match1, match2])
+        let result = Result.Array([match1, match2])
         
-        XCTAssertEqual("[\(match1), \(match2)]", "\(array)")
+        XCTAssertEqual("[\(match1), \(match2)]", "\(result)")
     }
     
     func test_twoFailures_equal() {
@@ -67,7 +67,7 @@ class ResultTests: XCTestCase {
         XCTAssertNotEqual(left, right)
     }
     
-    func test_sameHashes_equal() {
+    func test_sameTagged_equal() {
         
         let match = Result.Match(match: "aaa", index: 10)
         let left = Result.Tagged(["symbol": match])
@@ -76,7 +76,7 @@ class ResultTests: XCTestCase {
         XCTAssertEqual(left, right)
     }
     
-    func test_hashesWithDifferentNames_unequal() {
+    func test_taggedWithDifferentNames_unequal() {
         
         let match = Result.Match(match: "aaa", index: 10)
         let left = Result.Tagged(["symbol": match])
@@ -85,7 +85,7 @@ class ResultTests: XCTestCase {
         XCTAssertNotEqual(left, right)
     }
     
-    func test_hashesWithDifferentMatches_unequal() {
+    func test_taggedWithDifferentMatches_unequal() {
         
         let leftMatch = Result.Match(match: "bbb", index: 10)
         let rightMatch = Result.Match(match: "aaa", index: 10)
@@ -95,7 +95,7 @@ class ResultTests: XCTestCase {
         XCTAssertNotEqual(left, right)
     }
     
-    func test_hashesWithExtraElementsOnLeft_unequal() {
+    func test_taggedWithExtraElementsOnLeft_unequal() {
         
         let match1 = Result.Match(match: "aaa", index: 10)
         let match2 = Result.Match(match: "bbb", index: 10)
@@ -105,7 +105,7 @@ class ResultTests: XCTestCase {
         XCTAssertNotEqual(left, right)
     }
     
-    func test_hashesWithExtraElementsOnRight_unequal() {
+    func test_taggedWithExtraElementsOnRight_unequal() {
         
         let match1 = Result.Match(match: "aaa", index: 10)
         let match2 = Result.Match(match: "bbb", index: 10)
@@ -115,7 +115,7 @@ class ResultTests: XCTestCase {
         XCTAssertNotEqual(left, right)
     }
     
-    func test_hashWithMultipleMatchingElements_equal() {
+    func test_taggedWithMultipleMatchingElements_equal() {
         
         let leftMatch1 = Result.Match(match: "aaa", index: 10)
         let leftMatch2 = Result.Match(match: "bbb", index: 10)

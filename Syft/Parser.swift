@@ -61,9 +61,9 @@ func parseSequence(input: Remainder, head: Parser, tail: [Parser]) -> ResultWith
         let (tailResult, tailRemainder) = parseSequence(headRemainder, subs: tail)
         return combineSequenceMatch(headText, headIndex: headIndex, tailResult: tailResult, tailRemainder: tailRemainder)
         
-    case let (.Tagged(headHash), headRemainder):
+    case let (.Tagged(headTagged), headRemainder):
         let (tailResult, tailRemainder) = parseSequence(headRemainder, subs: tail)
-        return combineSequenceHash(headHash, tailResult: tailResult, tailRemainder: tailRemainder)
+        return combineSequenceTagged(headTagged, tailResult: tailResult, tailRemainder: tailRemainder)
         
     case (.Array, _):
         return (.Failure, input)
@@ -89,7 +89,7 @@ func combineSequenceMatch(headText: String, headIndex: Int, tailResult: Result, 
     }
 }
 
-func combineSequenceHash(headHash: [String: Result], tailResult: Result, tailRemainder: Remainder) -> ResultWithRemainder {
+func combineSequenceTagged(headTagged: [String: Result], tailResult: Result, tailRemainder: Remainder) -> ResultWithRemainder {
 
     switch (tailResult, tailRemainder) {
         
@@ -97,10 +97,10 @@ func combineSequenceHash(headHash: [String: Result], tailResult: Result, tailRem
         return (.Failure, tailRemainder)
         
     case let (.Match(match: _, index: _), tailRemainder):
-        return (.Tagged(headHash), tailRemainder)
+        return (.Tagged(headTagged), tailRemainder)
         
-    case let (.Tagged(tailHash), tailRemainder):
-        return (.Tagged(headHash + tailHash), tailRemainder)
+    case let (.Tagged(tailTagged), tailRemainder):
+        return (.Tagged(headTagged + tailTagged), tailRemainder)
         
     case (.Array, _):
         return (.Failure, tailRemainder)

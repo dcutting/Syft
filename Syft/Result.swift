@@ -17,8 +17,8 @@ public indirect enum Result: Equatable, CustomStringConvertible {
         case let .Match(match: match, index: index):
             return "\"\(match)\"@\(index)"
         
-        case let .Tagged(hash):
-            return hash.sortedDescription()
+        case let .Tagged(tagged):
+            return tagged.sortedDescription()
             
         case let .Array(array):
             return "\(array.sortedDescription())"
@@ -36,8 +36,8 @@ public func ==(lhs: Result, rhs: Result) -> Bool {
     case let (.Match(match: lhsMatch, index: lhsIndex), .Match(match: rhsMatch, index: rhsIndex)):
         return lhsMatch == rhsMatch && lhsIndex == rhsIndex
     
-    case let (.Tagged(lhsHash), .Tagged(rhsHash)):
-        return hashesEqual(lhsHash, rhsHash: rhsHash)
+    case let (.Tagged(lhsTagged), .Tagged(rhsTagged)):
+        return taggedEqual(lhsTagged, rhsTagged: rhsTagged)
         
     case let (.Array(lhsResults), .Array(rhsResults)):
         return arraysEqual(lhsResults, rhsArray: rhsResults)
@@ -47,13 +47,13 @@ public func ==(lhs: Result, rhs: Result) -> Bool {
     }
 }
 
-func hashesEqual(lhsHash: [String: Result], rhsHash: [String: Result]) -> Bool {
+func taggedEqual(lhsTagged: [String: Result], rhsTagged: [String: Result]) -> Bool {
     
-    if lhsHash.count != rhsHash.count {
+    if lhsTagged.count != rhsTagged.count {
         return false
     }
-    for (lhsName, lhsResult) in lhsHash {
-        let rhsResult = rhsHash[lhsName]
+    for (lhsName, lhsResult) in lhsTagged {
+        let rhsResult = rhsTagged[lhsName]
         if lhsResult != rhsResult {
             return false
         }

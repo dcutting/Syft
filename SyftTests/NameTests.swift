@@ -95,7 +95,7 @@ class NameTests: XCTestCase {
         XCTAssertEqual(expectedRemainder, actualRemainder)
     }
     
-    func test_namedSequenceWithNestedName_innerHashWrappedInOuterHash() {
+    func test_namedSequenceWithNestedName_innerTaggedWrappedInOuterTagged() {
         
         let innerName = Parser.Name("suffix", Parser.Str("efg"))
         let sequence = Parser.Sequence(Parser.Str("abcd"), innerName)
