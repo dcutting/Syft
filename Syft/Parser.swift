@@ -1,9 +1,9 @@
-public indirect enum Syft {
+public indirect enum Parser {
 
     case Str(String)
-    case Sequence(Syft, Syft)
-    case Name(String, Syft)
-    case Repeat(Syft, minimum: Int, maximum: Int)
+    case Sequence(Parser, Parser)
+    case Name(String, Parser)
+    case Repeat(Parser, minimum: Int, maximum: Int)
     
     public func parse(input: String) -> ResultWithRemainder {
         return parse(Remainder(text: input, index: 0))
@@ -41,7 +41,7 @@ func parseStr(input: Remainder, pattern: String) -> ResultWithRemainder {
     return (.Failure, input)
 }
 
-func parseSequence(input: Remainder, subs: [Syft]) -> ResultWithRemainder {
+func parseSequence(input: Remainder, subs: [Parser]) -> ResultWithRemainder {
 
     if let head = subs.head {
         return parseSequence(input, head: head, tail: subs.tail)
@@ -50,7 +50,7 @@ func parseSequence(input: Remainder, subs: [Syft]) -> ResultWithRemainder {
     }
 }
 
-func parseSequence(input: Remainder, head: Syft, tail: [Syft]) -> ResultWithRemainder {
+func parseSequence(input: Remainder, head: Parser, tail: [Parser]) -> ResultWithRemainder {
 
     switch head.parse(input) {
     
@@ -107,7 +107,7 @@ func combineSequenceHash(headHash: [String: Result], tailResult: Result, tailRem
     }
 }
 
-func parseName(input: Remainder, name: String, sub: Syft) -> ResultWithRemainder {
+func parseName(input: Remainder, name: String, sub: Parser) -> ResultWithRemainder {
 
     let (result, remainder) = sub.parse(input)
     
@@ -127,7 +127,7 @@ func parseName(input: Remainder, name: String, sub: Syft) -> ResultWithRemainder
     }
 }
 
-func parseRepeat(input: Remainder, sub: Syft, minimum: Int, maximum: Int, matchesSoFar: Int) -> ResultWithRemainder {
+func parseRepeat(input: Remainder, sub: Parser, minimum: Int, maximum: Int, matchesSoFar: Int) -> ResultWithRemainder {
     return (.Failure, input)
     
 //    let shouldAttemptAnotherMatch = matchesSoFar < maximum || maximum < 0

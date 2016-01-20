@@ -1,10 +1,10 @@
 print("Syft")
 
-//let digit = Syft.OneOf(Array(0...9))
-//let numeral = Syft.Tag("number", Syft.OneOrMore(digit))
-//let op = Syft.Tag("op", Syft.OneOf(["+", "-", "*", "/"]))
-//let compound = Syft.AndThen([numeral, op, expression])
-//let expression = Syft.OneOf([numeral, compound])
+//let digit = Parser.OneOf(Array(0...9))
+//let numeral = Parser.Tag("number", Parser.OneOrMore(digit))
+//let op = Parser.Tag("op", Parser.OneOf(["+", "-", "*", "/"]))
+//let compound = Parser.AndThen([numeral, op, expression])
+//let expression = Parser.OneOf([numeral, compound])
 
 let input = "12+3*4"
 

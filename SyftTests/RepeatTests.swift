@@ -5,8 +5,8 @@ class RepeatTests: XCTestCase {
     
 //    func test_repeatMinimum1_withoutMatch_fails() {
 //        
-//        let strA = Syft.Str("a")
-//        let repeated = Syft.Repeat(strA, minimum: 1, maximum: 1)
+//        let strA = Parser.Str("a")
+//        let repeated = Parser.Repeat(strA, minimum: 1, maximum: 1)
 //        
 //        let actual = repeated.parse("b")
 //        
@@ -16,8 +16,8 @@ class RepeatTests: XCTestCase {
 //    
 //    func test_repeatMinimum1_withMatch_matches() {
 //        
-//        let strA = Syft.Str("a")
-//        let repeated = Syft.Repeat(strA, minimum: 1, maximum: 1)
+//        let strA = Parser.Str("a")
+//        let repeated = Parser.Repeat(strA, minimum: 1, maximum: 1)
 //        
 //        let actual = repeated.parse("a")
 //        
@@ -27,8 +27,8 @@ class RepeatTests: XCTestCase {
 //    
 //    func test_repeatMinimum2_withoutEnoughMatches_fails() {
 //        
-//        let strA = Syft.Str("a")
-//        let repeated = Syft.Repeat(strA, minimum: 2, maximum: 2)
+//        let strA = Parser.Str("a")
+//        let repeated = Parser.Repeat(strA, minimum: 2, maximum: 2)
 //        
 //        let actual = repeated.parse("ab")
 //        
@@ -38,8 +38,8 @@ class RepeatTests: XCTestCase {
 //    
 //    func test_repeatMinimum2_with2Matches_matches() {
 //        
-//        let strA = Syft.Str("a")
-//        let repeated = Syft.Repeat(strA, minimum: 2, maximum: 2)
+//        let strA = Parser.Str("a")
+//        let repeated = Parser.Repeat(strA, minimum: 2, maximum: 2)
 //        
 //        let actual = repeated.parse("aa")
 //        
@@ -49,8 +49,8 @@ class RepeatTests: XCTestCase {
 //    
 //    func test_repeatMinimum0_withoutMatch_matches() {
 //        
-//        let strA = Syft.Str("a")
-//        let repeated = Syft.Repeat(strA, minimum: 0, maximum: 0)
+//        let strA = Parser.Str("a")
+//        let repeated = Parser.Repeat(strA, minimum: 0, maximum: 0)
 //        
 //        let actual = repeated.parse("bb")
 //        
@@ -60,8 +60,8 @@ class RepeatTests: XCTestCase {
 //    
 //    func test_repeatWithSuitableInput_matchesUpToMaximumTimes() {
 //        
-//        let strA = Syft.Str("a")
-//        let repeated = Syft.Repeat(strA, minimum: 0, maximum: 5)
+//        let strA = Parser.Str("a")
+//        let repeated = Parser.Repeat(strA, minimum: 0, maximum: 5)
 //        
 //        let actual = repeated.parse("aaaaaaaa")
 //        
@@ -71,8 +71,8 @@ class RepeatTests: XCTestCase {
 //    
 //    func test_repeatInputHasMatchesBetweenMinimumAndMaximum_matches() {
 //        
-//        let strA = Syft.Str("a")
-//        let repeated = Syft.Repeat(strA, minimum: 1, maximum: 3)
+//        let strA = Parser.Str("a")
+//        let repeated = Parser.Repeat(strA, minimum: 1, maximum: 3)
 //        
 //        let actual = repeated.parse("aa")
 //        
@@ -82,8 +82,8 @@ class RepeatTests: XCTestCase {
 //    
 //    func test_repeat0or1_input0_matches() {
 //        
-//        let strA = Syft.Str("abc")
-//        let repeated = Syft.Repeat(strA, minimum: 0, maximum: 1)
+//        let strA = Parser.Str("abc")
+//        let repeated = Parser.Repeat(strA, minimum: 0, maximum: 1)
 //        
 //        let actual = repeated.parse("def")
 //        
@@ -93,8 +93,8 @@ class RepeatTests: XCTestCase {
 //
 //    func test_repeat0or1_input1_matches() {
 //
-//        let strA = Syft.Str("abc")
-//        let repeated = Syft.Repeat(strA, minimum: 0, maximum: 1)
+//        let strA = Parser.Str("abc")
+//        let repeated = Parser.Repeat(strA, minimum: 0, maximum: 1)
 //
 //        let actual = repeated.parse("abcdef")
 //
@@ -104,8 +104,8 @@ class RepeatTests: XCTestCase {
 //    
 //    func test_repeat1orMore_input1_matches() {
 //        
-//        let strA = Syft.Str("abc")
-//        let repeated = Syft.Repeat(strA, minimum: 1, maximum: -1)
+//        let strA = Parser.Str("abc")
+//        let repeated = Parser.Repeat(strA, minimum: 1, maximum: -1)
 //        
 //        let actual = repeated.parse("abcdef")
 //        
@@ -115,8 +115,8 @@ class RepeatTests: XCTestCase {
 //    
 //    func test_repeat1orMore_input10_matches() {
 //        
-//        let strA = Syft.Str("abc")
-//        let repeated = Syft.Repeat(strA, minimum: 1, maximum: -1)
+//        let strA = Parser.Str("abc")
+//        let repeated = Parser.Repeat(strA, minimum: 1, maximum: -1)
 //        
 //        let actual = repeated.parse("abcabcabcabcabcabcabcabcabcabcdef")
 //        
@@ -126,8 +126,8 @@ class RepeatTests: XCTestCase {
 //    
 //    func test_repeat0orMore_input0_matches() {
 //        
-//        let strA = Syft.Str("abc")
-//        let repeated = Syft.Repeat(strA, minimum: 0, maximum: -1)
+//        let strA = Parser.Str("abc")
+//        let repeated = Parser.Repeat(strA, minimum: 0, maximum: -1)
 //        
 //        let actual = repeated.parse("def")
 //        
@@ -137,8 +137,8 @@ class RepeatTests: XCTestCase {
 //    
 //    func test_repeat0orMore_input1_matches() {
 //        
-//        let strA = Syft.Str("abc")
-//        let repeated = Syft.Repeat(strA, minimum: 0, maximum: -1)
+//        let strA = Parser.Str("abc")
+//        let repeated = Parser.Repeat(strA, minimum: 0, maximum: -1)
 //        
 //        let actual = repeated.parse("abcdef")
 //        
@@ -148,8 +148,8 @@ class RepeatTests: XCTestCase {
 //    
 //    func test_repeat0orMore_input10_matches() {
 //        
-//        let strA = Syft.Str("abc")
-//        let repeated = Syft.Repeat(strA, minimum: 0, maximum: -1)
+//        let strA = Parser.Str("abc")
+//        let repeated = Parser.Repeat(strA, minimum: 0, maximum: -1)
 //        
 //        let actual = repeated.parse("abcabcabcabcabcabcabcabcabcabcdef")
 //        
@@ -159,9 +159,9 @@ class RepeatTests: XCTestCase {
 //    
 //    func test_repeatNamedElements_returnsArrayOfHashes() {
 //        
-//        let strA = Syft.Str("a")
-//        let namedA = Syft.Name("anA", strA)
-//        let repeated = Syft.Repeat(namedA, minimum: 2, maximum: 2)
+//        let strA = Parser.Str("a")
+//        let namedA = Parser.Name("anA", strA)
+//        let repeated = Parser.Repeat(namedA, minimum: 2, maximum: 2)
 //        
 //        let actual = repeated.parse("aa")
 //        
