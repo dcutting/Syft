@@ -18,7 +18,7 @@ class NameTests: XCTestCase {
         let (actualResult, actualRemainder) = Parser.Name("number", Parser.Str("563")).parse("563")
         
         let match = Result.Match(match: "563", index: 0)
-        let expectedResult = Result.Hash(["number": match])
+        let expectedResult = Result.Tagged(["number": match])
         let expectedRemainder = Remainder(text: "", index: 3)
         XCTAssertEqual(expectedResult, actualResult)
         XCTAssertEqual(expectedRemainder, actualRemainder)
@@ -32,8 +32,8 @@ class NameTests: XCTestCase {
         let (actualResult, actualRemainder) = outerName.parse("563")
         
         let match = Result.Match(match: "563", index: 0)
-        let innerResult = Result.Hash(["number": match])
-        let expectedResult = Result.Hash(["outer": innerResult])
+        let innerResult = Result.Tagged(["number": match])
+        let expectedResult = Result.Tagged(["outer": innerResult])
         let expectedRemainder = Remainder(text: "", index: 3)
         XCTAssertEqual(expectedResult, actualResult)
         XCTAssertEqual(expectedRemainder, actualRemainder)
@@ -45,7 +45,7 @@ class NameTests: XCTestCase {
         let (actualResult, actualRemainder) = Parser.Name("alphabet", sequence).parse("abcdef")
         
         let match = Result.Match(match: "abcdef", index: 0)
-        let expectedResult = Result.Hash(["alphabet": match])
+        let expectedResult = Result.Tagged(["alphabet": match])
         let expectedRemainder = Remainder(text: "", index: 6)
         XCTAssertEqual(expectedResult, actualResult)
         XCTAssertEqual(expectedRemainder, actualRemainder)
@@ -59,7 +59,7 @@ class NameTests: XCTestCase {
         let (actualResult, actualRemainder) = sequence.parse("abcdef")
         
         let match = Result.Match(match: "abc", index: 0)
-        let expectedResult = Result.Hash(["prefix": match])
+        let expectedResult = Result.Tagged(["prefix": match])
         let expectedRemainder = Remainder(text: "", index: 6)
         XCTAssertEqual(expectedResult, actualResult)
         XCTAssertEqual(expectedRemainder, actualRemainder)
@@ -73,7 +73,7 @@ class NameTests: XCTestCase {
         let (actualResult, actualRemainder) = sequence.parse("abcdef")
         
         let match = Result.Match(match: "def", index: 3)
-        let expectedResult = Result.Hash(["suffix": match])
+        let expectedResult = Result.Tagged(["suffix": match])
         let expectedRemainder = Remainder(text: "", index: 6)
         XCTAssertEqual(expectedResult, actualResult)
         XCTAssertEqual(expectedRemainder, actualRemainder)
@@ -89,7 +89,7 @@ class NameTests: XCTestCase {
         
         let leftMatch = Result.Match(match: "abc", index: 0)
         let rightMatch = Result.Match(match: "def", index: 3)
-        let expectedResult = Result.Hash(["prefix": leftMatch, "suffix": rightMatch])
+        let expectedResult = Result.Tagged(["prefix": leftMatch, "suffix": rightMatch])
         let expectedRemainder = Remainder(text: "", index: 6)
         XCTAssertEqual(expectedResult, actualResult)
         XCTAssertEqual(expectedRemainder, actualRemainder)
@@ -104,8 +104,8 @@ class NameTests: XCTestCase {
         let (actualResult, actualRemainder) = nameSequence.parse("abcdefg")
         
         let innerMatch = Result.Match(match: "efg", index: 4)
-        let innerResult = Result.Hash(["suffix": innerMatch])
-        let expectedResult = Result.Hash(["total": innerResult])
+        let innerResult = Result.Tagged(["suffix": innerMatch])
+        let expectedResult = Result.Tagged(["total": innerResult])
         let expectedRemainder = Remainder(text: "", index: 7)
         XCTAssertEqual(expectedResult, actualResult)
         XCTAssertEqual(expectedRemainder, actualRemainder)

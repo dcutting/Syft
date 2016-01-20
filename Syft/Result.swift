@@ -4,7 +4,7 @@ public indirect enum Result: Equatable, CustomStringConvertible {
     
     case Failure
     case Match(match: String, index: Int)
-    case Hash([String: Result])
+    case Tagged([String: Result])
     case Array([Result])
     
     public var description: String {
@@ -17,7 +17,7 @@ public indirect enum Result: Equatable, CustomStringConvertible {
         case let .Match(match: match, index: index):
             return "\"\(match)\"@\(index)"
         
-        case let .Hash(hash):
+        case let .Tagged(hash):
             return hash.sortedDescription()
             
         case let .Array(array):
@@ -36,7 +36,7 @@ public func ==(lhs: Result, rhs: Result) -> Bool {
     case let (.Match(match: lhsMatch, index: lhsIndex), .Match(match: rhsMatch, index: rhsIndex)):
         return lhsMatch == rhsMatch && lhsIndex == rhsIndex
     
-    case let (.Hash(lhsHash), .Hash(rhsHash)):
+    case let (.Tagged(lhsHash), .Tagged(rhsHash)):
         return hashesEqual(lhsHash, rhsHash: rhsHash)
         
     case let (.Array(lhsResults), .Array(rhsResults)):

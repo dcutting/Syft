@@ -61,7 +61,7 @@ func parseSequence(input: Remainder, head: Parser, tail: [Parser]) -> ResultWith
         let (tailResult, tailRemainder) = parseSequence(headRemainder, subs: tail)
         return combineSequenceMatch(headText, headIndex: headIndex, tailResult: tailResult, tailRemainder: tailRemainder)
         
-    case let (.Hash(headHash), headRemainder):
+    case let (.Tagged(headHash), headRemainder):
         let (tailResult, tailRemainder) = parseSequence(headRemainder, subs: tail)
         return combineSequenceHash(headHash, tailResult: tailResult, tailRemainder: tailRemainder)
         
@@ -81,7 +81,7 @@ func combineSequenceMatch(headText: String, headIndex: Int, tailResult: Result, 
         _ = Remainder(text: tailRemainder.text, index: tailRemainder.index + tailIndex)
         return (.Match(match: headText + tailMatch, index: headIndex), tailRemainder)
         
-    case (.Hash, _):
+    case (.Tagged, _):
         return (tailResult, tailRemainder)
         
     case (.Array, _):
@@ -97,10 +97,10 @@ func combineSequenceHash(headHash: [String: Result], tailResult: Result, tailRem
         return (.Failure, tailRemainder)
         
     case let (.Match(match: _, index: _), tailRemainder):
-        return (.Hash(headHash), tailRemainder)
+        return (.Tagged(headHash), tailRemainder)
         
-    case let (.Hash(tailHash), tailRemainder):
-        return (.Hash(headHash + tailHash), tailRemainder)
+    case let (.Tagged(tailHash), tailRemainder):
+        return (.Tagged(headHash + tailHash), tailRemainder)
         
     case (.Array, _):
         return (.Failure, tailRemainder)
@@ -117,10 +117,10 @@ func parseName(input: Remainder, name: String, sub: Parser) -> ResultWithRemaind
         return (.Failure, remainder)
 
     case let (.Match(match: _, index: _), remainder):
-        return (.Hash([name: result]), remainder)
+        return (.Tagged([name: result]), remainder)
         
-    case let (.Hash(_), remainder):
-        return (.Hash([name: result]), remainder)
+    case let (.Tagged(_), remainder):
+        return (.Tagged([name: result]), remainder)
         
     case (.Array, _):
         return (.Failure, remainder)
@@ -155,7 +155,7 @@ func parseRepeat(input: Remainder, sub: Parser, minimum: Int, maximum: Int, matc
 //                return combineSequenceMatch(match, headIndex: index, tail: tailResult)
 //            }
 //            
-//        case let .Hash(_, remainder: remainder):
+//        case let .Tagged(_, remainder: remainder):
 //            let tailResult = parseRepeat(remainder, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: matchesSoFar + 1)
 //
 //            switch tailResult {
@@ -164,7 +164,7 @@ func parseRepeat(input: Remainder, sub: Parser, minimum: Int, maximum: Int, matc
 //            case .Array(var array, remainder: let remainder):
 //                array.insert(result, atIndex: 0)
 //                return Result.Array(array, remainder: remainder)
-//            case let .Hash(_, remainder: tailRemainder):
+//            case let .Tagged(_, remainder: tailRemainder):
 //                return Result.Array([tailResult], remainder: tailRemainder)
 //            default:
 //                return .Failure

@@ -37,23 +37,23 @@ let input = "12+3*4"
 
 */
 
-let result = Result.Hash([
-    "first": Result.Hash([
+let result = Result.Tagged([
+    "first": Result.Tagged([
         "number": Result.Array([
-            Result.Hash(["d": Result.Match(match: "1", index: 0)]),
-            Result.Hash(["d": Result.Match(match: "2", index: 1)])
+            Result.Tagged(["d": Result.Match(match: "1", index: 0)]),
+            Result.Tagged(["d": Result.Match(match: "2", index: 1)])
             ])
         ]),
     "op": Result.Match(match: "+", index: 2),
-    "second": Result.Hash([
-        "first": Result.Hash([
+    "second": Result.Tagged([
+        "first": Result.Tagged([
             "number": Result.Array([
-                Result.Hash(["d": Result.Match(match: "3", index: 3)])
+                Result.Tagged(["d": Result.Match(match: "3", index: 3)])
                 ]),
             "op": Result.Match(match: "*", index: 4),
-            "second": Result.Hash([
+            "second": Result.Tagged([
                 "number": Result.Array([
-                    Result.Hash(["d": Result.Match(match: "4", index: 5)])
+                    Result.Tagged(["d": Result.Match(match: "4", index: 5)])
                 ])
             ])
         ])

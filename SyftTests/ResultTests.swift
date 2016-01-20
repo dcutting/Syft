@@ -21,7 +21,7 @@ class ResultTests: XCTestCase {
         
         let match1 = Result.Match(match: "abc", index: 5)
         let match2 = Result.Match(match: "zz", index: 10)
-        let hash = Result.Hash(["symbol": match1, "another": match2])
+        let hash = Result.Tagged(["symbol": match1, "another": match2])
         
         XCTAssertEqual("[another: \(match2), symbol: \(match1)]", "\(hash)")
     }
@@ -70,8 +70,8 @@ class ResultTests: XCTestCase {
     func test_sameHashes_equal() {
         
         let match = Result.Match(match: "aaa", index: 10)
-        let left = Result.Hash(["symbol": match])
-        let right = Result.Hash(["symbol": match])
+        let left = Result.Tagged(["symbol": match])
+        let right = Result.Tagged(["symbol": match])
         
         XCTAssertEqual(left, right)
     }
@@ -79,8 +79,8 @@ class ResultTests: XCTestCase {
     func test_hashesWithDifferentNames_unequal() {
         
         let match = Result.Match(match: "aaa", index: 10)
-        let left = Result.Hash(["symbol": match])
-        let right = Result.Hash(["other": match])
+        let left = Result.Tagged(["symbol": match])
+        let right = Result.Tagged(["other": match])
         
         XCTAssertNotEqual(left, right)
     }
@@ -89,8 +89,8 @@ class ResultTests: XCTestCase {
         
         let leftMatch = Result.Match(match: "bbb", index: 10)
         let rightMatch = Result.Match(match: "aaa", index: 10)
-        let left = Result.Hash(["symbol": leftMatch])
-        let right = Result.Hash(["symbol": rightMatch])
+        let left = Result.Tagged(["symbol": leftMatch])
+        let right = Result.Tagged(["symbol": rightMatch])
         
         XCTAssertNotEqual(left, right)
     }
@@ -99,8 +99,8 @@ class ResultTests: XCTestCase {
         
         let match1 = Result.Match(match: "aaa", index: 10)
         let match2 = Result.Match(match: "bbb", index: 10)
-        let left = Result.Hash(["symbol": match1, "symbol2": match2])
-        let right = Result.Hash(["symbol": match1])
+        let left = Result.Tagged(["symbol": match1, "symbol2": match2])
+        let right = Result.Tagged(["symbol": match1])
         
         XCTAssertNotEqual(left, right)
     }
@@ -109,8 +109,8 @@ class ResultTests: XCTestCase {
         
         let match1 = Result.Match(match: "aaa", index: 10)
         let match2 = Result.Match(match: "bbb", index: 10)
-        let left = Result.Hash(["symbol": match1])
-        let right = Result.Hash(["symbol": match1, "symbol2": match2])
+        let left = Result.Tagged(["symbol": match1])
+        let right = Result.Tagged(["symbol": match1, "symbol2": match2])
 
         XCTAssertNotEqual(left, right)
     }
@@ -121,8 +121,8 @@ class ResultTests: XCTestCase {
         let leftMatch2 = Result.Match(match: "bbb", index: 10)
         let rightMatch1 = Result.Match(match: "aaa", index: 10)
         let rightMatch2 = Result.Match(match: "bbb", index: 10)
-        let left = Result.Hash(["symbol": leftMatch1, "symbol2": leftMatch2])
-        let right = Result.Hash(["symbol": rightMatch1, "symbol2": rightMatch2])
+        let left = Result.Tagged(["symbol": leftMatch1, "symbol2": leftMatch2])
+        let right = Result.Tagged(["symbol": rightMatch1, "symbol2": rightMatch2])
         
         XCTAssertEqual(left, right)
     }
