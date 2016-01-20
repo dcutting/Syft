@@ -1,10 +1,12 @@
+public typealias ResultWithRemainder = (Result, Remainder)
+
 public indirect enum Result: Equatable, CustomStringConvertible {
     
     case Failure
-    case Match(match: String, index: Int, remainder: Remainder)
-    case Hash([String: Result], remainder: Remainder)
-    case Array([Result], remainder: Remainder)
-
+    case Match(match: String, index: Int)
+    case Hash([String: Result])
+    case Array([Result])
+    
     public var description: String {
 
         switch self {
@@ -12,14 +14,14 @@ public indirect enum Result: Equatable, CustomStringConvertible {
         case .Failure:
             return "<failure>"
         
-        case let .Match(match: match, index: index, remainder: remainder):
-            return "\"\(match)\"@\(index)[\(remainder.text):\(remainder.index)]"
+        case let .Match(match: match, index: index):
+            return "\"\(match)\"@\(index)"
         
-        case let .Hash(hash, remainder: _):
+        case let .Hash(hash):
             return hash.sortedDescription()
             
-        case let .Array(array, remainder: remainder):
-            return "\(array.sortedDescription())[\(remainder.text):\(remainder.index)]"
+        case let .Array(array):
+            return "\(array.sortedDescription())"
         }
     }
 }
@@ -31,14 +33,14 @@ public func ==(lhs: Result, rhs: Result) -> Bool {
     case (.Failure, .Failure):
         return true
     
-    case let (.Match(match: lhsMatch, index: lhsIndex, remainder: lhsRemainder), .Match(match: rhsMatch, index: rhsIndex, remainder: rhsRemainder)):
-        return lhsMatch == rhsMatch && lhsIndex == rhsIndex && lhsRemainder == rhsRemainder
+    case let (.Match(match: lhsMatch, index: lhsIndex), .Match(match: rhsMatch, index: rhsIndex)):
+        return lhsMatch == rhsMatch && lhsIndex == rhsIndex
     
-    case let (.Hash(lhsHash, remainder: lhsRemainder), .Hash(rhsHash, remainder: rhsRemainder)):
-        return hashesEqual(lhsHash, rhsHash: rhsHash) && lhsRemainder == rhsRemainder
+    case let (.Hash(lhsHash), .Hash(rhsHash)):
+        return hashesEqual(lhsHash, rhsHash: rhsHash)
         
-    case let (.Array(lhsResults, remainder: lhsRemainder), .Array(rhsResults, remainder: rhsRemainder)):
-        return arraysEqual(lhsResults, rhsArray: rhsResults) && lhsRemainder == rhsRemainder
+    case let (.Array(lhsResults), .Array(rhsResults)):
+        return arraysEqual(lhsResults, rhsArray: rhsResults)
     
     default:
         return false
