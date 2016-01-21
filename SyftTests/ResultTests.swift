@@ -26,11 +26,11 @@ class ResultTests: XCTestCase {
         XCTAssertEqual("[another: \(match2), symbol: \(match1)]", "\(result)")
     }
     
-    func test_descriptionArray() {
+    func test_descriptionSeries() {
         
         let match1 = Result.Match(match: "abc", index: 5)
         let match2 = Result.Match(match: "zz", index: 10)
-        let result = Result.Array([match1, match2])
+        let result = Result.Series([match1, match2])
         
         XCTAssertEqual("[\(match1), \(match2)]", "\(result)")
     }

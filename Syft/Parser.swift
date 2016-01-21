@@ -65,7 +65,7 @@ func parseSequence(input: Remainder, head: Parser, tail: [Parser]) -> ResultWith
         let (tailResult, tailRemainder) = parseSequence(headRemainder, subs: tail)
         return combineSequenceTagged(headTagged, tailResult: tailResult, tailRemainder: tailRemainder)
         
-    case (.Array, _):
+    case (.Series, _):
         return (.Failure, input)
     }
 }
@@ -84,7 +84,7 @@ func combineSequenceMatch(headText: String, headIndex: Int, tailResult: Result, 
     case (.Tagged, _):
         return (tailResult, tailRemainder)
         
-    case (.Array, _):
+    case (.Series, _):
         return (.Failure, tailRemainder)
     }
 }
@@ -102,7 +102,7 @@ func combineSequenceTagged(headTagged: [String: Result], tailResult: Result, tai
     case let (.Tagged(tailTagged), tailRemainder):
         return (.Tagged(headTagged + tailTagged), tailRemainder)
         
-    case (.Array, _):
+    case (.Series, _):
         return (.Failure, tailRemainder)
     }
 }
@@ -122,7 +122,7 @@ func parseName(input: Remainder, name: String, sub: Parser) -> ResultWithRemaind
     case let (.Tagged(_), remainder):
         return (.Tagged([name: result]), remainder)
         
-    case (.Array, _):
+    case (.Series, _):
         return (.Failure, remainder)
     }
 }
@@ -160,17 +160,17 @@ func parseRepeat(input: Remainder, sub: Parser, minimum: Int, maximum: Int, matc
 //
 //            switch tailResult {
 //            case let .Match(match: _, index: _, remainder: tailRemainder):
-//                return Result.Array([result], remainder: tailRemainder)
-//            case .Array(var array, remainder: let remainder):
+//                return Result.Series([result], remainder: tailRemainder)
+//            case .Series(var array, remainder: let remainder):
 //                array.insert(result, atIndex: 0)
-//                return Result.Array(array, remainder: remainder)
+//                return Result.Series(array, remainder: remainder)
 //            case let .Tagged(_, remainder: tailRemainder):
-//                return Result.Array([tailResult], remainder: tailRemainder)
+//                return Result.Series([tailResult], remainder: tailRemainder)
 //            default:
 //                return .Failure
 //            }
 //            
-//        case .Array:
+//        case .Series:
 //            return .Failure
 //        }
 //    } else {

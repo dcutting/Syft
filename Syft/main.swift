@@ -39,7 +39,7 @@ let input = "12+3*4"
 
 let result = Result.Tagged([
     "first": Result.Tagged([
-        "number": Result.Array([
+        "number": Result.Series([
             Result.Tagged(["d": Result.Match(match: "1", index: 0)]),
             Result.Tagged(["d": Result.Match(match: "2", index: 1)])
             ])
@@ -47,12 +47,12 @@ let result = Result.Tagged([
     "op": Result.Match(match: "+", index: 2),
     "second": Result.Tagged([
         "first": Result.Tagged([
-            "number": Result.Array([
+            "number": Result.Series([
                 Result.Tagged(["d": Result.Match(match: "3", index: 3)])
                 ]),
             "op": Result.Match(match: "*", index: 4),
             "second": Result.Tagged([
-                "number": Result.Array([
+                "number": Result.Series([
                     Result.Tagged(["d": Result.Match(match: "4", index: 5)])
                 ])
             ])

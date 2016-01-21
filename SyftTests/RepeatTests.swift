@@ -169,7 +169,7 @@ class RepeatTests: XCTestCase {
 //        let string2 = Result.Match(match: "a", index: 1, remainder: Remainder(text: "", index: 2))
 //        let hash1 = Result.Tagged(["anA": string1], remainder: Remainder(text: "a", index: 1))
 //        let hash2 = Result.Tagged(["anA": string2], remainder: Remainder(text: "", index: 2))
-//        let expected = Result.Array([hash1, hash2], remainder: Remainder(text: "", index: 2))
+//        let expected = Result.Series([hash1, hash2], remainder: Remainder(text: "", index: 2))
 //        XCTAssertEqual(expected, actual)
 //    }
 }
