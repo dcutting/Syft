@@ -1,5 +1,3 @@
-public typealias ResultWithRemainder = (Result, Remainder)
-
 public indirect enum Result: Equatable, CustomStringConvertible {
     
     case Failure

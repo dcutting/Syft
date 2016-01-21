@@ -1,8 +1,8 @@
 import XCTest
 import Syft
 
-class RepeatTests: XCTestCase {
-    
+//class RepeatTests: XCTestCase {
+//    
 //    func test_repeatMinimum1_withoutMatch_fails() {
 //        
 //        let strA = Parser.Str("a")
@@ -172,4 +172,4 @@ class RepeatTests: XCTestCase {
 //        let expected = Result.Series([hash1, hash2], remainder: Remainder(text: "", index: 2))
 //        XCTAssertEqual(expected, actual)
 //    }
-}
+//}

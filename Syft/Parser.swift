@@ -1,9 +1,11 @@
+public typealias ResultWithRemainder = (Result, Remainder)
+
 public indirect enum Parser {
 
     case Str(String)
     case Sequence(Parser, Parser)
     case Name(String, Parser)
-    case Repeat(Parser, minimum: Int, maximum: Int)
+//    case Repeat(Parser, minimum: Int, maximum: Int)
     
     public func parse(input: String) -> ResultWithRemainder {
         return parse(Remainder(text: input, index: 0))
@@ -21,8 +23,8 @@ public indirect enum Parser {
         case let .Name(name, sub):
             return parseName(input, name: name, sub: sub)
             
-        case let .Repeat(sub, minimum, maximum):
-            return parseRepeat(input, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: 0)
+//        case let .Repeat(sub, minimum, maximum):
+//            return parseRepeat(input, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: 0)
         }
     }
 }
@@ -35,7 +37,7 @@ func parseStr(input: Remainder, pattern: String) -> ResultWithRemainder {
         let tailIndex = input.index + headText.startIndex.distanceTo(headText.endIndex)
         let remainder = Remainder(text: tailText, index: tailIndex)
         
-        return (.Match(match: headText, index: input.index), remainder: remainder)
+        return (.Match(match: headText, index: input.index), remainder)
     }
 
     return (.Failure, input)
@@ -127,9 +129,9 @@ func parseName(input: Remainder, name: String, sub: Parser) -> ResultWithRemaind
     }
 }
 
-func parseRepeat(input: Remainder, sub: Parser, minimum: Int, maximum: Int, matchesSoFar: Int) -> ResultWithRemainder {
-    return (.Failure, input)
-    
+//func parseRepeat(input: Remainder, sub: Parser, minimum: Int, maximum: Int, matchesSoFar: Int) -> ResultWithRemainder {
+//    return (.Failure, input)
+//    
 //    let shouldAttemptAnotherMatch = matchesSoFar < maximum || maximum < 0
 //    
 //    if shouldAttemptAnotherMatch {
@@ -176,4 +178,4 @@ func parseRepeat(input: Remainder, sub: Parser, minimum: Int, maximum: Int, matc
 //    } else {
 //        return Result.Match(match: "", index: 0, remainder: input)
 //    }
-}
+//}
