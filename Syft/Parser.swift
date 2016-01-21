@@ -1,10 +1,13 @@
 public typealias ResultWithRemainder = (Result, Remainder)
 
+public typealias ParserRef = String
+
 public indirect enum Parser {
 
     case Str(String)
     case Sequence(Parser, Parser)
     case Name(String, Parser)
+    case Ref(ParserRef)
 //    case Repeat(Parser, minimum: Int, maximum: Int)
     
     public func parse(input: String) -> ResultWithRemainder {
@@ -22,6 +25,9 @@ public indirect enum Parser {
             
         case let .Name(name, sub):
             return parseName(input, name: name, sub: sub)
+            
+        case let .Ref(ref):
+            return parseRef(input, ref: ref)
             
 //        case let .Repeat(sub, minimum, maximum):
 //            return parseRepeat(input, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: 0)
@@ -127,6 +133,10 @@ func parseName(input: Remainder, name: String, sub: Parser) -> ResultWithRemaind
     case (.Series, _):
         return (.Failure, remainder)
     }
+}
+
+func parseRef(input: Remainder, ref: ParserRef) -> ResultWithRemainder {
+    return (Result.Failure, input)
 }
 
 //func parseRepeat(input: Remainder, sub: Parser, minimum: Int, maximum: Int, matchesSoFar: Int) -> ResultWithRemainder {

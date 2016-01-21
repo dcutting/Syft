@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C80A53161C515805009BCCEB /* RefTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80A53151C515805009BCCEB /* RefTests.swift */; };
 		C82E12071A51572D00905D79 /* DictionaryUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82E12061A51572D00905D79 /* DictionaryUtilities.swift */; };
 		C82E12081A51575100905D79 /* DictionaryUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82E12061A51572D00905D79 /* DictionaryUtilities.swift */; };
 		C82E120A1A5157B000905D79 /* ArrayUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82E12091A5157B000905D79 /* ArrayUtilities.swift */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		C806656A1A247E3F00FB3508 /* SequenceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SequenceTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		C80A53151C515805009BCCEB /* RefTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefTests.swift; sourceTree = "<group>"; };
 		C82E12061A51572D00905D79 /* DictionaryUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryUtilities.swift; sourceTree = "<group>"; };
 		C82E12091A5157B000905D79 /* ArrayUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayUtilities.swift; sourceTree = "<group>"; };
 		C82E120C1A5157F300905D79 /* StringUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringUtilities.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				C869B81A1A246AC900904675 /* StringAtomTests.swift */,
 				C806656A1A247E3F00FB3508 /* SequenceTests.swift */,
 				C8CCF0A21A29FF0200C75DB3 /* NameTests.swift */,
+				C80A53151C515805009BCCEB /* RefTests.swift */,
 				C8BEDFE81A39D391006651CC /* RepeatTests.swift */,
 				C85DB4151A19229B00279078 /* Supporting Files */,
 			);
@@ -240,6 +243,7 @@
 				C82E12081A51575100905D79 /* DictionaryUtilities.swift in Sources */,
 				C869B81E1A246E5300904675 /* Parser.swift in Sources */,
 				C8CCF0A31A29FF0200C75DB3 /* NameTests.swift in Sources */,
+				C80A53161C515805009BCCEB /* RefTests.swift in Sources */,
 				C82E120E1A5157F300905D79 /* StringUtilities.swift in Sources */,
 				C869B81B1A246AC900904675 /* StringAtomTests.swift in Sources */,
 				C8CCF0A11A29FDCC00C75DB3 /* SequenceTests.swift in Sources */,
