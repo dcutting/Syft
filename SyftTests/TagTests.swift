@@ -1,11 +1,11 @@
 import XCTest
 import Syft
 
-class NameTests: XCTestCase {
+class TagTests: XCTestCase {
     
-    func test_strFails_nameFails() {
+    func test_strFails_tagFails() {
         
-        let (actualResult, actualRemainder) = Parser.Name("number", Parser.Str("563")).parse("123")
+        let (actualResult, actualRemainder) = Parser.Tag("number", Parser.Str("563")).parse("123")
         
         let expectedResult = Result.Failure
         let expectedRemainder = Remainder(text: "123", index: 0)
@@ -13,9 +13,9 @@ class NameTests: XCTestCase {
         XCTAssertEqual(expectedRemainder, actualRemainder)
     }
     
-    func test_strSucceeds_nameSucceeds() {
+    func test_strSucceeds_tagSucceeds() {
         
-        let (actualResult, actualRemainder) = Parser.Name("number", Parser.Str("563")).parse("563")
+        let (actualResult, actualRemainder) = Parser.Tag("number", Parser.Str("563")).parse("563")
         
         let match = Result.Match(match: "563", index: 0)
         let expectedResult = Result.Tagged(["number": match])
@@ -24,12 +24,12 @@ class NameTests: XCTestCase {
         XCTAssertEqual(expectedRemainder, actualRemainder)
     }
     
-    func test_nestedNamesSucceeds_nameSucceeds() {
+    func test_nestedTagsSucceeds_tagSucceeds() {
         
-        let innerName = Parser.Name("number", Parser.Str("563"))
-        let outerName = Parser.Name("outer", innerName)
+        let innerTag = Parser.Tag("number", Parser.Str("563"))
+        let outerTag = Parser.Tag("outer", innerTag)
         
-        let (actualResult, actualRemainder) = outerName.parse("563")
+        let (actualResult, actualRemainder) = outerTag.parse("563")
         
         let match = Result.Match(match: "563", index: 0)
         let innerResult = Result.Tagged(["number": match])
@@ -39,10 +39,10 @@ class NameTests: XCTestCase {
         XCTAssertEqual(expectedRemainder, actualRemainder)
     }
     
-    func test_sequenceOfStrsSucceeds_nameSucceeds() {
+    func test_sequenceOfStrsSucceeds_tagSucceeds() {
         
         let sequence = Parser.Sequence(Parser.Str("abc"), Parser.Str("def"))
-        let (actualResult, actualRemainder) = Parser.Name("alphabet", sequence).parse("abcdef")
+        let (actualResult, actualRemainder) = Parser.Tag("alphabet", sequence).parse("abcdef")
         
         let match = Result.Match(match: "abcdef", index: 0)
         let expectedResult = Result.Tagged(["alphabet": match])
@@ -51,10 +51,10 @@ class NameTests: XCTestCase {
         XCTAssertEqual(expectedRemainder, actualRemainder)
     }
 
-    func test_sequenceWithNestedNameOnLeftSucceeds_unnamedMatchesOmitted() {
+    func test_sequenceWithNestedTagOnLeftSucceeds_untaggedMatchesOmitted() {
         
-        let innerName = Parser.Name("prefix", Parser.Str("abc"))
-        let sequence = Parser.Sequence(innerName, Parser.Str("def"))
+        let innerTag = Parser.Tag("prefix", Parser.Str("abc"))
+        let sequence = Parser.Sequence(innerTag, Parser.Str("def"))
 
         let (actualResult, actualRemainder) = sequence.parse("abcdef")
         
@@ -65,10 +65,10 @@ class NameTests: XCTestCase {
         XCTAssertEqual(expectedRemainder, actualRemainder)
     }
     
-    func test_sequenceWithNestedNameOnRightSucceeds_unnamedMatchesOmitted() {
+    func test_sequenceWithNestedTagOnRightSucceeds_untaggedMatchesOmitted() {
         
-        let innerName = Parser.Name("suffix", Parser.Str("def"))
-        let sequence = Parser.Sequence(Parser.Str("abc"), innerName)
+        let innerTag = Parser.Tag("suffix", Parser.Str("def"))
+        let sequence = Parser.Sequence(Parser.Str("abc"), innerTag)
         
         let (actualResult, actualRemainder) = sequence.parse("abcdef")
         
@@ -79,11 +79,11 @@ class NameTests: XCTestCase {
         XCTAssertEqual(expectedRemainder, actualRemainder)
     }
     
-    func test_sequenceWithTwoNestedNames_bothLeavesReturned() {
+    func test_sequenceWithTwoNestedTags_bothLeavesReturned() {
         
-        let leftInnerName = Parser.Name("prefix", Parser.Str("abc"))
-        let rightInnerName = Parser.Name("suffix", Parser.Str("def"))
-        let sequence = Parser.Sequence(leftInnerName, rightInnerName)
+        let leftInnerTag = Parser.Tag("prefix", Parser.Str("abc"))
+        let rightInnerTag = Parser.Tag("suffix", Parser.Str("def"))
+        let sequence = Parser.Sequence(leftInnerTag, rightInnerTag)
         
         let (actualResult, actualRemainder) = sequence.parse("abcdef")
         
@@ -95,13 +95,13 @@ class NameTests: XCTestCase {
         XCTAssertEqual(expectedRemainder, actualRemainder)
     }
     
-    func test_namedSequenceWithNestedName_innerTaggedWrappedInOuterTagged() {
+    func test_taggedSequenceWithNestedTag_innerTaggedWrappedInOuterTagged() {
         
-        let innerName = Parser.Name("suffix", Parser.Str("efg"))
-        let sequence = Parser.Sequence(Parser.Str("abcd"), innerName)
+        let innerTag = Parser.Tag("suffix", Parser.Str("efg"))
+        let sequence = Parser.Sequence(Parser.Str("abcd"), innerTag)
         
-        let nameSequence = Parser.Name("total", sequence)
-        let (actualResult, actualRemainder) = nameSequence.parse("abcdefg")
+        let tagSequence = Parser.Tag("total", sequence)
+        let (actualResult, actualRemainder) = tagSequence.parse("abcdefg")
         
         let innerMatch = Result.Match(match: "efg", index: 4)
         let innerResult = Result.Tagged(["suffix": innerMatch])

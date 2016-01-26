@@ -20,7 +20,7 @@ public indirect enum Parser {
     
     case Str(String)
     case Sequence(Parser, Parser)
-    case Name(String, Parser)
+    case Tag(String, Parser)
     case Deferred(DeferredParser)
 //    case Repeat(Parser, minimum: Int, maximum: Int)
     
@@ -37,7 +37,7 @@ public indirect enum Parser {
         case let .Sequence(first, second):
             return parseSequence(input, subs: [first, second])
             
-        case let .Name(name, sub):
+        case let .Tag(name, sub):
             return parseName(input, name: name, sub: sub)
             
         case let .Deferred(deferred):
