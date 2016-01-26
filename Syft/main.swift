@@ -6,6 +6,12 @@ print("Syft")
 //let compound = Parser.AndThen([numeral, op, expression])
 //let expression = Parser.OneOf([numeral, compound])
 
+let one = Parser.Str("1")
+let two = Parser.Str("2")
+var deferredTwelve = DeferredParser(name: "twelve")
+let root = Parser.Deferred(deferredTwelve)
+deferredTwelve.parser = Parser.Sequence(one, two)
+
 let input = "12+3*4"
 
 //let result = expression.parse(input)

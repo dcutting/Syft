@@ -2,12 +2,26 @@ public typealias ResultWithRemainder = (Result, Remainder)
 
 public typealias ParserRef = String
 
-public indirect enum Parser {
+public class DeferredParser {
+    var name: String
+    var parser: Parser?
+    
+    init(name: String) {
+        self.name = name
+    }
+    
+    func parse(input: Remainder) -> ResultWithRemainder {
+        guard let parser = self.parser else { return (.Failure, input) }
+        return parser.parse(input)
+    }
+}
 
+public indirect enum Parser {
+    
     case Str(String)
     case Sequence(Parser, Parser)
     case Name(String, Parser)
-    case Ref(ParserRef)
+    case Deferred(DeferredParser)
 //    case Repeat(Parser, minimum: Int, maximum: Int)
     
     public func parse(input: String) -> ResultWithRemainder {
@@ -26,8 +40,8 @@ public indirect enum Parser {
         case let .Name(name, sub):
             return parseName(input, name: name, sub: sub)
             
-        case let .Ref(ref):
-            return parseRef(input, ref: ref)
+        case let .Deferred(deferred):
+            return parseDeferred(input, deferred: deferred)
             
 //        case let .Repeat(sub, minimum, maximum):
 //            return parseRepeat(input, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: 0)
@@ -135,8 +149,8 @@ func parseName(input: Remainder, name: String, sub: Parser) -> ResultWithRemaind
     }
 }
 
-func parseRef(input: Remainder, ref: ParserRef) -> ResultWithRemainder {
-    return (Result.Failure, input)
+func parseDeferred(input: Remainder, deferred: DeferredParser) -> ResultWithRemainder {
+    return deferred.parse(input)
 }
 
 //func parseRepeat(input: Remainder, sub: Parser, minimum: Int, maximum: Int, matchesSoFar: Int) -> ResultWithRemainder {
