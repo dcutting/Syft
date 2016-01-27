@@ -37,8 +37,8 @@ public indirect enum Parser {
         case let .Sequence(first, second):
             return parseSequence(input, subs: [first, second])
             
-        case let .Tag(name, sub):
-            return parseName(input, name: name, sub: sub)
+        case let .Tag(tag, sub):
+            return parseTag(input, tag: tag, sub: sub)
             
         case let .Deferred(deferred):
             return parseDeferred(input, deferred: deferred)
@@ -80,23 +80,23 @@ func parseSequence(input: Remainder, head: Parser, tail: [Parser]) -> ResultWith
         return (.Failure, input)
         
     case let (.Match(match: headText, index: headIndex), headRemainder):
-        let (tailResult, tailRemainder) = parseSequence(headRemainder, subs: tail)
-        return combineSequenceMatch(headText, headIndex: headIndex, tailResult: tailResult, tailRemainder: tailRemainder)
+        let parsedTail = parseSequence(headRemainder, subs: tail)
+        return combineSequenceMatch(headText, headIndex: headIndex, parsedTail: parsedTail)
         
     case let (.Tagged(headTagged), headRemainder):
-        let (tailResult, tailRemainder) = parseSequence(headRemainder, subs: tail)
-        return combineSequenceTagged(headTagged, tailResult: tailResult, tailRemainder: tailRemainder)
+        let parsedTail = parseSequence(headRemainder, subs: tail)
+        return combineSequenceTagged(headTagged, parsedTail: parsedTail)
         
     case (.Series, _):
         return (.Failure, input)
     }
 }
 
-func combineSequenceMatch(headText: String, headIndex: Int, tailResult: Result, tailRemainder: Remainder) -> ResultWithRemainder {
+func combineSequenceMatch(headText: String, headIndex: Int, parsedTail: ResultWithRemainder) -> ResultWithRemainder {
     
-    switch (tailResult, tailRemainder) {
+    switch parsedTail {
         
-    case (.Failure, _):
+    case let (.Failure, tailRemainder):
         return (.Failure, tailRemainder)
         
     case let (.Match(match: tailMatch, index: tailIndex), tailRemainder):
@@ -104,18 +104,18 @@ func combineSequenceMatch(headText: String, headIndex: Int, tailResult: Result, 
         return (.Match(match: headText + tailMatch, index: headIndex), tailRemainder)
         
     case (.Tagged, _):
-        return (tailResult, tailRemainder)
+        return parsedTail
         
-    case (.Series, _):
+    case let (.Series, tailRemainder):
         return (.Failure, tailRemainder)
     }
 }
 
-func combineSequenceTagged(headTagged: [String: Result], tailResult: Result, tailRemainder: Remainder) -> ResultWithRemainder {
+func combineSequenceTagged(headTagged: [String: Result], parsedTail: ResultWithRemainder) -> ResultWithRemainder {
 
-    switch (tailResult, tailRemainder) {
+    switch parsedTail {
         
-    case (.Failure, _):
+    case let (.Failure, tailRemainder):
         return (.Failure, tailRemainder)
         
     case let (.Match(match: _, index: _), tailRemainder):
@@ -124,12 +124,12 @@ func combineSequenceTagged(headTagged: [String: Result], tailResult: Result, tai
     case let (.Tagged(tailTagged), tailRemainder):
         return (.Tagged(headTagged + tailTagged), tailRemainder)
         
-    case (.Series, _):
+    case let (.Series, tailRemainder):
         return (.Failure, tailRemainder)
     }
 }
 
-func parseName(input: Remainder, name: String, sub: Parser) -> ResultWithRemainder {
+func parseTag(input: Remainder, tag: String, sub: Parser) -> ResultWithRemainder {
 
     let (result, remainder) = sub.parse(input)
     
@@ -138,11 +138,11 @@ func parseName(input: Remainder, name: String, sub: Parser) -> ResultWithRemaind
     case (.Failure, _):
         return (.Failure, remainder)
 
-    case let (.Match(match: _, index: _), remainder):
-        return (.Tagged([name: result]), remainder)
+    case let (.Match, remainder):
+        return (.Tagged([tag: result]), remainder)
         
-    case let (.Tagged(_), remainder):
-        return (.Tagged([name: result]), remainder)
+    case let (.Tagged, remainder):
+        return (.Tagged([tag: result]), remainder)
         
     case (.Series, _):
         return (.Failure, remainder)
