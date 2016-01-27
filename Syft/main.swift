@@ -1,69 +1,24 @@
 print("Syft")
 
-//let digit = Parser.OneOf(Array(0...9))
-//let numeral = Parser.Tag("number", Parser.OneOrMore(digit))
-//let op = Parser.Tag("op", Parser.OneOf(["+", "-", "*", "/"]))
-//let compound = Parser.AndThen([numeral, op, expression])
-//let expression = Parser.OneOf([numeral, compound])
+let digit = Parser.OneOf(Parser.Str("1"), Parser.Str("2"))
+let numeral = Parser.Tag("number", Parser.Repeat(digit, minimum: 1, maximum: nil))
+let op = Parser.OneOf(Parser.Str("+"), Parser.Str("*"))
+let expression = DeferredParser(name: "expression")
+let compound = Parser.Sequence(Parser.Tag("first", numeral), Parser.Sequence(Parser.Tag("op", op), Parser.Tag("second", Parser.Deferred(expression))))
+expression.parser = Parser.OneOf(numeral, compound)
 
-let one = Parser.Str("1")
-let two = Parser.Str("2")
-var deferredTwelve = DeferredParser(name: "twelve")
-let root = Parser.Deferred(deferredTwelve)
-deferredTwelve.parser = Parser.Sequence(one, two)
+let input = "12+1*2"
+let actualResult = expression.parse(input)
 
-let input = "12+3*4"
-
-//let result = expression.parse(input)
-
-/*
-
-{
-    :first => {
-        :number => [
-            { :d => "1"@0 },
-            { :d => "2"@1 }
-        ]
-    },
-    :op => "+"@2,
-    :second => {
-        :first => {
-            :number => [
-                { :d => "3"@3 }
-            ]
-        },
-        :op => "*"@4,
-        :second => {
-            :number => [
-                { :d => "4"@5 }
-            ]
-        }
-    }
-}
-
-*/
-
-let result = Result.Tagged([
-    "first": Result.Tagged([
-        "number": Result.Series([
-            Result.Tagged(["d": Result.Match(match: "1", index: 0)]),
-            Result.Tagged(["d": Result.Match(match: "2", index: 1)])
-            ])
-        ]),
+let expectedResult = Result.Tagged([
+    "first": Result.Tagged(["number": Result.Match(match: "12", index: 0)]),
     "op": Result.Match(match: "+", index: 2),
     "second": Result.Tagged([
-        "first": Result.Tagged([
-            "number": Result.Series([
-                Result.Tagged(["d": Result.Match(match: "3", index: 3)])
-                ]),
-            "op": Result.Match(match: "*", index: 4),
-            "second": Result.Tagged([
-                "number": Result.Series([
-                    Result.Tagged(["d": Result.Match(match: "4", index: 5)])
-                ])
-            ])
-        ])
+        "first": Result.Tagged(["number": Result.Match(match: "2", index: 3)]),
+        "op": Result.Match(match: "*", index: 4),
+        "second": Result.Tagged(["number": Result.Match(match: "1", index: 5)])
     ])
 ])
 
-print(result)
+print(expectedResult)
+print(actualResult)
