@@ -14,6 +14,7 @@ public indirect enum Parser {
     }
     
     func parse(input: Remainder) -> ResultWithRemainder {
+
         switch self {
             
         case let .Str(pattern):
@@ -136,6 +137,7 @@ func parseRepeat(input: Remainder, sub: Parser, minimum: Int, maximum: Int?, mat
 }
 
 func prepareInitialResultForRepeat(result: Result) -> Result {
+
     switch result {
 
     case .Tagged:
@@ -148,5 +150,14 @@ func prepareInitialResultForRepeat(result: Result) -> Result {
 
 func parseEither(input: Remainder, first: Parser, second: Parser) -> ResultWithRemainder {
     
-    return first.parse(input)
+    let firstResultWithRemainder = first.parse(input)
+    
+    switch firstResultWithRemainder {
+        
+    case (.Failure, _):
+        return second.parse(input)
+        
+    default:
+        return firstResultWithRemainder
+    }
 }
