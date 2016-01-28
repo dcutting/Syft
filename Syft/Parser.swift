@@ -7,7 +7,7 @@ public indirect enum Parser {
     case Tag(String, Parser)
     case Deferred(DeferredParser)
     case Repeat(Parser, minimum: Int, maximum: Int?)
-    case OneOf(Parser, Parser)
+    case Either(Parser, Parser)
     
     public func parse(input: String) -> ResultWithRemainder {
         return parse(Remainder(text: input, index: 0))
@@ -31,7 +31,7 @@ public indirect enum Parser {
         case let .Repeat(sub, minimum, maximum):
             return parseRepeat(input, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: 0, resultSoFar: nil, initialInput: input)
             
-        case .OneOf:
+        case .Either:
             return (.Failure, input)
         }
     }
