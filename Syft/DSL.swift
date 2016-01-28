@@ -67,49 +67,50 @@ extension Parser: ParserDSL {
 }
 
 extension Deferred: ParserDSL {
+    private func wrap() -> Parser {
+        return Parser.Defer(self)
+    }
+    
     func recur() -> Parser {
-        return recur(0, nil)
+        return wrap().recur()
     }
     
     func recur(minimum: Int) -> Parser {
-        return recur(minimum, nil)
+        return wrap().recur(minimum)
     }
     
     func recur(minimum: Int, _ maximum: Int?) -> Parser {
-        return Parser.Repeat(Parser.Defer(self), minimum: minimum, maximum: maximum)
+        return wrap().recur(minimum, maximum)
     }
     
     var some: Parser {
-        get { return recur(1) }
+        get { return wrap().some }
     }
     
     var maybe: Parser {
-        get { return recur(0, 1) }
+        get { return wrap().maybe }
     }
     
     func tag(tag: String) -> Parser {
-        return Parser.Tag(tag, Parser.Defer(self))
+        return wrap().tag(tag)
     }
 }
 
 extension Range {
     var any: Parser {
-        get { return makeEither(self.map {"\($0)"} ) }
+        get { return makeEither(self.map{String($0)}) }
     }
 }
 
 extension Array {
     var any: Parser {
-        get { return makeEither(self.map {"\($0)"} ) }
+        get { return makeEither(self.map{String($0)}) }
     }
 }
 
 extension String {
     var any: Parser {
-        get {
-            let characters = self.characters.map { String($0) }
-            return makeEither(characters)
-        }
+        get { return makeEither(self.characters.map{String($0)}) }
     }
 }
 
