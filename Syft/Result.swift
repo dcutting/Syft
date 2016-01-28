@@ -26,14 +26,19 @@ public indirect enum Result: Equatable, CustomStringConvertible {
     func combine(secondary: Result) -> Result {
         
         switch (self, secondary) {
+            
         case let (.Match(match: selfText, index: selfIndex), .Match(match: secondaryText, index: _)):
             return .Match(match: selfText + secondaryText, index: selfIndex)
+
         case (.Match, .Tagged):
             return secondary
+        
         case (.Tagged, .Match):
             return self
+        
         case let (.Tagged(selfTagged), .Tagged(secondaryTagged)):
             return .Tagged(selfTagged + secondaryTagged)
+        
         default:
             return .Failure
         }
@@ -51,14 +56,17 @@ public func ==(lhs: Result, rhs: Result) -> Bool {
         return lhsMatch == rhsMatch && lhsIndex == rhsIndex
     
     case let (.Tagged(lhsTagged), .Tagged(rhsTagged)):
-        return taggedEqual(lhsTagged, rhsTagged: rhsTagged)
+        return taggedEqual(lhsTagged, rhsTagged)
         
+    case let (.Series(lhsResults), .Series(rhsResults)):
+        return seriesEqual(lhsResults, rhsResults)
+    
     default:
         return false
     }
 }
 
-func taggedEqual(lhsTagged: [String: Result], rhsTagged: [String: Result]) -> Bool {
+func taggedEqual(lhsTagged: [String: Result], _ rhsTagged: [String: Result]) -> Bool {
     
     if lhsTagged.count != rhsTagged.count {
         return false
@@ -72,7 +80,7 @@ func taggedEqual(lhsTagged: [String: Result], rhsTagged: [String: Result]) -> Bo
     return true
 }
 
-func seriesEqual(lhsSeries: [Result], rhsSeries: [Result]) -> Bool {
+func seriesEqual(lhsSeries: [Result], _ rhsSeries: [Result]) -> Bool {
     if lhsSeries.count != rhsSeries.count {
         return false
     }
