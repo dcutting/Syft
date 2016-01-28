@@ -22,6 +22,16 @@ public indirect enum Result: Equatable, CustomStringConvertible {
             return "\(series.sortedDescription())"
         }
     }
+    
+    func combine(secondary: Result) -> Result {
+        
+        switch (self, secondary) {
+        case let (.Match(match: selfText, index: selfIndex), .Match(match: secondaryText, index: _)):
+            return .Match(match: selfText + secondaryText, index: selfIndex)
+        default:
+            return .Failure
+        }
+    }
 }
 
 public func ==(lhs: Result, rhs: Result) -> Bool {

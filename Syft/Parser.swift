@@ -48,8 +48,8 @@ public indirect enum Parser {
         case let .Deferred(deferred):
             return parseDeferred(input, deferred: deferred)
             
-        case .Repeat:
-            return (.Failure, input)
+        case let .Repeat(sub, minimum, maximum):
+            return parseRepeat(input, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: 0, resultSoFar: nil, initialInput: input)
             
         case .OneOf:
             return (.Failure, input)
@@ -161,53 +161,35 @@ func parseDeferred(input: Remainder, deferred: DeferredParser) -> ResultWithRema
     return deferred.parse(input)
 }
 
-//func parseRepeat(input: Remainder, sub: Parser, minimum: Int, maximum: Int, matchesSoFar: Int) -> ResultWithRemainder {
-//    return (.Failure, input)
-//    
-//    let shouldAttemptAnotherMatch = matchesSoFar < maximum || maximum < 0
-//    
-//    if shouldAttemptAnotherMatch {
-//        let result = sub.parse(input)
-//        switch result {
-//            
-//        case .Failure:
-//            if minimum > 0 && matchesSoFar < minimum {
-//                return .Failure
-//            } else {
-//                return Result.Match(match: "", index: 0, remainder: input)
-//            }
-//            
-//        case let .Match(match: match, index: index, remainder: remainder):
-//            let tailResult = parseRepeat(remainder, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: matchesSoFar + 1)
-//            
-//            switch tailResult {
-//                
-//            case .Failure:
-//                return matchesSoFar < minimum ? .Failure : result
-//                
-//            default:
-//                return combineSequenceMatch(match, headIndex: index, tail: tailResult)
-//            }
-//            
-//        case let .Tagged(_, remainder: remainder):
-//            let tailResult = parseRepeat(remainder, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: matchesSoFar + 1)
-//
-//            switch tailResult {
-//            case let .Match(match: _, index: _, remainder: tailRemainder):
-//                return Result.Series([result], remainder: tailRemainder)
-//            case .Series(var array, remainder: let remainder):
-//                array.insert(result, atIndex: 0)
-//                return Result.Series(array, remainder: remainder)
-//            case let .Tagged(_, remainder: tailRemainder):
-//                return Result.Series([tailResult], remainder: tailRemainder)
-//            default:
-//                return .Failure
-//            }
-//            
-//        case .Series:
-//            return .Failure
-//        }
-//    } else {
-//        return Result.Match(match: "", index: 0, remainder: input)
-//    }
-//}
+func parseRepeat(input: Remainder, sub: Parser, minimum: Int, maximum: Int?, matchesSoFar: Int, resultSoFar: Result?, initialInput: Remainder) -> ResultWithRemainder {
+
+    if let maximum = maximum {
+        if matchesSoFar >= maximum {
+            if let resultSoFar = resultSoFar {
+                return (resultSoFar, input)
+            }
+            return (Result.Match(match: "", index: input.index), input)
+        }
+    }
+    
+    let (headResult, headRemainder) = sub.parse(input)
+    switch headResult {
+    case .Failure:
+        if matchesSoFar < minimum {
+            return (.Failure, initialInput)
+        } else {
+            if let resultSoFar = resultSoFar {
+                return (resultSoFar, input)
+            }
+            return (Result.Match(match: "", index: input.index), input)
+        }
+    default:
+        if let resultSoFar = resultSoFar {
+            let combinedResult = resultSoFar.combine(headResult)
+            return parseRepeat(headRemainder, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: matchesSoFar+1, resultSoFar: combinedResult, initialInput: initialInput)
+        } else {
+            let combinedResult = headResult
+            return parseRepeat(headRemainder, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: matchesSoFar+1, resultSoFar: combinedResult, initialInput: initialInput)
+        }
+    }
+}

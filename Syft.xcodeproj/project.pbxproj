@@ -17,11 +17,11 @@
 		C83302D11A31B4BA00C77D2C /* RemainderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83302D01A31B4BA00C77D2C /* RemainderTests.swift */; };
 		C83302D31A322DB000C77D2C /* Remainder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83302D21A322DB000C77D2C /* Remainder.swift */; };
 		C83302D41A322E0B00C77D2C /* Remainder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83302D21A322DB000C77D2C /* Remainder.swift */; };
+		C8383DE11C5993C70050E8B8 /* ResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B2B8C61A25BDF000E6E54E /* ResultTests.swift */; };
 		C85DB4091A19133100279078 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85DB4081A19133100279078 /* main.swift */; };
 		C869B81B1A246AC900904675 /* StringAtomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C869B81A1A246AC900904675 /* StringAtomTests.swift */; };
 		C869B81D1A246DE100904675 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C869B81C1A246DE100904675 /* Parser.swift */; };
 		C869B81E1A246E5300904675 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C869B81C1A246DE100904675 /* Parser.swift */; };
-		C8B2B8C71A25BDF000E6E54E /* ResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B2B8C61A25BDF000E6E54E /* ResultTests.swift */; };
 		C8B2B8C91A25BF0A00E6E54E /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B2B8C81A25BF0A00E6E54E /* Result.swift */; };
 		C8B2B8CA1A25BF2200E6E54E /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B2B8C81A25BF0A00E6E54E /* Result.swift */; };
 		C8BEDFE91A39D391006651CC /* RepeatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BEDFE81A39D391006651CC /* RepeatTests.swift */; };
@@ -236,7 +236,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8B2B8C71A25BDF000E6E54E /* ResultTests.swift in Sources */,
+				C8383DE11C5993C70050E8B8 /* ResultTests.swift in Sources */,
 				C83302D41A322E0B00C77D2C /* Remainder.swift in Sources */,
 				C8BEDFE91A39D391006651CC /* RepeatTests.swift in Sources */,
 				C83302D11A31B4BA00C77D2C /* RemainderTests.swift in Sources */,
