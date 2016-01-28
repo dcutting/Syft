@@ -4,7 +4,7 @@ import Syft
 class DeferredTests: XCTestCase {
 
     func test_deferredCanDirectlyParseAString() {
-        let ampersand = DeferredParser(name: "ampersand")
+        let ampersand = Deferred()
         ampersand.parser = Parser.Str("&")
         
         // Act.
@@ -17,8 +17,8 @@ class DeferredTests: XCTestCase {
     }
     
     func test_deferredHasNoParserSet_fails() {
-        let deferred = DeferredParser(name: "deferred")
-        let parser = Parser.Deferred(deferred)
+        let deferred = Deferred()
+        let parser = Parser.Defer(deferred)
         let anyString = "abc"
         
         // Act.
@@ -30,9 +30,9 @@ class DeferredTests: XCTestCase {
         XCTAssertEqual(expectedRemainder, actualRemainder)
     }
     
-    func test_deferredParserHasBeenSet_returnsResultOfDeferredParser() {
-        let ampersand = DeferredParser(name: "ampersand")
-        let parser = Parser.Deferred(ampersand)
+    func test_deferredParserHasBeenSet_returnsResultOfDeferred() {
+        let ampersand = Deferred()
+        let parser = Parser.Defer(ampersand)
         ampersand.parser = Parser.Str("&")
         
         // Act.

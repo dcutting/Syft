@@ -5,7 +5,7 @@ public indirect enum Parser {
     case Str(String)
     case Sequence(Parser, Parser)
     case Tag(String, Parser)
-    case Deferred(DeferredParser)
+    case Defer(Deferred)
     case Repeat(Parser, minimum: Int, maximum: Int?)
     case Either(Parser, Parser)
     
@@ -26,7 +26,7 @@ public indirect enum Parser {
         case let .Tag(tag, sub):
             return parseTag(input, tag: tag, sub: sub)
             
-        case let .Deferred(deferred):
+        case let .Defer(deferred):
             return parseDeferred(input, deferred: deferred)
             
         case let .Repeat(sub, minimum, maximum):
@@ -38,13 +38,8 @@ public indirect enum Parser {
     }
 }
 
-public class DeferredParser {
-    var name: String
+public class Deferred {
     var parser: Parser?
-    
-    init(name: String) {
-        self.name = name
-    }
     
     func parse(input: String) -> ResultWithRemainder {
         return parse(Remainder(text: input, index: 0))
@@ -99,7 +94,7 @@ func parseTag(input: Remainder, tag: String, sub: Parser) -> ResultWithRemainder
     }
 }
 
-func parseDeferred(input: Remainder, deferred: DeferredParser) -> ResultWithRemainder {
+func parseDeferred(input: Remainder, deferred: Deferred) -> ResultWithRemainder {
     return deferred.parse(input)
 }
 
