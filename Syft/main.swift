@@ -12,8 +12,8 @@ let someOnes = Parser.Tag("ones", repeatedOnes)
 let someTwos = Parser.Repeat(Parser.Tag("t", two), minimum: 1, maximum: nil)
 let someOnesAndTwos = Parser.Sequence(someOnes, someTwos)
 
-let input = "1111"//+1*2"
-let actualResult = someOnes.parse(input)
+let input = "111122"//+1*2"
+let actualResult = someOnesAndTwos.parse(input)
 
 let expectedResult = Result.Tagged([
     "first": Result.Tagged(["number": Result.Match(match: "12", index: 0)]),

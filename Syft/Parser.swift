@@ -20,7 +20,7 @@ public indirect enum Parser {
             return parseStr(input, pattern: pattern)
 
         case let .Sequence(first, second):
-            return parseSequence(input, subs: [first, second])
+            return parseSequence(input, first: first, second: second)
             
         case let .Tag(tag, sub):
             return parseTag(input, tag: tag, sub: sub)
@@ -69,26 +69,18 @@ func parseStr(input: Remainder, pattern: String) -> ResultWithRemainder {
     return (.Failure, input)
 }
 
-func parseSequence(input: Remainder, subs: [Parser]) -> ResultWithRemainder {
+func parseSequence(input: Remainder, first: Parser, second: Parser) -> ResultWithRemainder {
 
-    if let head = subs.head {
-        return parseSequence(input, head: head, tail: subs.tail)
-    }
-    return (.Match(match: "", index: input.index), input)
-}
+    let (firstResult, firstRemainder) = first.parse(input)
 
-func parseSequence(input: Remainder, head: Parser, tail: [Parser]) -> ResultWithRemainder {
-
-    let (headResult, headRemainder) = head.parse(input)
-
-    switch headResult {
+    switch firstResult {
     
     case .Failure:
         return (.Failure, input)
     
     default:
-        let (tailResult, tailRemainder) = parseSequence(headRemainder, subs: tail)
-        return (headResult.combine(tailResult), tailRemainder)
+        let (secondResult, secondRemainder) = second.parse(firstRemainder)
+        return (firstResult.combine(secondResult), secondRemainder)
     }
 }
 

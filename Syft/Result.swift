@@ -42,6 +42,9 @@ public indirect enum Result: Equatable, CustomStringConvertible {
         case let (.Series(selfSeries), .Tagged):
             return .Series(selfSeries + [secondary])
             
+        case let (.Tagged, .Series(secondarySeries)):
+            return .Series([self] + secondarySeries)
+            
         default:
             return .Failure
         }
