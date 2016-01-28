@@ -3,7 +3,7 @@ import Syft
 
 class EitherTests: XCTestCase {
     
-    func test_eitherFailureAnything_fails() {
+    func test_bothSubparsersFail_eitherFails() {
         
         let either = Parser.Either(Parser.Str("a"), Parser.Str("b"))
         
