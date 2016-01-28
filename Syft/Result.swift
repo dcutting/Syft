@@ -38,7 +38,10 @@ public indirect enum Result: Equatable, CustomStringConvertible {
         
         case let (.Tagged(selfTagged), .Tagged(secondaryTagged)):
             return .Tagged(selfTagged + secondaryTagged)
-        
+
+        case let (.Series(selfSeries), .Tagged):
+            return .Series(selfSeries + [secondary])
+            
         default:
             return .Failure
         }

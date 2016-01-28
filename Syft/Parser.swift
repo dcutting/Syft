@@ -1,25 +1,5 @@
 public typealias ResultWithRemainder = (Result, Remainder)
 
-public typealias ParserRef = String
-
-public class DeferredParser {
-    var name: String
-    var parser: Parser?
-    
-    init(name: String) {
-        self.name = name
-    }
-
-    func parse(input: String) -> ResultWithRemainder {
-        return parse(Remainder(text: input, index: 0))
-    }
-
-    func parse(input: Remainder) -> ResultWithRemainder {
-        guard let parser = self.parser else { return (.Failure, input) }
-        return parser.parse(input)
-    }
-}
-
 public indirect enum Parser {
     
     case Str(String)
@@ -54,6 +34,24 @@ public indirect enum Parser {
         case .OneOf:
             return (.Failure, input)
         }
+    }
+}
+
+public class DeferredParser {
+    var name: String
+    var parser: Parser?
+    
+    init(name: String) {
+        self.name = name
+    }
+    
+    func parse(input: String) -> ResultWithRemainder {
+        return parse(Remainder(text: input, index: 0))
+    }
+    
+    func parse(input: Remainder) -> ResultWithRemainder {
+        guard let parser = self.parser else { return (.Failure, input) }
+        return parser.parse(input)
     }
 }
 
@@ -142,8 +140,17 @@ func parseRepeat(input: Remainder, sub: Parser, minimum: Int, maximum: Int?, mat
             let combinedResult = resultSoFar.combine(headResult)
             return parseRepeat(headRemainder, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: matchesSoFar+1, resultSoFar: combinedResult, initialInput: initialInput)
         } else {
-            let combinedResult = headResult
+            let combinedResult = prepareInitialResult(headResult)
             return parseRepeat(headRemainder, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: matchesSoFar+1, resultSoFar: combinedResult, initialInput: initialInput)
         }
+    }
+}
+
+func prepareInitialResult(result: Result) -> Result {
+    switch result {
+    case .Tagged:
+        return .Series([result])
+    default:
+        return result
     }
 }
