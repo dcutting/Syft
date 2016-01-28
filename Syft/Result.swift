@@ -53,9 +53,6 @@ public func ==(lhs: Result, rhs: Result) -> Bool {
     case let (.Tagged(lhsTagged), .Tagged(rhsTagged)):
         return taggedEqual(lhsTagged, rhsTagged: rhsTagged)
         
-    case let (.Series(lhsResults), .Series(rhsResults)):
-        return seriesEqual(lhsResults, rhsSeries: rhsResults)
-    
     default:
         return false
     }
