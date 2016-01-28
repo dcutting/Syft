@@ -31,8 +31,8 @@ public indirect enum Parser {
         case let .Repeat(sub, minimum, maximum):
             return parseRepeat(input, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: 0, resultSoFar: nil, initialInput: input)
             
-        case .Either:
-            return (.Failure, input)
+        case let .Either(first, second):
+            return parseEither(input, first: first, second: second)
         }
     }
 }
@@ -144,4 +144,9 @@ func prepareInitialResultForRepeat(result: Result) -> Result {
     default:
         return result
     }
+}
+
+func parseEither(input: Remainder, first: Parser, second: Parser) -> ResultWithRemainder {
+    
+    return first.parse(input)
 }

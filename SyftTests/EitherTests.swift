@@ -14,4 +14,16 @@ class EitherTests: XCTestCase {
         XCTAssertEqual(expectedResult, actualResult)
         XCTAssertEqual(expectedRemainder, actualRemainder)
     }
+    
+    func test_firstSubparserMatches_eitherMatches() {
+        
+        let either = Parser.Either(Parser.Str("a"), Parser.Str("b"))
+        
+        let (actualResult, actualRemainder) = either.parse("a")
+        
+        let expectedResult = Result.Match(match: "a", index: 0)
+        let expectedRemainder = Remainder(text: "", index: 1)
+        XCTAssertEqual(expectedResult, actualResult)
+        XCTAssertEqual(expectedRemainder, actualRemainder)
+    }
 }
