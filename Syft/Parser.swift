@@ -81,58 +81,13 @@ func parseSequence(input: Remainder, subs: [Parser]) -> ResultWithRemainder {
 
 func parseSequence(input: Remainder, head: Parser, tail: [Parser]) -> ResultWithRemainder {
 
-    switch head.parse(input) {
-    
-    case (.Failure, _):
+    let (headResult, headRemainder) = head.parse(input)
+    switch headResult {
+    case .Failure:
         return (.Failure, input)
-        
-    case let (.Match(match: headText, index: headIndex), headRemainder):
-        let parsedTail = parseSequence(headRemainder, subs: tail)
-        return combineSequenceMatch(headText, headIndex: headIndex, parsedTail: parsedTail)
-        
-    case let (.Tagged(headTagged), headRemainder):
-        let parsedTail = parseSequence(headRemainder, subs: tail)
-        return combineSequenceTagged(headTagged, parsedTail: parsedTail)
-        
-    case (.Series, _):
-        return (.Failure, input)
-    }
-}
-
-func combineSequenceMatch(headText: String, headIndex: Int, parsedTail: ResultWithRemainder) -> ResultWithRemainder {
-    
-    switch parsedTail {
-        
-    case let (.Failure, tailRemainder):
-        return (.Failure, tailRemainder)
-        
-    case let (.Match(match: tailMatch, index: tailIndex), tailRemainder):
-        _ = Remainder(text: tailRemainder.text, index: tailRemainder.index + tailIndex)
-        return (.Match(match: headText + tailMatch, index: headIndex), tailRemainder)
-        
-    case (.Tagged, _):
-        return parsedTail
-        
-    case let (.Series, tailRemainder):
-        return (.Failure, tailRemainder)
-    }
-}
-
-func combineSequenceTagged(headTagged: [String: Result], parsedTail: ResultWithRemainder) -> ResultWithRemainder {
-
-    switch parsedTail {
-        
-    case let (.Failure, tailRemainder):
-        return (.Failure, tailRemainder)
-        
-    case let (.Match(match: _, index: _), tailRemainder):
-        return (.Tagged(headTagged), tailRemainder)
-        
-    case let (.Tagged(tailTagged), tailRemainder):
-        return (.Tagged(headTagged + tailTagged), tailRemainder)
-        
-    case let (.Series, tailRemainder):
-        return (.Failure, tailRemainder)
+    default:
+        let (tailResult, tailRemainder) = parseSequence(headRemainder, subs: tail)
+        return (headResult.combine(tailResult), tailRemainder)
     }
 }
 

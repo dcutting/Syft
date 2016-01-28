@@ -28,6 +28,12 @@ public indirect enum Result: Equatable, CustomStringConvertible {
         switch (self, secondary) {
         case let (.Match(match: selfText, index: selfIndex), .Match(match: secondaryText, index: _)):
             return .Match(match: selfText + secondaryText, index: selfIndex)
+        case (.Match, .Tagged):
+            return secondary
+        case (.Tagged, .Match):
+            return self
+        case let (.Tagged(selfTagged), .Tagged(secondaryTagged)):
+            return .Tagged(selfTagged + secondaryTagged)
         default:
             return .Failure
         }
