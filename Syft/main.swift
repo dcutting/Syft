@@ -7,7 +7,8 @@ let expression = DeferredParser(name: "expression")
 let compound = Parser.Sequence(Parser.Tag("first", numeral), Parser.Sequence(Parser.Tag("op", op), Parser.Tag("second", Parser.Deferred(expression))))
 expression.parser = Parser.OneOf(numeral, compound)
 
-let someOnes = Parser.Tag("ones", Parser.Repeat(Parser.Tag("o", one), minimum: 1, maximum: nil))
+let repeatedOnes = Parser.Repeat(Parser.Tag("o", one), minimum: 1, maximum: nil)
+let someOnes = Parser.Tag("ones", repeatedOnes)
 let someTwos = Parser.Repeat(Parser.Tag("t", two), minimum: 1, maximum: nil)
 let someOnesAndTwos = Parser.Sequence(someOnes, someTwos)
 

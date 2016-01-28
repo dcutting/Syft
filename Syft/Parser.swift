@@ -93,19 +93,19 @@ func parseTag(input: Remainder, tag: String, sub: Parser) -> ResultWithRemainder
 
     let (result, remainder) = sub.parse(input)
     
-    switch (result, remainder) {
+    switch result {
 
-    case (.Failure, _):
-        return (.Failure, remainder)
+    case .Failure:
+        return (.Failure, input)
 
-    case let (.Match, remainder):
+    case .Match:
         return (.Tagged([tag: result]), remainder)
         
-    case let (.Tagged, remainder):
+    case .Tagged:
         return (.Tagged([tag: result]), remainder)
         
-    case (.Series, _):
-        return (.Failure, remainder)
+    case .Series:
+        return (.Failure, input)
     }
 }
 
