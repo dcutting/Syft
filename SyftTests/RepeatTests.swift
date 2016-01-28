@@ -95,4 +95,21 @@ class RepeatTests: XCTestCase {
         XCTAssertEqual(expectedResult, actualResult)
         XCTAssertEqual(expectedRemainder, actualRemainder)
     }
+    
+    func test_tagRepeatedTag_returnsTaggedSeriesOfTags() {
+        
+        let strA = Parser.Tag("anA", Parser.Str("a"))
+        let repeated = Parser.Repeat(strA, minimum: 1, maximum: nil)
+        let taggedRepeated = Parser.Tag("someAs", repeated)
+        
+        let (actualResult, actualRemainder) = taggedRepeated.parse("aab")
+        
+        let taggedMatch0 = Result.Tagged(["anA": Result.Match(match: "a", index: 0)])
+        let taggedMatch1 = Result.Tagged(["anA": Result.Match(match: "a", index: 1)])
+        let series = Result.Series([taggedMatch0, taggedMatch1])
+        let expectedResult = Result.Tagged(["someAs": series])
+        let expectedRemainder = Remainder(text: "b", index: 2)
+        XCTAssertEqual(expectedResult, actualResult)
+        XCTAssertEqual(expectedRemainder, actualRemainder)
+    }
 }

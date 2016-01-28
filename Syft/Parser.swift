@@ -105,7 +105,7 @@ func parseTag(input: Remainder, tag: String, sub: Parser) -> ResultWithRemainder
         return (.Tagged([tag: result]), remainder)
         
     case .Series:
-        return (.Failure, input)
+        return (.Tagged([tag: result]), remainder)
     }
 }
 
