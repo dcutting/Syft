@@ -80,9 +80,12 @@ func parseSequence(input: Remainder, subs: [Parser]) -> ResultWithRemainder {
 func parseSequence(input: Remainder, head: Parser, tail: [Parser]) -> ResultWithRemainder {
 
     let (headResult, headRemainder) = head.parse(input)
+
     switch headResult {
+    
     case .Failure:
         return (.Failure, input)
+    
     default:
         let (tailResult, tailRemainder) = parseSequence(headRemainder, subs: tail)
         return (headResult.combine(tailResult), tailRemainder)
@@ -98,13 +101,7 @@ func parseTag(input: Remainder, tag: String, sub: Parser) -> ResultWithRemainder
     case .Failure:
         return (.Failure, input)
 
-    case .Match:
-        return (.Tagged([tag: result]), remainder)
-        
-    case .Tagged:
-        return (.Tagged([tag: result]), remainder)
-        
-    case .Series:
+    default:
         return (.Tagged([tag: result]), remainder)
     }
 }
@@ -140,16 +137,18 @@ func parseRepeat(input: Remainder, sub: Parser, minimum: Int, maximum: Int?, mat
             let combinedResult = resultSoFar.combine(headResult)
             return parseRepeat(headRemainder, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: matchesSoFar+1, resultSoFar: combinedResult, initialInput: initialInput)
         } else {
-            let combinedResult = prepareInitialResult(headResult)
+            let combinedResult = prepareInitialResultForRepeat(headResult)
             return parseRepeat(headRemainder, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: matchesSoFar+1, resultSoFar: combinedResult, initialInput: initialInput)
         }
     }
 }
 
-func prepareInitialResult(result: Result) -> Result {
+func prepareInitialResultForRepeat(result: Result) -> Result {
     switch result {
+
     case .Tagged:
         return .Series([result])
+    
     default:
         return result
     }
