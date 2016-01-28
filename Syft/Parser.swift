@@ -75,9 +75,8 @@ func parseSequence(input: Remainder, subs: [Parser]) -> ResultWithRemainder {
 
     if let head = subs.head {
         return parseSequence(input, head: head, tail: subs.tail)
-    } else {
-        return (.Match(match: "", index: input.index), input)
     }
+    return (.Match(match: "", index: input.index), input)
 }
 
 func parseSequence(input: Remainder, head: Parser, tail: [Parser]) -> ResultWithRemainder {
