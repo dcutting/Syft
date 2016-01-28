@@ -1,29 +1,19 @@
-let one = Parser.Str("1")
-let two = Parser.Str("2")
-let digit = Parser.Either(one, two)
+func makeEither(input: [String]) -> Parser {
+    var parser: Parser = Parser.Str(input.head!)
+    for s in input.tail {
+        parser = Parser.Either(parser, Parser.Str(s))
+    }
+    return parser
+}
+
+let digit = makeEither((0...9).map {"\($0)"})
 let numeral = Parser.Tag("number", Parser.Repeat(digit, minimum: 1, maximum: nil))
-let op = Parser.Either(Parser.Str("+"), Parser.Str("*"))
+let op = makeEither(["+","-","*","/"])
 let expression = DeferredParser(name: "expression")
 let compound = Parser.Sequence(Parser.Tag("first", numeral), Parser.Sequence(Parser.Tag("op", op), Parser.Tag("second", Parser.Deferred(expression))))
 expression.parser = Parser.Either(compound, numeral)
 
-let repeatedOnes = Parser.Repeat(Parser.Tag("o", one), minimum: 1, maximum: nil)
-let someOnes = Parser.Tag("ones", repeatedOnes)
-let someTwos = Parser.Repeat(Parser.Tag("t", two), minimum: 1, maximum: nil)
-let someOnesAndTwos = Parser.Sequence(someOnes, someTwos)
+let input = "123+52*891/3120"
+let parsed = expression.parse(input)
 
-let input = "12+2*1"
-let actualResult = expression.parse(input)
-
-let expectedResult = Result.Tagged([
-    "first": Result.Tagged(["number": Result.Match(match: "12", index: 0)]),
-    "op": Result.Match(match: "+", index: 2),
-    "second": Result.Tagged([
-        "first": Result.Tagged(["number": Result.Match(match: "2", index: 3)]),
-        "op": Result.Match(match: "*", index: 4),
-        "second": Result.Tagged(["number": Result.Match(match: "1", index: 5)])
-    ])
-])
-
-//print(expectedResult)
-print(actualResult)
+print(parsed)
