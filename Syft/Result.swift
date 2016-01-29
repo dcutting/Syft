@@ -19,7 +19,7 @@ public indirect enum Result: Equatable, CustomStringConvertible {
             return tagged.sortedDescription()
             
         case let .Series(series):
-            return "\(series.sortedDescription())"
+            return "\(series)"
         }
     }
     
