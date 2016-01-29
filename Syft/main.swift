@@ -10,6 +10,3 @@ expression.parser = compound | numeral
 let input = "  123+  52 \t  \n *  891 \r\n  /3120   "
 let parsed = expression.parse(input)
 print(parsed)
-
-let blah = Parser.Str("a") >>> Parser.Str("b") | Parser.Str("c") >>> Parser.Str("d")
-print(blah.parse("cd"))
