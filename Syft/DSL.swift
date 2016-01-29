@@ -97,19 +97,19 @@ extension Deferred: ParserDSL {
 }
 
 extension Range {
-    var any: Parser {
+    var match: Parser {
         get { return makeEither(self.map{String($0)}) }
     }
 }
 
 extension Array {
-    var any: Parser {
+    var match: Parser {
         get { return makeEither(self.map{String($0)}) }
     }
 }
 
 extension String {
-    var any: Parser {
+    var match: Parser {
         get { return makeEither(self.characters.map{String($0)}) }
     }
 }

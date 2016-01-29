@@ -1,7 +1,7 @@
-let space = " \t\n\r\n".any
+let space = " \t\n\r\n".match
 let skip = space.some.maybe
-let digit = (0...9).any
-let op = "+-*/".any.tag("op") >>> skip
+let digit = (0...9).match
+let op = "+-*/".match.tag("op") >>> skip
 let numeral = skip >>> digit.some.tag("numeral") >>> skip
 let expression = Deferred()
 let compound = numeral.tag("first") >>> op >>> expression.tag("second")
