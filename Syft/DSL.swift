@@ -1,4 +1,4 @@
-infix operator >>> { associativity left }
+infix operator >>> { associativity left precedence 180 }
 func >>>(first: Parser, second: Parser) -> Parser {
     return Parser.Sequence(first, second)
 }
