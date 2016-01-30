@@ -14,11 +14,12 @@ let parsed = expression.parse(input)
 print(parsed)
 
 // Basic regex parser.
-let char = (digit | letter).tag("char")
-let range = char.tag("start") >>> Parser.Str("-") >>> char.tag("end")
+let backslash = str("\\")
+let char = backslash >>> any.tag("char") | any.tag("char")
+let range = char.tag("start") >>> str("-") >>> char.tag("end")
 let group = range.tag("range") | char
-let groups = group.some.tag("match")
+let groups = group.some.tag("groups")
 
-let matchInput = "3-8za-z"
+let matchInput = "a-zA-Z0-9_-"
 let matchParsed = groups.parse(matchInput)
 print(matchParsed)
