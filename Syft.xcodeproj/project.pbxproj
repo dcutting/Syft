@@ -21,9 +21,6 @@
 		C8383DE31C5ABA420050E8B8 /* EitherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8383DE21C5ABA420050E8B8 /* EitherTests.swift */; };
 		C8383DE51C5AC96F0050E8B8 /* DSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8383DE41C5AC96F0050E8B8 /* DSL.swift */; };
 		C8383DE71C5C31610050E8B8 /* MatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8383DE61C5C31610050E8B8 /* MatchTests.swift */; };
-		C8383DEB1C5CF8590050E8B8 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = C8383DE81C5CF8590050E8B8 /* LICENSE */; };
-		C8383DEC1C5CF8590050E8B8 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8383DE91C5CF8590050E8B8 /* Package.swift */; };
-		C8383DED1C5CF8590050E8B8 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = C8383DEA1C5CF8590050E8B8 /* README.md */; };
 		C85DB4091A19133100279078 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85DB4081A19133100279078 /* main.swift */; };
 		C869B81B1A246AC900904675 /* StringAtomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C869B81A1A246AC900904675 /* StringAtomTests.swift */; };
 		C869B81D1A246DE100904675 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C869B81C1A246DE100904675 /* Parser.swift */; };
@@ -230,7 +227,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8383DEB1C5CF8590050E8B8 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,14 +256,12 @@
 				C83302D41A322E0B00C77D2C /* Remainder.swift in Sources */,
 				C8BEDFE91A39D391006651CC /* RepeatTests.swift in Sources */,
 				C83302D11A31B4BA00C77D2C /* RemainderTests.swift in Sources */,
-				C8383DEC1C5CF8590050E8B8 /* Package.swift in Sources */,
 				C82E12081A51575100905D79 /* DictionaryUtilities.swift in Sources */,
 				C869B81E1A246E5300904675 /* Parser.swift in Sources */,
 				C8CCF0A31A29FF0200C75DB3 /* TagTests.swift in Sources */,
 				C80A53161C515805009BCCEB /* DeferredTests.swift in Sources */,
 				C82E120E1A5157F300905D79 /* StringUtilities.swift in Sources */,
 				C869B81B1A246AC900904675 /* StringAtomTests.swift in Sources */,
-				C8383DED1C5CF8590050E8B8 /* README.md in Sources */,
 				C8383DE71C5C31610050E8B8 /* MatchTests.swift in Sources */,
 				C8383DE31C5ABA420050E8B8 /* EitherTests.swift in Sources */,
 				C8CCF0A11A29FDCC00C75DB3 /* SequenceTests.swift in Sources */,
