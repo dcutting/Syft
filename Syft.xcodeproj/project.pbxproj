@@ -60,7 +60,7 @@
 		C8383DEA1C5CF8590050E8B8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C85DB4051A19133100279078 /* Syft */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Syft; sourceTree = BUILT_PRODUCTS_DIR; };
 		C85DB4081A19133100279078 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = main.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		C85DB4131A19229B00279078 /* SyftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SyftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C85DB4131A19229B00279078 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C85DB4161A19229B00279078 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C869B81A1A246AC900904675 /* StringAtomTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = StringAtomTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C869B81C1A246DE100904675 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Parser.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -104,7 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				C85DB4051A19133100279078 /* Syft */,
-				C85DB4131A19229B00279078 /* SyftTests.xctest */,
+				C85DB4131A19229B00279078 /* Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -169,9 +169,9 @@
 			productReference = C85DB4051A19133100279078 /* Syft */;
 			productType = "com.apple.product-type.tool";
 		};
-		C85DB4121A19229B00279078 /* SyftTests */ = {
+		C85DB4121A19229B00279078 /* Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C85DB41B1A19229B00279078 /* Build configuration list for PBXNativeTarget "SyftTests" */;
+			buildConfigurationList = C85DB41B1A19229B00279078 /* Build configuration list for PBXNativeTarget "Tests" */;
 			buildPhases = (
 				C85DB40F1A19229B00279078 /* Sources */,
 				C85DB4101A19229B00279078 /* Frameworks */,
@@ -181,9 +181,9 @@
 			);
 			dependencies = (
 			);
-			name = SyftTests;
+			name = Tests;
 			productName = SyftTests;
-			productReference = C85DB4131A19229B00279078 /* SyftTests.xctest */;
+			productReference = C85DB4131A19229B00279078 /* Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -217,7 +217,7 @@
 			projectRoot = "";
 			targets = (
 				C85DB4041A19133100279078 /* Syft */,
-				C85DB4121A19229B00279078 /* SyftTests */,
+				C85DB4121A19229B00279078 /* Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -423,7 +423,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C85DB41B1A19229B00279078 /* Build configuration list for PBXNativeTarget "SyftTests" */ = {
+		C85DB41B1A19229B00279078 /* Build configuration list for PBXNativeTarget "Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C85DB4191A19229B00279078 /* Debug */,

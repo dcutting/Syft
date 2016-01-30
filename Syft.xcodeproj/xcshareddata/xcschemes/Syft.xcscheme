@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C85DB4121A19229B00279078"
-               BuildableName = "SyftTests.xctest"
-               BlueprintName = "SyftTests"
+               BuildableName = "Tests.xctest"
+               BlueprintName = "Tests"
                ReferencedContainer = "container:Syft.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -48,8 +48,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C85DB4121A19229B00279078"
-               BuildableName = "SyftTests.xctest"
-               BlueprintName = "SyftTests"
+               BuildableName = "Tests.xctest"
+               BlueprintName = "Tests"
                ReferencedContainer = "container:Syft.xcodeproj">
             </BuildableReference>
          </TestableReference>
