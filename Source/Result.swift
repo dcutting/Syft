@@ -97,7 +97,7 @@ func seriesEqual(lhsSeries: [Result], _ rhsSeries: [Result]) -> Bool {
         if leftResult != rightResult {
             return false
         }
-        i++
+        i += 1
     }
     return true
 }
