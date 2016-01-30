@@ -2,6 +2,7 @@ public typealias ResultWithRemainder = (Result, Remainder)
 
 public indirect enum Parser {
     
+    case Any
     case Str(String)
     case Sequence(Parser, Parser)
     case Tag(String, Parser)
@@ -16,6 +17,9 @@ public indirect enum Parser {
     func parse(input: Remainder) -> ResultWithRemainder {
 
         switch self {
+            
+        case Any:
+            return parseAny(input)
             
         case let .Str(pattern):
             return parseStr(input, pattern: pattern)
@@ -49,6 +53,13 @@ public class Deferred {
         guard let parser = self.parser else { return (.Failure, input) }
         return parser.parse(input)
     }
+}
+
+func parseAny(input: Remainder) -> ResultWithRemainder {
+
+    guard input.text.endIndex > input.text.startIndex else { return (.Failure, input) }
+    let (headText, tailText) = input.text.splitAtIndex(input.text.startIndex.advancedBy(1))
+    return (.Match(match: headText, index: input.index), Remainder(text: tailText, index: input.index+1))
 }
 
 func parseStr(input: Remainder, pattern: String) -> ResultWithRemainder {
