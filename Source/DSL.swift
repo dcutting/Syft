@@ -121,3 +121,9 @@ func makeEither(input: [String]) -> Parser {
     }
     return parser
 }
+
+let any = Parser.Any
+
+func str(str: String) -> Parser {
+    return Parser.Str(str)
+}
