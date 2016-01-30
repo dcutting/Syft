@@ -94,8 +94,8 @@
 				C8383DEA1C5CF8590050E8B8 /* README.md */,
 				C8383DE81C5CF8590050E8B8 /* LICENSE */,
 				C8383DE91C5CF8590050E8B8 /* Package.swift */,
-				C85DB4071A19133100279078 /* Syft */,
-				C85DB4141A19229B00279078 /* SyftTests */,
+				C85DB4071A19133100279078 /* Source */,
+				C85DB4141A19229B00279078 /* Tests */,
 				C85DB4061A19133100279078 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -109,7 +109,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C85DB4071A19133100279078 /* Syft */ = {
+		C85DB4071A19133100279078 /* Source */ = {
 			isa = PBXGroup;
 			children = (
 				C85DB4081A19133100279078 /* main.swift */,
@@ -121,10 +121,10 @@
 				C82E12091A5157B000905D79 /* ArrayUtilities.swift */,
 				C82E120C1A5157F300905D79 /* StringUtilities.swift */,
 			);
-			path = Syft;
+			path = Source;
 			sourceTree = "<group>";
 		};
-		C85DB4141A19229B00279078 /* SyftTests */ = {
+		C85DB4141A19229B00279078 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				C8B2B8C61A25BDF000E6E54E /* ResultTests.swift */,
@@ -138,7 +138,7 @@
 				C8383DE21C5ABA420050E8B8 /* EitherTests.swift */,
 				C85DB4151A19229B00279078 /* Supporting Files */,
 			);
-			path = SyftTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		C85DB4151A19229B00279078 /* Supporting Files */ = {
