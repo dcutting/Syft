@@ -1,5 +1,4 @@
 import XCTest
-import Syft
 
 class MatchTests: XCTestCase {
 
