@@ -1,33 +1,34 @@
 infix operator >>> { associativity left precedence 180 }
-func >>>(first: Parser, second: Parser) -> Parser {
+
+func >>> (first: Parser, second: Parser) -> Parser {
     return Parser.Sequence(first, second)
 }
 
-func >>>(first: Parser, second: Deferred) -> Parser {
+func >>> (first: Parser, second: Deferred) -> Parser {
     return Parser.Sequence(first, Parser.Defer(second))
 }
 
-func >>>(first: Deferred, second: Parser) -> Parser {
+func >>> (first: Deferred, second: Parser) -> Parser {
     return Parser.Sequence(Parser.Defer(first), second)
 }
 
-func >>>(first: Deferred, second: Deferred) -> Parser {
+func >>> (first: Deferred, second: Deferred) -> Parser {
     return Parser.Sequence(Parser.Defer(first), Parser.Defer(second))
 }
 
-func |(first: Parser, second: Parser) -> Parser {
+func | (first: Parser, second: Parser) -> Parser {
     return Parser.Either(first, second)
 }
 
-func |(first: Parser, second: Deferred) -> Parser {
+func | (first: Parser, second: Deferred) -> Parser {
     return Parser.Either(first, Parser.Defer(second))
 }
 
-func |(first: Deferred, second: Parser) -> Parser {
+func | (first: Deferred, second: Parser) -> Parser {
     return Parser.Either(Parser.Defer(first), second)
 }
 
-func |(first: Deferred, second: Deferred) -> Parser {
+func | (first: Deferred, second: Deferred) -> Parser {
     return Parser.Either(Parser.Defer(first), Parser.Defer(second))
 }
 
@@ -41,76 +42,94 @@ protocol ParserDSL {
 }
 
 extension Parser: ParserDSL {
+
     func recur() -> Parser {
         return recur(0, nil)
     }
-    
+
     func recur(minimum: Int) -> Parser {
         return recur(minimum, nil)
     }
-    
+
     func recur(minimum: Int, _ maximum: Int?) -> Parser {
         return Parser.Repeat(self, minimum: minimum, maximum: maximum)
     }
-    
+
     var some: Parser {
-        get { return recur(1) }
+        get {
+            return recur(1)
+        }
     }
-    
+
     var maybe: Parser {
-        get { return recur(0, 1) }
+        get {
+            return recur(0, 1)
+        }
     }
-    
+
     func tag(tag: String) -> Parser {
         return Parser.Tag(tag, self)
     }
+
 }
 
 extension Deferred: ParserDSL {
+
     private func wrap() -> Parser {
         return Parser.Defer(self)
     }
-    
+
     func recur() -> Parser {
         return wrap().recur()
     }
-    
+
     func recur(minimum: Int) -> Parser {
         return wrap().recur(minimum)
     }
-    
+
     func recur(minimum: Int, _ maximum: Int?) -> Parser {
         return wrap().recur(minimum, maximum)
     }
-    
+
     var some: Parser {
-        get { return wrap().some }
+        get {
+            return wrap().some
+        }
     }
-    
+
     var maybe: Parser {
-        get { return wrap().maybe }
+        get {
+            return wrap().maybe
+        }
     }
-    
+
     func tag(tag: String) -> Parser {
         return wrap().tag(tag)
     }
+
 }
 
 extension Range {
     var match: Parser {
-        get { return makeEither(self.map{String($0)}) }
+        get {
+            return makeEither(self.map { String($0) })
+        }
     }
 }
 
 extension Array {
     var match: Parser {
-        get { return makeEither(self.map{String($0)}) }
+        get {
+            return makeEither(self.map { String($0) })
+        }
     }
 }
 
 extension String {
     var match: Parser {
-        get { return makeEither(self.characters.map{String($0)}) }
+        get {
+            return makeEither(self.characters.map { String($0) })
+        }
     }
 }
 
