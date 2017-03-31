@@ -7,11 +7,11 @@ class MatchTests: XCTestCase {
 
     func test_anySingleCharacter_matches() {
 
-        let any = Parser.Any
+        let any = Parser.any
 
         let (actualResult, actualRemainder) = any.parse("abc")
 
-        let expectedResult = Result.Match(match: "a", index: 0)
+        let expectedResult = Result.match(match: "a", index: 0)
         let expectedRemainder = Remainder(text: "bc", index: 1)
         XCTAssertEqual(expectedResult, actualResult)
         XCTAssertEqual(expectedRemainder, actualRemainder)
@@ -19,11 +19,11 @@ class MatchTests: XCTestCase {
 
     func test_emptyInput_fails() {
 
-        let any = Parser.Any
+        let any = Parser.any
 
         let (actualResult, actualRemainder) = any.parse("")
 
-        let expectedResult = Result.Failure
+        let expectedResult = Result.failure
         let expectedRemainder = Remainder(text: "", index: 0)
         XCTAssertEqual(expectedResult, actualResult)
         XCTAssertEqual(expectedRemainder, actualRemainder)

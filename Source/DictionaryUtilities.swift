@@ -6,7 +6,7 @@ extension Dictionary {
         for (key, value) in self {
             pairs.append("\(key): \(value)")
         }
-        let joinedPairs = pairs.sort().joinWithSeparator(", ")
+        let joinedPairs = pairs.sorted().joined(separator: ", ")
 
         return "[\(joinedPairs)]"
     }
