@@ -1,14 +1,10 @@
 extension Dictionary {
 
     func sortedDescription() -> String {
+        
+        let joined = map { key, value in "\(key): \(value)" }.sorted().joined(separator: ", ")
 
-        var pairs = Array<String>()
-        for (key, value) in self {
-            pairs.append("\(key): \(value)")
-        }
-        let joinedPairs = pairs.sorted().joined(separator: ", ")
-
-        return "[\(joinedPairs)]"
+        return "[\(joined)]"
     }
 
 }

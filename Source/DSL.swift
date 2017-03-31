@@ -117,7 +117,7 @@ extension Deferred: ParserDSL {
 extension CountableClosedRange {
     var match: Parser {
         get {
-            return makeEither(self.map { String(describing: $0) })
+            return makeEither(map(String.init(describing:)))
         }
     }
 }
@@ -125,7 +125,7 @@ extension CountableClosedRange {
 extension Array {
     var match: Parser {
         get {
-            return makeEither(self.map { String(describing: $0) })
+            return makeEither(map(String.init(describing:)))
         }
     }
 }
@@ -133,17 +133,13 @@ extension Array {
 extension String {
     var match: Parser {
         get {
-            return makeEither(self.characters.map { String($0) })
+            return makeEither(characters.map(String.init(describing:)))
         }
     }
 }
 
 func makeEither(_ input: [String]) -> Parser {
-    var parser: Parser = Parser.str(input.head!)
-    for s in input.tail {
-        parser = Parser.either(parser, Parser.str(s))
-    }
-    return parser
+    return input.tail.reduce(Parser.str(input.head!)) { Parser.either($0, Parser.str($1)) }
 }
 
 let any = Parser.any

@@ -13,7 +13,7 @@ extension Array {
 
     func sortedDescription() -> String {
 
-        let joined = self.map { "\($0)" }.sorted { $0 < $1 }.joined(separator: ", ")
+        let joined = self.map(String.init(describing:)).sorted().joined(separator: ", ")
 
         return "[\(joined)]"
     }
