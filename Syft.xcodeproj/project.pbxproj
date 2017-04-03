@@ -51,32 +51,32 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C806656A1A247E3F00FB3508 /* SequenceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = SequenceTests.swift; path = ../Tests/SequenceTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		C80A53151C515805009BCCEB /* DeferredTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeferredTests.swift; path = ../Tests/DeferredTests.swift; sourceTree = "<group>"; };
+		C806656A1A247E3F00FB3508 /* SequenceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SequenceTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		C80A53151C515805009BCCEB /* DeferredTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeferredTests.swift; sourceTree = "<group>"; };
 		C82E12061A51572D00905D79 /* DictionaryUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryUtilities.swift; sourceTree = "<group>"; };
 		C82E12091A5157B000905D79 /* ArrayUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayUtilities.swift; sourceTree = "<group>"; };
 		C82E120C1A5157F300905D79 /* StringUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringUtilities.swift; sourceTree = "<group>"; };
-		C83302D01A31B4BA00C77D2C /* RemainderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RemainderTests.swift; path = ../Tests/RemainderTests.swift; sourceTree = "<group>"; };
+		C83302D01A31B4BA00C77D2C /* RemainderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemainderTests.swift; sourceTree = "<group>"; };
 		C83302D21A322DB000C77D2C /* Remainder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Remainder.swift; sourceTree = "<group>"; };
-		C8383DE21C5ABA420050E8B8 /* EitherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EitherTests.swift; path = ../Tests/EitherTests.swift; sourceTree = "<group>"; };
+		C8383DE21C5ABA420050E8B8 /* EitherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EitherTests.swift; sourceTree = "<group>"; };
 		C8383DE41C5AC96F0050E8B8 /* DSL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DSL.swift; sourceTree = "<group>"; };
-		C8383DE61C5C31610050E8B8 /* MatchTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MatchTests.swift; path = ../Tests/MatchTests.swift; sourceTree = "<group>"; };
+		C8383DE61C5C31610050E8B8 /* MatchTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchTests.swift; sourceTree = "<group>"; };
 		C8383DE81C5CF8590050E8B8 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		C8383DE91C5CF8590050E8B8 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		C8383DEA1C5CF8590050E8B8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C85DB4051A19133100279078 /* Sample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Sample; sourceTree = BUILT_PRODUCTS_DIR; };
 		C85DB4081A19133100279078 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = main.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		C869B81A1A246AC900904675 /* StringAtomTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = StringAtomTests.swift; path = ../Tests/StringAtomTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		C869B81A1A246AC900904675 /* StringAtomTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = StringAtomTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C869B81C1A246DE100904675 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Parser.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		C8B2B8C61A25BDF000E6E54E /* ResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = ResultTests.swift; path = ../Tests/ResultTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		C8B2B8C61A25BDF000E6E54E /* ResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ResultTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C8B2B8C81A25BF0A00E6E54E /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Result.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		C8BEDFE81A39D391006651CC /* RepeatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = RepeatTests.swift; path = ../Tests/RepeatTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		C8BEDFE81A39D391006651CC /* RepeatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RepeatTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C8CC45151E92370100EA1B47 /* Syft.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Syft.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8CC45171E92370100EA1B47 /* Syft.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Syft.h; sourceTree = "<group>"; };
 		C8CC45181E92370100EA1B47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C8CC451D1E92370100EA1B47 /* SyftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SyftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8CC45241E92370100EA1B47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = SyftTests/Info.plist; sourceTree = SOURCE_ROOT; };
-		C8CCF0A21A29FF0200C75DB3 /* TagTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = TagTests.swift; path = ../Tests/TagTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		C8CCF0A21A29FF0200C75DB3 /* TagTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TagTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,13 +132,6 @@
 			isa = PBXGroup;
 			children = (
 				C85DB4081A19133100279078 /* main.swift */,
-				C869B81C1A246DE100904675 /* Parser.swift */,
-				C8383DE41C5AC96F0050E8B8 /* DSL.swift */,
-				C8B2B8C81A25BF0A00E6E54E /* Result.swift */,
-				C83302D21A322DB000C77D2C /* Remainder.swift */,
-				C82E12061A51572D00905D79 /* DictionaryUtilities.swift */,
-				C82E12091A5157B000905D79 /* ArrayUtilities.swift */,
-				C82E120C1A5157F300905D79 /* StringUtilities.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -146,8 +139,15 @@
 		C8CC45161E92370100EA1B47 /* Syft */ = {
 			isa = PBXGroup;
 			children = (
-				C8CC45171E92370100EA1B47 /* Syft.h */,
 				C8CC45181E92370100EA1B47 /* Info.plist */,
+				C8CC45171E92370100EA1B47 /* Syft.h */,
+				C869B81C1A246DE100904675 /* Parser.swift */,
+				C8383DE41C5AC96F0050E8B8 /* DSL.swift */,
+				C8B2B8C81A25BF0A00E6E54E /* Result.swift */,
+				C83302D21A322DB000C77D2C /* Remainder.swift */,
+				C82E12061A51572D00905D79 /* DictionaryUtilities.swift */,
+				C82E12091A5157B000905D79 /* ArrayUtilities.swift */,
+				C82E120C1A5157F300905D79 /* StringUtilities.swift */,
 			);
 			path = Syft;
 			sourceTree = "<group>";

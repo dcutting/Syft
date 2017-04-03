@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Syft.xcodeproj">
+      location = "self:/Users/dcutting/Personal/Code/Syft/Syft.xcodeproj">
    </FileRef>
 </Workspace>
