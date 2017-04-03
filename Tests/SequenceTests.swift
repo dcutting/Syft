@@ -1,4 +1,5 @@
 import XCTest
+@testable import Syft
 
 class SequenceTests: XCTestCase {
 

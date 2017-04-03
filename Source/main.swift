@@ -1,3 +1,5 @@
+import Syft
+
 // Arithmetic parser.
 let space = " \t\n\r\n".match
 let letter = "az".match

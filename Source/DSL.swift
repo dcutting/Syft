@@ -5,39 +5,39 @@ precedencegroup ConcatPrecendence {
     higherThan: AdditionPrecedence
 }
 
-func >>> (first: Parser, second: Parser) -> Parser {
+public func >>> (first: Parser, second: Parser) -> Parser {
     return Parser.sequence(first, second)
 }
 
-func >>> (first: Parser, second: Deferred) -> Parser {
+public func >>> (first: Parser, second: Deferred) -> Parser {
     return Parser.sequence(first, Parser.defer(second))
 }
 
-func >>> (first: Deferred, second: Parser) -> Parser {
+public func >>> (first: Deferred, second: Parser) -> Parser {
     return Parser.sequence(Parser.defer(first), second)
 }
 
-func >>> (first: Deferred, second: Deferred) -> Parser {
+public func >>> (first: Deferred, second: Deferred) -> Parser {
     return Parser.sequence(Parser.defer(first), Parser.defer(second))
 }
 
-func | (first: Parser, second: Parser) -> Parser {
+public func | (first: Parser, second: Parser) -> Parser {
     return Parser.either(first, second)
 }
 
-func | (first: Parser, second: Deferred) -> Parser {
+public func | (first: Parser, second: Deferred) -> Parser {
     return Parser.either(first, Parser.defer(second))
 }
 
-func | (first: Deferred, second: Parser) -> Parser {
+public func | (first: Deferred, second: Parser) -> Parser {
     return Parser.either(Parser.defer(first), second)
 }
 
-func | (first: Deferred, second: Deferred) -> Parser {
+public func | (first: Deferred, second: Deferred) -> Parser {
     return Parser.either(Parser.defer(first), Parser.defer(second))
 }
 
-protocol ParserDSL {
+public protocol ParserDSL {
     func recur() -> Parser
     func recur(_ minimum: Int) -> Parser
     func recur(_ minimum: Int, _ maximum: Int?) -> Parser
@@ -48,31 +48,31 @@ protocol ParserDSL {
 
 extension Parser: ParserDSL {
 
-    func recur() -> Parser {
+    public func recur() -> Parser {
         return recur(0, nil)
     }
 
-    func recur(_ minimum: Int) -> Parser {
+    public func recur(_ minimum: Int) -> Parser {
         return recur(minimum, nil)
     }
 
-    func recur(_ minimum: Int, _ maximum: Int?) -> Parser {
+    public func recur(_ minimum: Int, _ maximum: Int?) -> Parser {
         return Parser.repeat(self, minimum: minimum, maximum: maximum)
     }
 
-    var some: Parser {
+    public var some: Parser {
         get {
             return recur(1)
         }
     }
 
-    var maybe: Parser {
+    public var maybe: Parser {
         get {
             return recur(0, 1)
         }
     }
 
-    func tag(_ tag: String) -> Parser {
+    public func tag(_ tag: String) -> Parser {
         return Parser.tagged(tag, self)
     }
 
@@ -84,66 +84,66 @@ extension Deferred: ParserDSL {
         return Parser.defer(self)
     }
 
-    func recur() -> Parser {
+    public func recur() -> Parser {
         return wrap().recur()
     }
 
-    func recur(_ minimum: Int) -> Parser {
+    public func recur(_ minimum: Int) -> Parser {
         return wrap().recur(minimum)
     }
 
-    func recur(_ minimum: Int, _ maximum: Int?) -> Parser {
+    public func recur(_ minimum: Int, _ maximum: Int?) -> Parser {
         return wrap().recur(minimum, maximum)
     }
 
-    var some: Parser {
+    public var some: Parser {
         get {
             return wrap().some
         }
     }
 
-    var maybe: Parser {
+    public var maybe: Parser {
         get {
             return wrap().maybe
         }
     }
 
-    func tag(_ tag: String) -> Parser {
+    public func tag(_ tag: String) -> Parser {
         return wrap().tag(tag)
     }
 
 }
 
-extension CountableClosedRange {
-    var match: Parser {
+public extension CountableClosedRange {
+    public var match: Parser {
         get {
             return makeEither(map(String.init(describing:)))
         }
     }
 }
 
-extension Array {
-    var match: Parser {
+public extension Array {
+    public var match: Parser {
         get {
             return makeEither(map(String.init(describing:)))
         }
     }
 }
 
-extension String {
-    var match: Parser {
+public extension String {
+    public var match: Parser {
         get {
             return makeEither(characters.map(String.init(describing:)))
         }
     }
 }
 
-func makeEither(_ input: [String]) -> Parser {
+public func makeEither(_ input: [String]) -> Parser {
     return input.tail.reduce(Parser.str(input.head!)) { Parser.either($0, Parser.str($1)) }
 }
 
-let any = Parser.any
+public let any = Parser.any
 
-func str(_ str: String) -> Parser {
+public func str(_ str: String) -> Parser {
     return Parser.str(str)
 }
