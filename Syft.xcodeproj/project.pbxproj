@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C85DB4091A19133100279078 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85DB4081A19133100279078 /* main.swift */; };
+		C834B8891E938970005943BA /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C834B8881E938970005943BA /* main.swift */; };
 		C8CC451E1E92370100EA1B47 /* Syft.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8CC45151E92370100EA1B47 /* Syft.framework */; };
 		C8CC45251E92370100EA1B47 /* Syft.h in Headers */ = {isa = PBXBuildFile; fileRef = C8CC45171E92370100EA1B47 /* Syft.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C8CC452C1E92371800EA1B47 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C869B81C1A246DE100904675 /* Parser.swift */; };
@@ -39,7 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		C85DB4031A19133100279078 /* CopyFiles */ = {
+		C834B8841E938970005943BA /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -58,14 +58,15 @@
 		C82E120C1A5157F300905D79 /* StringUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringUtilities.swift; sourceTree = "<group>"; };
 		C83302D01A31B4BA00C77D2C /* RemainderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemainderTests.swift; sourceTree = "<group>"; };
 		C83302D21A322DB000C77D2C /* Remainder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Remainder.swift; sourceTree = "<group>"; };
+		C834B8861E938970005943BA /* Sample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Sample; sourceTree = BUILT_PRODUCTS_DIR; };
+		C834B8881E938970005943BA /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		C8383DE21C5ABA420050E8B8 /* EitherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EitherTests.swift; sourceTree = "<group>"; };
 		C8383DE41C5AC96F0050E8B8 /* DSL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DSL.swift; sourceTree = "<group>"; };
 		C8383DE61C5C31610050E8B8 /* MatchTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchTests.swift; sourceTree = "<group>"; };
 		C8383DE81C5CF8590050E8B8 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		C8383DE91C5CF8590050E8B8 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		C8383DEA1C5CF8590050E8B8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		C85DB4051A19133100279078 /* Sample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Sample; sourceTree = BUILT_PRODUCTS_DIR; };
-		C85DB4081A19133100279078 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = main.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		C85E23EB1E93891E006168DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C869B81A1A246AC900904675 /* StringAtomTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = StringAtomTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C869B81C1A246DE100904675 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Parser.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C8B2B8C61A25BDF000E6E54E /* ResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ResultTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -73,14 +74,13 @@
 		C8BEDFE81A39D391006651CC /* RepeatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RepeatTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C8CC45151E92370100EA1B47 /* Syft.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Syft.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8CC45171E92370100EA1B47 /* Syft.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Syft.h; sourceTree = "<group>"; };
-		C8CC45181E92370100EA1B47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C8CC451D1E92370100EA1B47 /* SyftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SyftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8CC45241E92370100EA1B47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = SyftTests/Info.plist; sourceTree = SOURCE_ROOT; };
 		C8CCF0A21A29FF0200C75DB3 /* TagTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TagTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		C85DB4021A19133100279078 /* Frameworks */ = {
+		C834B8831E938970005943BA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -105,13 +105,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C834B8871E938970005943BA /* Sample */ = {
+			isa = PBXGroup;
+			children = (
+				C834B8881E938970005943BA /* main.swift */,
+			);
+			path = Sample;
+			sourceTree = "<group>";
+		};
 		C85DB3FC1A19133100279078 = {
 			isa = PBXGroup;
 			children = (
 				C8383DEA1C5CF8590050E8B8 /* README.md */,
 				C8383DE81C5CF8590050E8B8 /* LICENSE */,
 				C8383DE91C5CF8590050E8B8 /* Package.swift */,
-				C85DB4071A19133100279078 /* Source */,
+				C834B8871E938970005943BA /* Sample */,
 				C8CC45161E92370100EA1B47 /* Syft */,
 				C8CC45211E92370100EA1B47 /* SyftTests */,
 				C85DB4061A19133100279078 /* Products */,
@@ -121,25 +129,17 @@
 		C85DB4061A19133100279078 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C85DB4051A19133100279078 /* Sample */,
 				C8CC45151E92370100EA1B47 /* Syft.framework */,
 				C8CC451D1E92370100EA1B47 /* SyftTests.xctest */,
+				C834B8861E938970005943BA /* Sample */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		C85DB4071A19133100279078 /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				C85DB4081A19133100279078 /* main.swift */,
-			);
-			path = Source;
 			sourceTree = "<group>";
 		};
 		C8CC45161E92370100EA1B47 /* Syft */ = {
 			isa = PBXGroup;
 			children = (
-				C8CC45181E92370100EA1B47 /* Info.plist */,
+				C85E23EB1E93891E006168DA /* Info.plist */,
 				C8CC45171E92370100EA1B47 /* Syft.h */,
 				C869B81C1A246DE100904675 /* Parser.swift */,
 				C8383DE41C5AC96F0050E8B8 /* DSL.swift */,
@@ -183,21 +183,21 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		C85DB4041A19133100279078 /* Sample */ = {
+		C834B8851E938970005943BA /* Sample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C85DB40C1A19133100279078 /* Build configuration list for PBXNativeTarget "Sample" */;
+			buildConfigurationList = C834B88C1E938970005943BA /* Build configuration list for PBXNativeTarget "Sample" */;
 			buildPhases = (
-				C85DB4011A19133100279078 /* Sources */,
-				C85DB4021A19133100279078 /* Frameworks */,
-				C85DB4031A19133100279078 /* CopyFiles */,
+				C834B8821E938970005943BA /* Sources */,
+				C834B8831E938970005943BA /* Frameworks */,
+				C834B8841E938970005943BA /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Sample;
-			productName = Syft;
-			productReference = C85DB4051A19133100279078 /* Sample */;
+			productName = Sample;
+			productReference = C834B8861E938970005943BA /* Sample */;
 			productType = "com.apple.product-type.tool";
 		};
 		C8CC45141E92370100EA1B47 /* Syft */ = {
@@ -247,9 +247,10 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = Cutting;
 				TargetAttributes = {
-					C85DB4041A19133100279078 = {
-						CreatedOnToolsVersion = 6.1;
-						LastSwiftMigration = 0830;
+					C834B8851E938970005943BA = {
+						CreatedOnToolsVersion = 8.3;
+						DevelopmentTeam = J6LY6992AF;
+						ProvisioningStyle = Automatic;
 					};
 					C8CC45141E92370100EA1B47 = {
 						CreatedOnToolsVersion = 8.3;
@@ -275,9 +276,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C85DB4041A19133100279078 /* Sample */,
 				C8CC45141E92370100EA1B47 /* Syft */,
 				C8CC451C1E92370100EA1B47 /* SyftTests */,
+				C834B8851E938970005943BA /* Sample */,
 			);
 		};
 /* End PBXProject section */
@@ -300,11 +301,11 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		C85DB4011A19133100279078 /* Sources */ = {
+		C834B8821E938970005943BA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C85DB4091A19133100279078 /* main.swift in Sources */,
+				C834B8891E938970005943BA /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,6 +350,42 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		C834B88A1E938970005943BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = J6LY6992AF;
+				GCC_NO_COMMON_BLOCKS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		C834B88B1E938970005943BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = J6LY6992AF;
+				GCC_NO_COMMON_BLOCKS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		C85DB40A1A19133100279078 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -427,22 +464,6 @@
 			};
 			name = Release;
 		};
-		C85DB40D1A19133100279078 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Debug;
-		};
-		C85DB40E1A19133100279078 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
 		C8CC45271E92370100EA1B47 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -462,7 +483,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = Syft/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Syft/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
@@ -495,7 +516,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = Syft/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Syft/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
@@ -560,20 +581,19 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C834B88C1E938970005943BA /* Build configuration list for PBXNativeTarget "Sample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C834B88A1E938970005943BA /* Debug */,
+				C834B88B1E938970005943BA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		C85DB4001A19133100279078 /* Build configuration list for PBXProject "Syft" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C85DB40A1A19133100279078 /* Debug */,
 				C85DB40B1A19133100279078 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C85DB40C1A19133100279078 /* Build configuration list for PBXNativeTarget "Sample" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C85DB40D1A19133100279078 /* Debug */,
-				C85DB40E1A19133100279078 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -585,6 +605,7 @@
 				C8CC45281E92370100EA1B47 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C8CC45291E92370100EA1B47 /* Build configuration list for PBXNativeTarget "SyftTests" */ = {
 			isa = XCConfigurationList;
@@ -593,6 +614,7 @@
 				C8CC452B1E92370100EA1B47 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
