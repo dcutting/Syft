@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C834B8851E938970005943BA"
-               BuildableName = "Sample"
+               BlueprintIdentifier = "C8735B171E94E58E00A72FCC"
+               BuildableName = "Sample.app"
                BlueprintName = "Sample"
                ReferencedContainer = "container:Syft.xcodeproj">
             </BuildableReference>
@@ -32,8 +32,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C834B8851E938970005943BA"
-            BuildableName = "Sample"
+            BlueprintIdentifier = "C8735B171E94E58E00A72FCC"
+            BuildableName = "Sample.app"
             BlueprintName = "Sample"
             ReferencedContainer = "container:Syft.xcodeproj">
          </BuildableReference>
@@ -55,8 +55,8 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C834B8851E938970005943BA"
-            BuildableName = "Sample"
+            BlueprintIdentifier = "C8735B171E94E58E00A72FCC"
+            BuildableName = "Sample.app"
             BlueprintName = "Sample"
             ReferencedContainer = "container:Syft.xcodeproj">
          </BuildableReference>
@@ -74,8 +74,8 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C834B8851E938970005943BA"
-            BuildableName = "Sample"
+            BlueprintIdentifier = "C8735B171E94E58E00A72FCC"
+            BuildableName = "Sample.app"
             BlueprintName = "Sample"
             ReferencedContainer = "container:Syft.xcodeproj">
          </BuildableReference>

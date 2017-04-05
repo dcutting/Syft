@@ -44,9 +44,11 @@ public indirect enum Parser {
 }
 
 open class Deferred {
-    var parser: Parser?
+    public var parser: Parser?
+    
+    public init() {}
 
-    func parse(_ input: String) -> ResultWithRemainder {
+    public func parse(_ input: String) -> ResultWithRemainder {
         return parse(Remainder(text: input, index: 0))
     }
 
