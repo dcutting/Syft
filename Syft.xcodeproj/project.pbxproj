@@ -13,6 +13,8 @@
 		C8735B1D1E94E58E00A72FCC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8735B1C1E94E58E00A72FCC /* ViewController.swift */; };
 		C8735B1F1E94E58E00A72FCC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8735B1E1E94E58E00A72FCC /* Assets.xcassets */; };
 		C8735B221E94E58E00A72FCC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8735B201E94E58E00A72FCC /* Main.storyboard */; };
+		C89ED0B61E94F00B008D796B /* TransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89ED0B51E94F00B008D796B /* TransformerTests.swift */; };
+		C89ED0B81E94F013008D796B /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89ED0B71E94F013008D796B /* Transformer.swift */; };
 		C8CC451E1E92370100EA1B47 /* Syft.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8CC45151E92370100EA1B47 /* Syft.framework */; };
 		C8CC45251E92370100EA1B47 /* Syft.h in Headers */ = {isa = PBXBuildFile; fileRef = C8CC45171E92370100EA1B47 /* Syft.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C8CC452C1E92371800EA1B47 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C869B81C1A246DE100904675 /* Parser.swift */; };
@@ -88,6 +90,8 @@
 		C8735B1E1E94E58E00A72FCC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C8735B211E94E58E00A72FCC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C8735B231E94E58E00A72FCC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C89ED0B51E94F00B008D796B /* TransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformerTests.swift; sourceTree = "<group>"; };
+		C89ED0B71E94F013008D796B /* Transformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transformer.swift; sourceTree = "<group>"; };
 		C8B2B8C61A25BDF000E6E54E /* ResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ResultTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C8B2B8C81A25BF0A00E6E54E /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Result.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C8BEDFE81A39D391006651CC /* RepeatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RepeatTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -181,6 +185,7 @@
 				C82E12061A51572D00905D79 /* DictionaryUtilities.swift */,
 				C82E12091A5157B000905D79 /* ArrayUtilities.swift */,
 				C82E120C1A5157F300905D79 /* StringUtilities.swift */,
+				C89ED0B71E94F013008D796B /* Transformer.swift */,
 			);
 			path = Syft;
 			sourceTree = "<group>";
@@ -198,6 +203,7 @@
 				C80A53151C515805009BCCEB /* DeferredTests.swift */,
 				C8BEDFE81A39D391006651CC /* RepeatTests.swift */,
 				C8383DE21C5ABA420050E8B8 /* EitherTests.swift */,
+				C89ED0B51E94F00B008D796B /* TransformerTests.swift */,
 			);
 			path = SyftTests;
 			sourceTree = "<group>";
@@ -366,6 +372,7 @@
 				C8CC45321E92371800EA1B47 /* StringUtilities.swift in Sources */,
 				C8CC452D1E92371800EA1B47 /* DSL.swift in Sources */,
 				C8CC45301E92371800EA1B47 /* DictionaryUtilities.swift in Sources */,
+				C89ED0B81E94F013008D796B /* Transformer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,6 +381,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8CC45361E92371E00EA1B47 /* MatchTests.swift in Sources */,
+				C89ED0B61E94F00B008D796B /* TransformerTests.swift in Sources */,
 				C8CC45381E92371E00EA1B47 /* TagTests.swift in Sources */,
 				C8CC453A1E92371E00EA1B47 /* RepeatTests.swift in Sources */,
 				C8CC45391E92371E00EA1B47 /* DeferredTests.swift in Sources */,
