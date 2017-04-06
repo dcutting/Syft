@@ -13,13 +13,13 @@ public enum Pattern {
     }
 }
 
-public struct Transformation<T> {
-    let from: Pattern
-    let to: (Result) -> T
+public struct Rule<T> {
+    let pattern: Pattern
+    let action: (Result) -> T
     
-    init(from: Pattern, to: @escaping (Result) -> T) {
-        self.from = from
-        self.to = to
+    init(replace pattern: Pattern, with action: @escaping (Result) -> T) {
+        self.pattern = pattern
+        self.action = action
     }
 }
 
@@ -29,18 +29,18 @@ public enum TransformerError: Error {
 
 public class Transformer<T> {
     
-    var transformations = [Transformation<T>]()
+    var rules = [Rule<T>]()
     
     public init() {}
     
-    public func append(_ transformation: Transformation<T>) {
-        transformations.append(transformation)
+    public func append(_ rule: Rule<T>) {
+        rules.append(rule)
     }
     
     public func transform(_ node: Result) throws -> T {
-        for rule in transformations {
-            if rule.from.matches(node) {
-                return rule.to(node)
+        for rule in rules {
+            if rule.pattern.matches(node) {
+                return rule.action(node)
             }
         }
         throw TransformerError.failure

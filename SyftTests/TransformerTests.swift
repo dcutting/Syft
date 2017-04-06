@@ -3,16 +3,14 @@ import XCTest
 
 class TransformerTests: XCTestCase {
     
-    func test_transformValue_returnsValue() {
+    func test_transformLiteral() {
         
         let result = Result.match(match: "hello", index: any())
 
         let transformer = Transformer<String>()
         
-        let transformation = Transformation(from: .literal("hello")) { result in
-            "world"
-        }
-        transformer.append(transformation)
+        let rule = Rule(replace: .literal("hello")) { _ in "world" }
+        transformer.append(rule)
 
         let transformed = try! transformer.transform(result)
         XCTAssertEqual("world", transformed)
