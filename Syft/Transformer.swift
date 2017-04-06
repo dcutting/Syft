@@ -1,12 +1,15 @@
 import Foundation
 
 public enum Rule<T> {
-    case literal(String, (String) -> T?)
+    case literal(String, (Void) -> T?)
+    case simple((String) -> T?)
     
     func apply(_ result: Result) -> T? {
         switch (self, result) {
         case let (.literal(literal, action), .match(match, _)):
             guard match == literal else { return nil }
+            return action()
+        case let (.simple(action), .match(match, _)):
             return action(match)
         default:
             return nil
