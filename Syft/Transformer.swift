@@ -1,23 +1,23 @@
 import Foundation
 
-public indirect enum Transformed<T> {
-    case transformed(T)
-    case value(String)
-    case series([Transformed<T>])
-    case tree([String: Transformed<T>])
-}
-
 public enum Pattern {
     case literal(String)
-    case value(String)
-    case transformed(String)
+    
+    func matches(_ result: Result) -> Bool {
+        switch (self, result) {
+        case let (.literal(literal), .match(match, _)):
+            return match == literal
+        default:
+            return false
+        }
+    }
 }
 
 public struct Transformation<T> {
-    let from: [String: Pattern]
-    let to: ([String: Transformed<T>]) -> T
+    let from: Pattern
+    let to: (Result) -> T
     
-    init(from: [String: Pattern], to: @escaping ([String: Transformed<T>]) -> T) {
+    init(from: Pattern, to: @escaping (Result) -> T) {
         self.from = from
         self.to = to
     }
@@ -37,68 +37,12 @@ public class Transformer<T> {
         transformations.append(transformation)
     }
     
-    public func transform(_ resultWithRemainder: ResultWithRemainder) throws -> T {
-        
-        let (result, _) = resultWithRemainder
-        
-        let initial = try convert(result)
-        
-        print(initial)
-        
-        let final = applyTransformations(to: initial)
-        
-        print(final)
-    
-        switch final {
-        case let .transformed(root):
-            return root
-        default:
-            throw TransformerError.failure
-        }
-    }
-    
-    func convert(_ result: Result) throws -> Transformed<T> {
-        switch result {
-        case .failure:
-            throw TransformerError.failure
-        case let .match(match: match, index: _):
-            return .value(match)
-        case .tagged(let tags):
-            var next = [String: Transformed<T>]()
-            do {
-                for (key, value) in tags {
-                    next[key] = try convert(value)
-                }
-                return .tree(next)
-            } catch {
-                throw error
-            }
-        case .series(let series):
-            return .series(try series.map { try convert($0) })
-        }
-    }
-    
-    func applyTransformations(to partial: Transformed<T>) -> Transformed<T> {
-        
-        switch partial {
-        case .transformed, .value:
-            return partial
-        case .tree:
-            break
-        case .series:
-            break
-        }
-        
+    public func transform(_ node: Result) throws -> T {
         for rule in transformations {
-            if let transformed = apply(transformation: rule, to: partial) {
-                return transformed
+            if rule.from.matches(node) {
+                return rule.to(node)
             }
         }
-        
-        return partial
-    }
-    
-    func apply(transformation: Transformation<T>, to partial: Transformed<T>) -> Transformed<T>? {
-        return nil
+        throw TransformerError.failure
     }
 }

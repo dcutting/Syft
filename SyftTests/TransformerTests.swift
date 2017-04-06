@@ -4,9 +4,17 @@ import XCTest
 class TransformerTests: XCTestCase {
     
     func test_transformValue_returnsValue() {
-        let result = Result.match(match: "value", index: 0)
-        let resultWithRemainder = (result, Remainder(text: "", index: 0))
-        let transformer = Transformer<Int>()
-        _ = try! transformer.transform(resultWithRemainder)
+        
+        let result = Result.match(match: "hello", index: any())
+
+        let transformer = Transformer<String>()
+        
+        let transformation = Transformation(from: .literal("hello")) { result in
+            "world"
+        }
+        transformer.append(transformation)
+
+        let transformed = try! transformer.transform(result)
+        XCTAssertEqual("world", transformed)
     }
 }

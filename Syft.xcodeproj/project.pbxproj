@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C822F8801E96F5CD00225C9C /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C822F87F1E96F5CD00225C9C /* Helpers.swift */; };
 		C86140691E94E6E100599DCC /* Syft.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8CC45151E92370100EA1B47 /* Syft.framework */; };
 		C861406A1E94E6E100599DCC /* Syft.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C8CC45151E92370100EA1B47 /* Syft.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C8735B1B1E94E58E00A72FCC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8735B1A1E94E58E00A72FCC /* AppDelegate.swift */; };
@@ -69,6 +70,7 @@
 /* Begin PBXFileReference section */
 		C806656A1A247E3F00FB3508 /* SequenceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SequenceTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C80A53151C515805009BCCEB /* DeferredTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeferredTests.swift; sourceTree = "<group>"; };
+		C822F87F1E96F5CD00225C9C /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		C82E12061A51572D00905D79 /* DictionaryUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryUtilities.swift; sourceTree = "<group>"; };
 		C82E12091A5157B000905D79 /* ArrayUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayUtilities.swift; sourceTree = "<group>"; };
 		C82E120C1A5157F300905D79 /* StringUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringUtilities.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 				C8BEDFE81A39D391006651CC /* RepeatTests.swift */,
 				C8383DE21C5ABA420050E8B8 /* EitherTests.swift */,
 				C89ED0B51E94F00B008D796B /* TransformerTests.swift */,
+				C822F87F1E96F5CD00225C9C /* Helpers.swift */,
 			);
 			path = SyftTests;
 			sourceTree = "<group>";
@@ -384,6 +387,7 @@
 				C89ED0B61E94F00B008D796B /* TransformerTests.swift in Sources */,
 				C8CC45381E92371E00EA1B47 /* TagTests.swift in Sources */,
 				C8CC453A1E92371E00EA1B47 /* RepeatTests.swift in Sources */,
+				C822F8801E96F5CD00225C9C /* Helpers.swift in Sources */,
 				C8CC45391E92371E00EA1B47 /* DeferredTests.swift in Sources */,
 				C8CC45331E92371E00EA1B47 /* ResultTests.swift in Sources */,
 				C8CC45371E92371E00EA1B47 /* SequenceTests.swift in Sources */,
