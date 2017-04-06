@@ -1,25 +1,16 @@
 import Foundation
 
-public enum Pattern {
-    case literal(String)
+public enum Rule<T> {
+    case literal(String, (String) -> T?)
     
-    func matches(_ result: Result) -> Bool {
+    func apply(_ result: Result) -> T? {
         switch (self, result) {
-        case let (.literal(literal), .match(match, _)):
-            return match == literal
+        case let (.literal(literal, action), .match(match, _)):
+            guard match == literal else { return nil }
+            return action(match)
         default:
-            return false
+            return nil
         }
-    }
-}
-
-public struct Rule<T> {
-    let pattern: Pattern
-    let action: (Result) -> T
-    
-    init(replace pattern: Pattern, with action: @escaping (Result) -> T) {
-        self.pattern = pattern
-        self.action = action
     }
 }
 
@@ -37,10 +28,10 @@ public class Transformer<T> {
         rules.append(rule)
     }
     
-    public func transform(_ node: Result) throws -> T {
+    public func transform(_ result: Result) throws -> T {
         for rule in rules {
-            if rule.pattern.matches(node) {
-                return rule.action(node)
+            if let transformed = rule.apply(result) {
+                return transformed
             }
         }
         throw TransformerError.failure
