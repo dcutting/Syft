@@ -3,18 +3,7 @@ import Foundation
 public enum Rule<T> {
     case literal(String, (Void) -> T?)
     case simple((String) -> T?)
-    
-    func apply(_ result: Result) -> T? {
-        switch (self, result) {
-        case let (.literal(literal, action), .match(match, _)):
-            guard match == literal else { return nil }
-            return action()
-        case let (.simple(action), .match(match, _)):
-            return action(match)
-        default:
-            return nil
-        }
-    }
+    case tree([String: String], ([String: T]) -> T?)
 }
 
 public enum TransformerError: Error {
@@ -33,10 +22,29 @@ public class Transformer<T> {
     
     public func transform(_ result: Result) throws -> T {
         for rule in rules {
-            if let transformed = rule.apply(result) {
+            if let transformed = try apply(rule, to: result) {
                 return transformed
             }
         }
         throw TransformerError.failure
+    }
+
+    func apply(_ rule: Rule<T>, to result: Result) throws -> T? {
+        switch (rule, result) {
+        case let (.literal(literal, action), .match(match, _)):
+            guard match == literal else { return nil }
+            return action()
+        case let (.simple(action), .match(match, _)):
+            return action(match)
+        case let (.tree(patterns, action), .tagged(tags)):
+            var context = [String: T]()
+            for (key, name) in patterns {
+                let value = tags[key]!
+                context[name] = try transform(value)
+            }
+            return action(context)
+        default:
+            return nil
+        }
     }
 }

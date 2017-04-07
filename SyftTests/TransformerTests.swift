@@ -54,4 +54,17 @@ class TransformerTests: XCTestCase {
         let transformed = try! transformer.transform(result)
         XCTAssertEqual(100, transformed)
     }
+    
+//    func test_transformTagged() {
+//        
+//        let result = Result.tagged(["int": Result.match(match: "11", index: any())])
+//        
+//        let transformer = Transformer<Int>()
+//        
+//        let rule = Rule.tree(["int": Rule.simple()]) {  }
+//        transformer.append(rule)
+//        
+//        let transformed = try! transformer.transform(result)
+//        XCTAssertEqual(100, transformed)
+//    }
 }
