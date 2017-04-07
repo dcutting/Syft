@@ -1,9 +1,15 @@
 import Foundation
 
-public enum Rule<T> {
-    case literal(String, (Void) -> T?)
-    case simple((String) -> T?)
-    case tree([String: String], ([String: T]) -> T?)
+public enum Pattern {
+    case simple(String)
+//    case tree([String: Pattern])
+}
+
+typealias Context = [String: String]
+
+public struct Rule<T> {
+    let pattern: Pattern
+    let action: (Context) -> T?
 }
 
 public enum TransformerError: Error {
@@ -30,19 +36,17 @@ public class Transformer<T> {
     }
 
     func apply(_ rule: Rule<T>, to result: Result) throws -> T? {
-        switch (rule, result) {
-        case let (.literal(literal, action), .match(match, _)):
-            guard match == literal else { return nil }
-            return action()
-        case let (.simple(action), .match(match, _)):
-            return action(match)
-        case let (.tree(patterns, action), .tagged(tags)):
-            var context = [String: T]()
-            for (key, name) in patterns {
-                let value = tags[key]!
-                context[name] = try transform(value)
-            }
-            return action(context)
+        switch (rule.pattern, result) {
+        case let (.simple(name), .match(match, _)):
+            let context = [name: match]
+            return rule.action(context)
+//        case let (.tree(patterns, action), .tagged(tags)):
+//            var context = [String: T]()
+//            for (key, name) in patterns {
+//                let value = tags[key]!
+//                context[name] = try transform(value)
+//            }
+//            return action(context)
         default:
             return nil
         }
