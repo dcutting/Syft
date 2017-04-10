@@ -2,14 +2,14 @@ import Foundation
 
 public enum Pattern {
     case simple(String)
-//    case tree([String: Pattern])
+    case tree([String: Pattern])
 }
 
-typealias Context = [String: String]
+typealias Context<T> = [String: T]
 
 public struct Rule<T> {
     let pattern: Pattern
-    let action: (Context) -> T?
+    let action: (Context<T>) throws -> T
 }
 
 public enum TransformerError: Error {
@@ -39,14 +39,14 @@ public class Transformer<T> {
         switch (rule.pattern, result) {
         case let (.simple(name), .match(match, _)):
             let context = [name: match]
-            return rule.action(context)
-//        case let (.tree(patterns, action), .tagged(tags)):
-//            var context = [String: T]()
-//            for (key, name) in patterns {
-//                let value = tags[key]!
-//                context[name] = try transform(value)
-//            }
-//            return action(context)
+            return try rule.action(context)
+        case let (.tree(patterns), .tagged(tags)):
+            var context = [String: T]()
+            for (key, subpattern) in patterns {
+                let value = tags[key]!
+                context[key] = try transform(value)
+            }
+            return try rule.action(context)
         default:
             return nil
         }

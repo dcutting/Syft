@@ -62,17 +62,20 @@ class TransformerTests: XCTestCase {
         XCTAssertEqual(100, transformed)
     }
     
-//    func test_transformTagged() {
-//        
-//        let result = Result.tagged(["int": Result.match(match: "11", index: any())])
-//        
-//        let transformer = Transformer<Int>()
-//        
-//        var x: Int?
-//        let rule = Rule.tree(["int": Rule.simple(&x)]) { x }
-//        transformer.append(rule)
-//        
-//        let transformed = try! transformer.transform(result)
-//        XCTAssertEqual(100, transformed)
-//    }
+    func test_transformTagged() {
+        
+        let result = Result.tagged(["int": Result.match(match: "91", index: any())])
+        
+        let transformer = Transformer<Int>()
+        
+        let rule = Rule<Int>(pattern: .tree(["int": .simple("x")])) { args in
+            guard let xa = args["x"] else { return nil }
+            guard let x = Int(xa) else { return nil }
+            return x + 1
+        }
+        transformer.append(rule)
+        
+        let transformed = try! transformer.transform(result)
+        XCTAssertEqual(92, transformed)
+    }
 }
