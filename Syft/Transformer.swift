@@ -1,11 +1,41 @@
 import Foundation
 
+public enum Partial<T> {
+    case transformed(T)
+    case capture(String)
+}
+
+typealias Context<T> = [String: Partial<T>]
+
 public enum Pattern {
     case simple(String)
     case tree([String: Pattern])
+    
+    func apply<T>(to result: Result) -> Context<T> {
+        switch (self, result) {
+        case let (.simple(name), .match(match, _)):
+            return [name: Partial.capture(match)]
+        case let (.tree(patterns), .tagged(tags)):
+            var merged: Context<T> = [:]
+            for (key, subpattern) in patterns {
+                let subtree = tags[key]!
+                let context: Context<T> = subpattern.apply(to: subtree)
+                merged = mergeContexts(a: merged, b: context)
+            }
+        }
+    }
 }
 
-typealias Context<T> = [String: T]
+private func mergeContexts<T>(a: Context<T>, b: Context<T>) -> Context<T> {
+    var merged: Context<T> = [:]
+    for (k, v) in a {
+        merged[k] = v
+    }
+    for (k, v) in b {
+        merged[k] = v
+    }
+    return merged
+}
 
 public struct Rule<T> {
     let pattern: Pattern
