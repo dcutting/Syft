@@ -46,40 +46,26 @@ func makeArithmeticParser() -> ParserProtocol {
     return expression
 }
 
+enum ArithmetricError: Error {
+    case notAConstant
+}
+
 func makeArithmeticTransformer() -> Transformer<ArithmeticExpression> {
 
-    let constantReducer: TransformerReducer<ArithmeticExpression> = { captures in
-        guard let x = captures["x"] else { return .unexpected }
-        switch x {
-        case let .leaf(.raw(value)):
-            guard let int = Int(value) else { return .unexpected }
-            let constant = ArithmeticConstant(value: int)
-            return .success(constant)
-        default:
-            return .unexpected
-        }
-    }
-    let constantRule = TransformerRule(
+    let constantRule = TransformerRule<ArithmeticExpression>(
         pattern: .tree(["numeral": .capture("x")]),
-        reducer: constantReducer
+        reducer: { args in
+            guard let int = Int(try args.raw("x")) else { throw ArithmetricError.notAConstant }
+            return ArithmeticConstant(value: int)
+        }
     )
     
-    let plusReducer: TransformerReducer<ArithmeticExpression> = { captures in
-        guard let x = captures["x"] else { return .unexpected }
-        guard let y = captures["y"] else { return .unexpected }
-        guard let op = captures["op"] else { return .unexpected }
-        guard case .leaf(.raw("+")) = op else { return .noMatch }
-        switch (x, y) {
-        case let (.leaf(.transformed(left)), .leaf(.transformed(right))):
-            let plus = ArithmeticPlus(first: left, second: right)
-            return .success(plus)
-        default:
-            return .unexpected
+    let plusRule = TransformerRule<ArithmeticExpression>(
+        pattern: TransformerPattern.tree(["first": .capture("first"), "second": .capture("second"), "op": .capture("op")]),
+        reducer: { args in
+            guard try args.raw("op") == "+" else { return nil }
+            return ArithmeticPlus(first: try args.transformed("first"), second: try args.transformed("second"))
         }
-    }
-    let plusRule = TransformerRule(
-        pattern: .tree(["first": .capture("x"), "second": .capture("y"), "op": .capture("op")]),
-        reducer: plusReducer
     )
     
     return Transformer(rules: [constantRule, plusRule])

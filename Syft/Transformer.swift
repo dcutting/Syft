@@ -7,6 +7,9 @@ public enum TransformerError<T>: Error {
     case inputNotTransformable(Result)
     case transformFailed(Transformable<T>)
     case reducerFailed(Transformable<T>, TransformerPattern, TransformerCaptures<T>)
+    case unknownCaptureVariable(TransformerCaptureName)
+    case captureVariableUnexpectedlyRaw(TransformerCaptureName)
+    case captureVariableUnexpectedlyTransformed(TransformerCaptureName)
 }
 
 
@@ -33,6 +36,31 @@ public indirect enum Transformable<T> {
 public typealias TransformerCaptureName = String
 
 public typealias TransformerCaptures<T> = [TransformerCaptureName: Transformable<T>]
+
+public struct TransformerReducerArguments<T> {
+    var captures: TransformerCaptures<T> = [:]
+    
+    public func transformed(_ key: String) throws -> T {
+        let value = try get(key: key)
+        guard case let .leaf(.transformed(transformed)) = value else {
+            throw TransformerError<T>.captureVariableUnexpectedlyRaw(key)
+        }
+        return transformed
+    }
+    
+    public func raw(_ key: String) throws -> String {
+        let value = try get(key: key)
+        guard case let .leaf(.raw(raw)) = value else {
+            throw TransformerError<T>.captureVariableUnexpectedlyTransformed(key)
+        }
+        return raw
+    }
+    
+    private func get(key: String) throws -> Transformable<T> {
+        guard let value = captures[key] else { throw TransformerError<T>.unknownCaptureVariable(key) }
+        return value
+    }
+}
 
 public typealias TransformerPatternTree = [String: TransformerPattern]
 
@@ -66,13 +94,7 @@ public indirect enum TransformerPattern {
 
 // Tranformer rules
 
-public enum TransformerReducerResult<T> {
-    case success(T)
-    case noMatch
-    case unexpected
-}
-
-public typealias TransformerReducer<T> = (TransformerCaptures<T>) -> TransformerReducerResult<T>
+public typealias TransformerReducer<T> = (TransformerReducerArguments<T>) throws -> T?
 
 public struct TransformerRule<T> {
     let pattern: TransformerPattern
@@ -85,14 +107,9 @@ public struct TransformerRule<T> {
     
     func apply(to transformable: Transformable<T>) throws -> Transformable<T>? {
         guard let captures = pattern.findCaptures(for: transformable) else { return nil }
-        switch reducer(captures) {
-        case let .success(reduced):
-            return .leaf(.transformed(reduced))
-        case .noMatch:
-            return nil
-        case .unexpected:
-            throw TransformerError.reducerFailed(transformable, pattern, captures)
-        }
+        let caps = TransformerReducerArguments(captures: captures)
+        guard let reduced = try reducer(caps) else { return nil }
+        return .leaf(TransformableLeaf.transformed(reduced))
     }
 }
 
