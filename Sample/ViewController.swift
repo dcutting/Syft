@@ -40,12 +40,13 @@ class ViewController: NSViewController {
         let input = "  123+  52 \t  \n +  891 \r\n  +3120   "
         let parsed = expression.parse(input)
         
-        let intReducer: TransformerReducer<Int> = { captures in
+        let intReducer: TransformerReducer<Expr> = { captures in
             guard let x = captures["x"] else { return .unexpected }
             switch x {
             case let .leaf(.raw(value)):
                 guard let int = Int(value) else { return .unexpected }
-                return .success(int)
+                let constant = Constant(value: int)
+                return .success(constant)
             default:
                 return .unexpected
             }
@@ -53,14 +54,15 @@ class ViewController: NSViewController {
 
         let intRule = TransformerRule(pattern: .tree(["numeral": .capture("x")]), reducer: intReducer)
         
-        let opReducer: TransformerReducer<Int> = { captures in
+        let opReducer: TransformerReducer<Expr> = { captures in
             guard let x = captures["x"] else { return .unexpected }
             guard let y = captures["y"] else { return .unexpected }
             guard let op = captures["op"] else { return .unexpected }
             guard case .leaf(.raw("+")) = op else { return .noMatch }
             switch (x, y) {
             case let (.leaf(.transformed(left)), .leaf(.transformed(right))):
-                return .success(Int(left + right))
+                let plus = Plus(first: left, second: right)
+                return .success(plus)
             default:
                 return .unexpected
             }
@@ -71,11 +73,13 @@ class ViewController: NSViewController {
                                           "op": .capture("op")
             ]), reducer: opReducer)
         
-        let transformer = Transformer<Int>()
+        let transformer = Transformer<Expr>()
         let ist = parsed.0
         print(ist)
         do {
-            let result = try transformer.transform(ist: ist, rules: [intRule, opRule])
+            let ast = try transformer.transform(ist: ist, rules: [intRule, opRule])
+            print(ast)
+            let result = ast.evaluate()
             print(result)
         } catch {
             print(error)
