@@ -119,10 +119,21 @@ public struct TransformerRule<T> {
 
 public class Transformer<T> {
     
-    let rules: [TransformerRule<T>]
+    var rules: [TransformerRule<T>]
     
-    public init(rules: [TransformerRule<T>]) {
+    public init(rules: [TransformerRule<T>] = []) {
        self.rules = rules
+    }
+    
+    public func transform(_ tree: TransformerPatternTree, reducer: @escaping TransformerReducer<T>) {
+        let pattern = TransformerPattern.tree(tree)
+        let rule = TransformerRule<T>(pattern: pattern, reducer: reducer)
+        rules.append(rule)
+    }
+    
+    public func transform(pattern: TransformerPattern, reducer: @escaping TransformerReducer<T>) {
+        let rule = TransformerRule<T>(pattern: pattern, reducer: reducer)
+        rules.append(rule)
     }
     
     public func transform(_ resultWithRemainder: ResultWithRemainder) throws -> T {

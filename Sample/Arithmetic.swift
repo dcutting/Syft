@@ -52,21 +52,20 @@ enum ArithmetricError: Error {
 
 func makeArithmeticTransformer() -> Transformer<ArithmeticExpression> {
 
-    let constantRule = TransformerRule<ArithmeticExpression>(
-        pattern: .tree(["numeral": .capture("x")]),
-        reducer: { args in
-            guard let int = Int(try args.raw("x")) else { throw ArithmetricError.notAConstant }
-            return ArithmeticConstant(value: int)
-        }
-    )
+    let transformer = Transformer<ArithmeticExpression>()
+
+    transformer.transform(["numeral": .capture("x")]) { args in
+        guard let int = Int(try args.raw("x")) else { throw ArithmetricError.notAConstant }
+        return ArithmeticConstant(value: int)
+    }
     
-    let plusRule = TransformerRule<ArithmeticExpression>(
-        pattern: TransformerPattern.tree(["first": .capture("first"), "second": .capture("second"), "op": .capture("op")]),
-        reducer: { args in
-            guard try args.raw("op") == "+" else { return nil }
-            return ArithmeticPlus(first: try args.transformed("first"), second: try args.transformed("second"))
-        }
-    )
+    transformer.transform(["first": .capture("first"),
+                           "second": .capture("second"),
+                           "op": .capture("op")]
+    ) { args in
+        guard try args.raw("op") == "+" else { return nil }
+        return ArithmeticPlus(first: try args.transformed("first"), second: try args.transformed("second"))
+    }
     
-    return Transformer(rules: [constantRule, plusRule])
+    return transformer
 }
