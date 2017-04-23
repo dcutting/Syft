@@ -94,10 +94,6 @@ protocol Expr {
 struct Constant: Expr {
     let value: Int
     
-    init(value: Int) {
-        self.value = value
-    }
-    
     func evaluate() -> Int {
         return value
     }
