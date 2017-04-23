@@ -1,6 +1,10 @@
 public typealias ResultWithRemainder = (Result, Remainder)
 
-public indirect enum Parser {
+public protocol ParserProtocol {
+    func parse(_ input: String) -> ResultWithRemainder
+}
+
+public indirect enum Parser: ParserProtocol {
 
     case any
     case str(String)
@@ -43,7 +47,7 @@ public indirect enum Parser {
 
 }
 
-open class Deferred {
+open class Deferred: ParserProtocol {
     public var parser: Parser?
     
     public init() {}
