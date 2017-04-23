@@ -24,6 +24,7 @@ class ViewController: NSViewController {
         let expression = Deferred()
         let compound = numeral.tag("first") >>> op >>> expression.tag("second")
         expression.parser = compound | numeral
+        let arithmeticParser = expression
         
         let intReducer: TransformerReducer<Expr> = { captures in
             guard let x = captures["x"] else { return .unexpected }
@@ -57,14 +58,14 @@ class ViewController: NSViewController {
                                                      "second": .capture("y"),
                                                      "op": .capture("op")
             ]), reducer: opReducer)
-        let transformer = Transformer(rules: [intRule, opRule])
+        let arithmeticTransformer = Transformer(rules: [intRule, opRule])
 
-        // Parse and transform input.
+        // Parse, transform and evaluate input.
         do {
             let input = "  123+  52 \t  \n +  891 \r\n  +3120   "
-            let ist = expression.parse(input)
-            let ast = try transformer.transform(ist)
-            let result = ast.evaluate()
+            let intermediateSyntaxTree = arithmeticParser.parse(input)
+            let abstractSyntaxTree = try arithmeticTransformer.transform(intermediateSyntaxTree)
+            let result = abstractSyntaxTree.evaluate()
             print("\(input) = \(result)")
         } catch {
             print(error)
