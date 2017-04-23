@@ -102,9 +102,14 @@ public struct TransformerRule<T> {
 
 public class Transformer<T> {
     
-    public init() {}
+    let rules: [TransformerRule<T>]
     
-    public func transform(ist: Result, rules: [TransformerRule<T>]) throws -> T {
+    public init(rules: [TransformerRule<T>]) {
+       self.rules = rules
+    }
+    
+    public func transform(_ resultWithRemainder: ResultWithRemainder) throws -> T {
+        let (ist, _) = resultWithRemainder
         let transformable = try makeTransformable(for: ist)
         let result = try transform(transformable: transformable, rules: rules)
         guard case let .leaf(.transformed(value)) = result else { throw TransformerError.transformFailed(result) }
