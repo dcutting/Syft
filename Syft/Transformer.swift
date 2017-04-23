@@ -28,7 +28,24 @@ public indirect enum TransformerPattern {
     
     func matches<T>(transformable: Transformable<T>) -> Captures<T>? {
         
-        return nil
+        switch (self, transformable) {
+        case let (.capture(name), _):
+            return [name: transformable]
+        case (.tree, .leaf):
+            return nil
+        case let (.tree(patternTree), .tree(transformableTree)):
+            guard Array(patternTree.keys) == Array(transformableTree.keys) else { return nil }
+            var captures: Captures<T> = [:]
+            for (key, subPattern) in patternTree {
+                let subTransformable = transformableTree[key]!
+                let subCaptures = subPattern.matches(transformable: subTransformable)
+                // TODO: same capture name should constrain future matches
+                if let subCaptures = subCaptures {
+                    captures = captures + subCaptures
+                }
+            }
+            return captures
+        }
     }
 }
 
