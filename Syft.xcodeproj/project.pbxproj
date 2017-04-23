@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C822F8801E96F5CD00225C9C /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C822F87F1E96F5CD00225C9C /* Helpers.swift */; };
+		C86093F31EAD17EA00CA12B4 /* Arithmetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86093F21EAD17EA00CA12B4 /* Arithmetic.swift */; };
 		C86140691E94E6E100599DCC /* Syft.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8CC45151E92370100EA1B47 /* Syft.framework */; };
 		C861406A1E94E6E100599DCC /* Syft.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C8CC45151E92370100EA1B47 /* Syft.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C8735B1B1E94E58E00A72FCC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8735B1A1E94E58E00A72FCC /* AppDelegate.swift */; };
 		C8735B1D1E94E58E00A72FCC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8735B1C1E94E58E00A72FCC /* ViewController.swift */; };
 		C8735B1F1E94E58E00A72FCC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8735B1E1E94E58E00A72FCC /* Assets.xcassets */; };
 		C8735B221E94E58E00A72FCC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8735B201E94E58E00A72FCC /* Main.storyboard */; };
+		C89ED0B61E94F00B008D796B /* TransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89ED0B51E94F00B008D796B /* TransformerTests.swift */; };
+		C89ED0B81E94F013008D796B /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89ED0B71E94F013008D796B /* Transformer.swift */; };
 		C8CC451E1E92370100EA1B47 /* Syft.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8CC45151E92370100EA1B47 /* Syft.framework */; };
 		C8CC45251E92370100EA1B47 /* Syft.h in Headers */ = {isa = PBXBuildFile; fileRef = C8CC45171E92370100EA1B47 /* Syft.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C8CC452C1E92371800EA1B47 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C869B81C1A246DE100904675 /* Parser.swift */; };
@@ -67,6 +71,7 @@
 /* Begin PBXFileReference section */
 		C806656A1A247E3F00FB3508 /* SequenceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SequenceTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C80A53151C515805009BCCEB /* DeferredTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeferredTests.swift; sourceTree = "<group>"; };
+		C822F87F1E96F5CD00225C9C /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		C82E12061A51572D00905D79 /* DictionaryUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryUtilities.swift; sourceTree = "<group>"; };
 		C82E12091A5157B000905D79 /* ArrayUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayUtilities.swift; sourceTree = "<group>"; };
 		C82E120C1A5157F300905D79 /* StringUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringUtilities.swift; sourceTree = "<group>"; };
@@ -79,6 +84,7 @@
 		C8383DE91C5CF8590050E8B8 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		C8383DEA1C5CF8590050E8B8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C85E23EB1E93891E006168DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C86093F21EAD17EA00CA12B4 /* Arithmetic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arithmetic.swift; sourceTree = "<group>"; };
 		C869B81A1A246AC900904675 /* StringAtomTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = StringAtomTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C869B81C1A246DE100904675 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Parser.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C8735B121E94E2EB00A72FCC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -88,6 +94,8 @@
 		C8735B1E1E94E58E00A72FCC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C8735B211E94E58E00A72FCC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C8735B231E94E58E00A72FCC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C89ED0B51E94F00B008D796B /* TransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformerTests.swift; sourceTree = "<group>"; };
+		C89ED0B71E94F013008D796B /* Transformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transformer.swift; sourceTree = "<group>"; };
 		C8B2B8C61A25BDF000E6E54E /* ResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ResultTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C8B2B8C81A25BF0A00E6E54E /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Result.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C8BEDFE81A39D391006651CC /* RepeatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RepeatTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -162,6 +170,7 @@
 			children = (
 				C8735B1A1E94E58E00A72FCC /* AppDelegate.swift */,
 				C8735B1C1E94E58E00A72FCC /* ViewController.swift */,
+				C86093F21EAD17EA00CA12B4 /* Arithmetic.swift */,
 				C8735B1E1E94E58E00A72FCC /* Assets.xcassets */,
 				C8735B201E94E58E00A72FCC /* Main.storyboard */,
 				C8735B231E94E58E00A72FCC /* Info.plist */,
@@ -181,6 +190,7 @@
 				C82E12061A51572D00905D79 /* DictionaryUtilities.swift */,
 				C82E12091A5157B000905D79 /* ArrayUtilities.swift */,
 				C82E120C1A5157F300905D79 /* StringUtilities.swift */,
+				C89ED0B71E94F013008D796B /* Transformer.swift */,
 			);
 			path = Syft;
 			sourceTree = "<group>";
@@ -198,6 +208,8 @@
 				C80A53151C515805009BCCEB /* DeferredTests.swift */,
 				C8BEDFE81A39D391006651CC /* RepeatTests.swift */,
 				C8383DE21C5ABA420050E8B8 /* EitherTests.swift */,
+				C89ED0B51E94F00B008D796B /* TransformerTests.swift */,
+				C822F87F1E96F5CD00225C9C /* Helpers.swift */,
 			);
 			path = SyftTests;
 			sourceTree = "<group>";
@@ -350,6 +362,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C86093F31EAD17EA00CA12B4 /* Arithmetic.swift in Sources */,
 				C8735B1D1E94E58E00A72FCC /* ViewController.swift in Sources */,
 				C8735B1B1E94E58E00A72FCC /* AppDelegate.swift in Sources */,
 			);
@@ -366,6 +379,7 @@
 				C8CC45321E92371800EA1B47 /* StringUtilities.swift in Sources */,
 				C8CC452D1E92371800EA1B47 /* DSL.swift in Sources */,
 				C8CC45301E92371800EA1B47 /* DictionaryUtilities.swift in Sources */,
+				C89ED0B81E94F013008D796B /* Transformer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,8 +388,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8CC45361E92371E00EA1B47 /* MatchTests.swift in Sources */,
+				C89ED0B61E94F00B008D796B /* TransformerTests.swift in Sources */,
 				C8CC45381E92371E00EA1B47 /* TagTests.swift in Sources */,
 				C8CC453A1E92371E00EA1B47 /* RepeatTests.swift in Sources */,
+				C822F8801E96F5CD00225C9C /* Helpers.swift in Sources */,
 				C8CC45391E92371E00EA1B47 /* DeferredTests.swift in Sources */,
 				C8CC45331E92371E00EA1B47 /* ResultTests.swift in Sources */,
 				C8CC45371E92371E00EA1B47 /* SequenceTests.swift in Sources */,
