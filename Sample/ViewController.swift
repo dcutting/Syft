@@ -21,8 +21,8 @@ class ViewController: NSViewController {
         expression.parser = compound | numeral
         
         let input = "  123+  52 \t  \n *  891 \r\n  /3120   "
-        let parsed = expression.parse(input)
-        print(parsed)
+        let _ = expression.parse(input)
+//        print(parsed)
         
         // Basic regex parser.
         let backslash = str("\\")
@@ -32,8 +32,58 @@ class ViewController: NSViewController {
         let groups = group.some.tag("groups")
         
         let matchInput = "a-zA-Z0-9_-"
-        let matchParsed = groups.parse(matchInput)
-        print(matchParsed)
+        let _ = groups.parse(matchInput)
+//        print(matchParsed)
+        
+        
+        //ist = ["left": ["int": "91"], "op": "+", "right": ["int": "8"]]
+        
+        let transformable = Transformable<Int>.tree([
+            "left": .tree(["int": .leaf(.raw("91"))]),
+            "right": .tree(["int": .leaf(.raw("8"))]),
+            "op": .leaf(.raw("+"))
+            ])
+        
+        let _ = Transformable<Int>.leaf(.transformed(99))
+        
+        let intReducer: Reducer<Int> = { captures in
+            guard let x = captures["x"] else { return .unexpected }
+            switch x {
+            case let .leaf(.raw(value)):
+                guard let int = Int(value) else { return .unexpected }
+                return .success(int)
+            default:
+                return .unexpected
+            }
+        }
+
+        let intRule = Rule(pattern: .tree(["int": .capture("x")]), reducer: intReducer)
+        
+        let opReducer: Reducer<Int> = { captures in
+            guard let x = captures["x"] else { return .unexpected }
+            guard let y = captures["y"] else { return .unexpected }
+            guard let op = captures["op"] else { return .unexpected }
+            guard case .leaf(.raw("+")) = op else { return .noMatch }
+            switch (x, y) {
+            case let (.leaf(.transformed(left)), .leaf(.transformed(right))):
+                return .success(Int(left + right))
+            default:
+                return .unexpected
+            }
+        }
+        
+        let opRule = Rule(pattern: .tree(["left": .capture("x"),
+                                          "right": .capture("y"),
+                                          "op": .capture("op")
+            ]), reducer: opReducer)
+        
+        let transformer = Transformer<Int>()
+        do {
+            let result = try transformer.transform(transformable: transformable, rules: [intRule, opRule])
+            print(result)
+        } catch {
+            print(error)
+        }
     }
     
 //    func transform() {
