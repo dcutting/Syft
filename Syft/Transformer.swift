@@ -67,7 +67,7 @@ public typealias TransformerPatternTree = [String: TransformerPattern]
 public indirect enum TransformerPattern {
     case tree(TransformerPatternTree)
     // TODO case series
-    // TODO case literal
+    case literal(String)
     case capture(TransformerCaptureName)
     
     func findCaptures<T>(for transformable: Transformable<T>) -> TransformerCaptures<T>? {
@@ -78,6 +78,10 @@ public indirect enum TransformerPattern {
             return nil
         case let (.tree(pattern), .tree(transformable)):
             return mergedCaptures(patternTree: pattern, transformableTree: transformable)
+        case let(.literal(expected), .leaf(.raw(actual))):
+            return expected == actual ? [:] : nil
+        case (.literal, _):
+            return nil
         }
     }
     
@@ -86,6 +90,7 @@ public indirect enum TransformerPattern {
         let captures = transformableTree.flatMap { key, subTransformable in
             patternTree[key]?.findCaptures(for: subTransformable)
         }
+        guard captures.count == patternTree.count else { return nil }
         return captures.reduce([:], +)
     }
 }

@@ -21,9 +21,18 @@ struct ArithmeticPlus: ArithmeticExpression {
     }
 }
 
+struct ArithmeticMinus: ArithmeticExpression {
+    let first: ArithmeticExpression
+    let second: ArithmeticExpression
+    
+    func evaluate() -> Int {
+        return first.evaluate() - second.evaluate()
+    }
+}
+
 func runArithmetic() {
     do {
-        let input = "  123+  52 \t  \n +  891 \r\n  +3120   "
+        let input = "  123+  52 \t  \n -  891 \r\n  +3120   "
         let intermediateSyntaxTree = makeArithmeticParser().parse(input)
         let abstractSyntaxTree = try makeArithmeticTransformer().transform(intermediateSyntaxTree)
         let result = abstractSyntaxTree.evaluate()
@@ -61,10 +70,16 @@ func makeArithmeticTransformer() -> Transformer<ArithmeticExpression> {
     
     transformer.transform(["first": .capture("first"),
                            "second": .capture("second"),
-                           "op": .capture("op")]
+                           "op": .literal("+")]
     ) { args in
-        guard try args.raw("op") == "+" else { return nil }
         return ArithmeticPlus(first: try args.transformed("first"), second: try args.transformed("second"))
+    }
+    
+    transformer.transform(["first": .capture("first"),
+                           "second": .capture("second"),
+                           "op": .literal("-")]
+    ) { args in
+        return ArithmeticMinus(first: try args.transformed("first"), second: try args.transformed("second"))
     }
     
     return transformer
