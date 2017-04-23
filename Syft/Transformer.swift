@@ -114,7 +114,7 @@ public class Transformer<T> {
         
         switch ist {
         case .failure:
-            throw TransformerError.inputNotTransformable(ist)
+            throw TransformerError<T>.inputNotTransformable(ist)
         case let .match(value, _):
             return .leaf(.raw(value))
         case let .tagged(tree):
@@ -124,7 +124,7 @@ public class Transformer<T> {
             return .tree(transformables)
         case .series:
             // TODO
-            throw TransformerError.inputNotTransformable(ist)
+            throw TransformerError<T>.inputNotTransformable(ist)
         }
     }
     
