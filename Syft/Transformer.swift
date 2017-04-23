@@ -26,6 +26,7 @@ public typealias Captures<T> = [CaptureName: Transformable<T>]
 public indirect enum TransformerPattern {
     case tree([String: TransformerPattern])
     // TODO case series
+    // TODO case literal
     case capture(CaptureName)
     
     func matches<T>(transformable: Transformable<T>) -> Captures<T>? {
@@ -69,6 +70,18 @@ public struct Rule<T> {
     public init(pattern: TransformerPattern, reducer: @escaping Reducer<T>) {
         self.pattern = pattern
         self.reducer = reducer
+    }
+    
+    func apply(to transformable: Transformable<T>) throws -> Transformable<T>? {
+        guard let captures = pattern.matches(transformable: transformable) else { return nil }
+        switch reducer(captures) {
+        case let .success(reduced):
+            return .leaf(.transformed(reduced))
+        case .noMatch:
+            return nil
+        case .unexpected:
+            throw TransformerError.error
+        }
     }
 }
 
@@ -115,7 +128,7 @@ public class Transformer<T> {
         }
     }
     
-    public func transform(transformable: Transformable<T>, rules: [Rule<T>]) throws -> Transformable<T> {
+    private func transform(transformable: Transformable<T>, rules: [Rule<T>]) throws -> Transformable<T> {
         
         switch transformable {
         case let .tree(tree):
@@ -135,14 +148,8 @@ public class Transformer<T> {
     
     private func apply(rules: [Rule<T>], to transformable: Transformable<T>) throws -> Transformable<T> {
         for rule in rules {
-            guard let captures = rule.pattern.matches(transformable: transformable) else { continue }
-            switch rule.reducer(captures) {
-            case let .success(reduced):
-                return .leaf(.transformed(reduced))
-            case .noMatch:
-                continue
-            case .unexpected:
-                throw TransformerError.error
+            if let result = try rule.apply(to: transformable) {
+                return result
             }
         }
         return transformable
