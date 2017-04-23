@@ -26,7 +26,8 @@ class ViewController: NSViewController {
         expression.parser = compound | numeral
         let arithmeticParser = expression
         
-        let intReducer: TransformerReducer<Expr> = { captures in
+        // Arithmetic transformer.
+        let constantReducer: TransformerReducer<Expr> = { captures in
             guard let x = captures["x"] else { return .unexpected }
             switch x {
             case let .leaf(.raw(value)):
@@ -37,10 +38,12 @@ class ViewController: NSViewController {
                 return .unexpected
             }
         }
+        let constantRule = TransformerRule(
+            pattern: .tree(["numeral": .capture("x")]),
+            reducer: constantReducer
+        )
         
-        let intRule = TransformerRule(pattern: .tree(["numeral": .capture("x")]), reducer: intReducer)
-        
-        let opReducer: TransformerReducer<Expr> = { captures in
+        let plusReducer: TransformerReducer<Expr> = { captures in
             guard let x = captures["x"] else { return .unexpected }
             guard let y = captures["y"] else { return .unexpected }
             guard let op = captures["op"] else { return .unexpected }
@@ -53,12 +56,11 @@ class ViewController: NSViewController {
                 return .unexpected
             }
         }
-        
-        let opRule = TransformerRule(pattern: .tree(["first": .capture("x"),
-                                                     "second": .capture("y"),
-                                                     "op": .capture("op")
-            ]), reducer: opReducer)
-        let arithmeticTransformer = Transformer(rules: [intRule, opRule])
+        let plusRule = TransformerRule(
+            pattern: .tree(["first": .capture("x"), "second": .capture("y"), "op": .capture("op")]),
+            reducer: plusReducer
+        )
+        let arithmeticTransformer = Transformer(rules: [constantRule, plusRule])
 
         // Parse, transform and evaluate input.
         do {
