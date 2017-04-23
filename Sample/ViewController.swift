@@ -44,7 +44,7 @@ class ViewController: NSViewController {
 //            "op": .leaf(.raw("+"))
 //            ])
         
-        let intReducer: Reducer<Int> = { captures in
+        let intReducer: TransformerReducer<Int> = { captures in
             guard let x = captures["x"] else { return .unexpected }
             switch x {
             case let .leaf(.raw(value)):
@@ -55,9 +55,9 @@ class ViewController: NSViewController {
             }
         }
 
-        let intRule = Rule(pattern: .tree(["numeral": .capture("x")]), reducer: intReducer)
+        let intRule = TransformerRule(pattern: .tree(["numeral": .capture("x")]), reducer: intReducer)
         
-        let opReducer: Reducer<Int> = { captures in
+        let opReducer: TransformerReducer<Int> = { captures in
             guard let x = captures["x"] else { return .unexpected }
             guard let y = captures["y"] else { return .unexpected }
             guard let op = captures["op"] else { return .unexpected }
@@ -70,7 +70,7 @@ class ViewController: NSViewController {
             }
         }
         
-        let opRule = Rule(pattern: .tree(["first": .capture("x"),
+        let opRule = TransformerRule(pattern: .tree(["first": .capture("x"),
                                           "second": .capture("y"),
                                           "op": .capture("op")
             ]), reducer: opReducer)

@@ -6,58 +6,59 @@ import Foundation
 public enum TransformerError<T>: Error {
     case inputNotTransformable(Result)
     case transformFailed(Transformable<T>)
-    case reducerFailed(Transformable<T>, TransformerPattern, Captures<T>)
-    case error
+    case reducerFailed(Transformable<T>, TransformerPattern, TransformerCaptures<T>)
 }
 
 
 
 // Transformable data structure
 
-public enum Leaf<T> {
+public enum TransformableLeaf<T> {
     case transformed(T)
     case raw(String)
 }
 
+public typealias TransformableTree<T> = [String: Transformable<T>]
+
 public indirect enum Transformable<T> {
-    case tree([String: Transformable<T>])
+    case tree(TransformableTree<T>)
     // TODO case series
-    case leaf(Leaf<T>)
+    case leaf(TransformableLeaf<T>)
 }
 
 
 
 // Transformer patterns
 
-public typealias CaptureName = String
+public typealias TransformerCaptureName = String
 
-public typealias Captures<T> = [CaptureName: Transformable<T>]
+public typealias TransformerCaptures<T> = [TransformerCaptureName: Transformable<T>]
+
+public typealias TransformerPatternTree = [String: TransformerPattern]
 
 public indirect enum TransformerPattern {
-    case tree([String: TransformerPattern])
+    case tree(TransformerPatternTree)
     // TODO case series
     // TODO case literal
-    case capture(CaptureName)
+    case capture(TransformerCaptureName)
     
-    func findCaptures<T>(for transformable: Transformable<T>) -> Captures<T>? {
+    func findCaptures<T>(for transformable: Transformable<T>) -> TransformerCaptures<T>? {
         switch (self, transformable) {
         case let (.capture(name), _):
             return [name: transformable]
         case (.tree, .leaf):
             return nil
-        case let (.tree(patternTree), .tree(transformableTree)):
-            guard Array(patternTree.keys) == Array(transformableTree.keys) else { return nil }
-            var captures: Captures<T> = [:]
-            for (key, subPattern) in patternTree {
-                let subTransformable = transformableTree[key]!
-                let subCaptures = subPattern.findCaptures(for: subTransformable)
-                // TODO: same capture name should constrain future matches
-                if let subCaptures = subCaptures {
-                    captures = captures + subCaptures
-                }
-            }
-            return captures
+        case let (.tree(pattern), .tree(transformable)):
+            return mergedCaptures(patternTree: pattern, transformableTree: transformable)
         }
+    }
+    
+    private func mergedCaptures<T>(patternTree: TransformerPatternTree, transformableTree: TransformableTree<T>) -> TransformerCaptures<T>? {
+        guard Array(patternTree.keys) == Array(transformableTree.keys) else { return nil }
+        let captures = transformableTree.flatMap { key, subTransformable in
+            patternTree[key]?.findCaptures(for: subTransformable)
+        }
+        return captures.reduce([:], +)
     }
 }
 
@@ -65,19 +66,19 @@ public indirect enum TransformerPattern {
 
 // Tranformer rules
 
-public enum ReducerResult<T> {
+public enum TransformerReducerResult<T> {
     case success(T)
     case noMatch
     case unexpected
 }
 
-public typealias Reducer<T> = (Captures<T>) -> ReducerResult<T>
+public typealias TransformerReducer<T> = (TransformerCaptures<T>) -> TransformerReducerResult<T>
 
-public struct Rule<T> {
+public struct TransformerRule<T> {
     let pattern: TransformerPattern
-    let reducer: Reducer<T>
+    let reducer: TransformerReducer<T>
     
-    public init(pattern: TransformerPattern, reducer: @escaping Reducer<T>) {
+    public init(pattern: TransformerPattern, reducer: @escaping TransformerReducer<T>) {
         self.pattern = pattern
         self.reducer = reducer
     }
@@ -103,7 +104,7 @@ public class Transformer<T> {
     
     public init() {}
     
-    public func transform(ist: Result, rules: [Rule<T>]) throws -> T {
+    public func transform(ist: Result, rules: [TransformerRule<T>]) throws -> T {
         let transformable = try makeTransformable(for: ist)
         let result = try transform(transformable: transformable, rules: rules)
         guard case let .leaf(.transformed(value)) = result else { throw TransformerError.transformFailed(result) }
@@ -128,7 +129,7 @@ public class Transformer<T> {
         }
     }
     
-    private func transform(transformable: Transformable<T>, rules: [Rule<T>]) throws -> Transformable<T> {
+    private func transform(transformable: Transformable<T>, rules: [TransformerRule<T>]) throws -> Transformable<T> {
         
         switch transformable {
         case let .tree(tree):
@@ -144,7 +145,7 @@ public class Transformer<T> {
         }
     }
     
-    private func apply(rules: [Rule<T>], to transformable: Transformable<T>) throws -> Transformable<T> {
+    private func apply(rules: [TransformerRule<T>], to transformable: Transformable<T>) throws -> Transformable<T> {
         for rule in rules {
             if let result = try rule.apply(to: transformable) {
                 return result
