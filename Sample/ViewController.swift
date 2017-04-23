@@ -20,31 +20,29 @@ class ViewController: NSViewController {
         let compound = numeral.tag("first") >>> op >>> expression.tag("second")
         expression.parser = compound | numeral
         
-        let input = "  123+  52 \t  \n *  891 \r\n  /3120   "
-        let _ = expression.parse(input)
+        let input = "  123+  52 \t  \n +  891 \r\n  +3120   "
+        let parsed = expression.parse(input)
 //        print(parsed)
         
         // Basic regex parser.
-        let backslash = str("\\")
-        let char = backslash >>> any.tag("char") | any.tag("char")
-        let range = char.tag("start") >>> str("-") >>> char.tag("end")
-        let group = range.tag("range") | char
-        let groups = group.some.tag("groups")
-        
-        let matchInput = "a-zA-Z0-9_-"
-        let _ = groups.parse(matchInput)
+//        let backslash = str("\\")
+//        let char = backslash >>> any.tag("char") | any.tag("char")
+//        let range = char.tag("start") >>> str("-") >>> char.tag("end")
+//        let group = range.tag("range") | char
+//        let groups = group.some.tag("groups")
+//        
+//        let matchInput = "a-zA-Z0-9_-"
+//        let _ = groups.parse(matchInput)
 //        print(matchParsed)
         
         
         //ist = ["left": ["int": "91"], "op": "+", "right": ["int": "8"]]
         
-        let transformable = Transformable<Int>.tree([
-            "left": .tree(["int": .leaf(.raw("91"))]),
-            "right": .tree(["int": .leaf(.raw("8"))]),
-            "op": .leaf(.raw("+"))
-            ])
-        
-        let _ = Transformable<Int>.leaf(.transformed(99))
+//        let transformable = Transformable<Int>.tree([
+//            "left": .tree(["int": .leaf(.raw("91"))]),
+//            "right": .tree(["int": .leaf(.raw("8"))]),
+//            "op": .leaf(.raw("+"))
+//            ])
         
         let intReducer: Reducer<Int> = { captures in
             guard let x = captures["x"] else { return .unexpected }
@@ -57,7 +55,7 @@ class ViewController: NSViewController {
             }
         }
 
-        let intRule = Rule(pattern: .tree(["int": .capture("x")]), reducer: intReducer)
+        let intRule = Rule(pattern: .tree(["numeral": .capture("x")]), reducer: intReducer)
         
         let opReducer: Reducer<Int> = { captures in
             guard let x = captures["x"] else { return .unexpected }
@@ -72,14 +70,16 @@ class ViewController: NSViewController {
             }
         }
         
-        let opRule = Rule(pattern: .tree(["left": .capture("x"),
-                                          "right": .capture("y"),
+        let opRule = Rule(pattern: .tree(["first": .capture("x"),
+                                          "second": .capture("y"),
                                           "op": .capture("op")
             ]), reducer: opReducer)
         
         let transformer = Transformer<Int>()
+        let ist = parsed.0
+        print(ist)
         do {
-            let result = try transformer.transform(transformable: transformable, rules: [intRule, opRule])
+            let result = try transformer.transform(ist: ist, rules: [intRule, opRule])
             print(result)
         } catch {
             print(error)

@@ -83,6 +83,37 @@ public class Transformer<T> {
     
     public init() {}
     
+    public func transform(ist: Result, rules: [Rule<T>]) throws -> T {
+        let transformable = try makeTransformable(for: ist)
+        let result = try transform(transformable: transformable, rules: rules)
+        switch result {
+        case let .leaf(.transformed(value)):
+            return value
+        default:
+            throw TransformerError.error
+        }
+    }
+    
+    private func makeTransformable(for ist: Result) throws -> Transformable<T> {
+        
+        switch ist {
+        case .failure:
+            throw TransformerError.error
+        case let .match(value, _):
+            return .leaf(.raw(value))
+        case let .tagged(tree):
+            var transformables: [String: Transformable<T>] = [:]
+            for (key, value) in tree {
+                let transformableValue = try makeTransformable(for: value)
+                transformables[key] = transformableValue
+            }
+            return .tree(transformables)
+        case .series:
+            // TODO
+            throw TransformerError.error
+        }
+    }
+    
     public func transform(transformable: Transformable<T>, rules: [Rule<T>]) throws -> Transformable<T> {
         
         switch transformable {
