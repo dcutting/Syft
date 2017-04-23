@@ -10,19 +10,7 @@ class ViewController: NSViewController {
     
     func parse() {
         
-        // Arithmetic parser.
-        let space = " \t\n\r\n".match
-        let skip = space.some.maybe
-        let digit = (0...9).match
-        let op = "+-*/".match.tag("op") >>> skip
-        let numeral = skip >>> digit.some.tag("numeral") >>> skip
-        let expression = Deferred()
-        let compound = numeral.tag("first") >>> op >>> expression.tag("second")
-        expression.parser = compound | numeral
-        
-        let input = "  123+  52 \t  \n +  891 \r\n  +3120   "
-        let parsed = expression.parse(input)
-//        print(parsed)
+        arithmeticParser()
         
         // Basic regex parser.
 //        let backslash = str("\\")
@@ -35,14 +23,22 @@ class ViewController: NSViewController {
 //        let _ = groups.parse(matchInput)
 //        print(matchParsed)
         
+    }
+    
+    func arithmeticParser() {
         
-        //ist = ["left": ["int": "91"], "op": "+", "right": ["int": "8"]]
+        // Arithmetic parser.
+        let space = " \t\n\r\n".match
+        let skip = space.some.maybe
+        let digit = (0...9).match
+        let op = "+-*/".match.tag("op") >>> skip
+        let numeral = skip >>> digit.some.tag("numeral") >>> skip
+        let expression = Deferred()
+        let compound = numeral.tag("first") >>> op >>> expression.tag("second")
+        expression.parser = compound | numeral
         
-//        let transformable = Transformable<Int>.tree([
-//            "left": .tree(["int": .leaf(.raw("91"))]),
-//            "right": .tree(["int": .leaf(.raw("8"))]),
-//            "op": .leaf(.raw("+"))
-//            ])
+        let input = "  123+  52 \t  \n +  891 \r\n  +3120   "
+        let parsed = expression.parse(input)
         
         let intReducer: TransformerReducer<Int> = { captures in
             guard let x = captures["x"] else { return .unexpected }
@@ -85,92 +81,6 @@ class ViewController: NSViewController {
             print(error)
         }
     }
-    
-//    func transform() {
-//        // Arithmetic parser.
-//        let space = " \t\n\r\n".match
-//        let letter = "az".match
-//        let skip = space.some.maybe
-//        let digit = (0...9).match
-//        //let op = "+-*/".match.tag("op") >>> skip
-//        let op = "+".match.tag("op") >>> skip
-//        let numeral = skip >>> digit.some.tag("numeral") >>> skip
-//        let expression = Deferred()
-//        let compound = numeral.tag("first") >>> op >>> expression.tag("second")
-//        expression.parser = compound | numeral
-//        
-//        
-//        
-//        //let input = "  123+  52 \t  \n *  891 \r\n  /3120   "
-//        let input = "123+52"
-//        let parsed = expression.parse(input)
-//        print(parsed)
-//        
-    
-        //[
-        //    first:
-        //        [
-        //            numeral: "123"
-        //        ],
-        //    op: "+",
-        //    second:
-        //        [
-        //            numeral: "52"
-        //        ]
-        //]
-        
-//        let constantTransformer = Transformation(from: ["numeral": .value("x")]) { (values) -> Expr in
-//            var c: Constant!
-//            switch values["x"]! {
-//            case .value(let v):
-//                let int = Int(v)!
-//                c = Constant(value: int)
-//            default:
-//                assertionFailure()
-//            }
-//            return c
-//        }
-        
-        //[
-        //    first: Constant(123),
-        //    op: "+",
-        //    second: Constant(52)
-        //]
-        
-//        let opTransformer = Transformation(from: ["op": .literal("+"), "first": .transformed("left"), "second": .transformed("right")]) { (values) -> Expr in
-//            var left: Constant!
-//            var right: Constant!
-//            switch values["left"]! {
-//            case .transformed(let l):
-//                left = l as! Constant
-//            default:
-//                assertionFailure()
-//            }
-//            switch values["right"]! {
-//            case .transformed(let r):
-//                right = r as! Constant
-//            default:
-//                assertionFailure()
-//            }
-//            return Plus(first: left, second: right)
-//        }
-        
-//        //Plus(Constant(123), Constant(52))
-//        
-//        let transformer = Transformer<Expr>()
-//        transformer.append(constantTransformer)
-//        transformer.append(opTransformer)
-//        
-//        do {
-//            let transformed = try transformer.transform(parsed)
-//            let result = transformed.evaluate()
-//            
-//            print("\(String(describing: result))")
-//            // 175
-//        } catch {
-//            print(error)
-//        }
-//    }
 }
 
 protocol Expr {
