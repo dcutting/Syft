@@ -32,7 +32,7 @@ struct ArithmeticMinus: ArithmeticExpression {
 
 func runArithmetic() {
     do {
-        let input = "  123+  52 \t  \n +  891 \r\n  -3120   "
+        let input = "  123+  52 \t +  891   -3120   "
         let intermediateSyntaxTree = makeArithmeticParser().parse(input)
         let abstractSyntaxTree = try makeArithmeticTransformer().transform(intermediateSyntaxTree)
         let result = abstractSyntaxTree.evaluate()
@@ -44,7 +44,7 @@ func runArithmetic() {
 
 func makeArithmeticParser() -> ParserProtocol {
 
-    let space = " \t\n\r\n".match
+    let space = " \t".match
     let skip = space.some.maybe
     let digit = (0...9).match
     let op = "+-*/".match.tag("op") >>> skip
