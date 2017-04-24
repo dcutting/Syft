@@ -12,21 +12,13 @@ struct ArithmeticConstant: ArithmeticExpression {
     }
 }
 
-struct ArithmeticPlus: ArithmeticExpression {
+struct ArithmeticOperation: ArithmeticExpression {
     let first: ArithmeticExpression
     let second: ArithmeticExpression
+    let function: (Int, Int) -> Int
     
     func evaluate() -> Int {
-        return first.evaluate() + second.evaluate()
-    }
-}
-
-struct ArithmeticMinus: ArithmeticExpression {
-    let first: ArithmeticExpression
-    let second: ArithmeticExpression
-    
-    func evaluate() -> Int {
-        return first.evaluate() - second.evaluate()
+        return function(first.evaluate(), second.evaluate())
     }
 }
 
@@ -72,14 +64,28 @@ func makeArithmeticTransformer() -> Transformer<ArithmeticExpression> {
                            "second": .simple("second"),
                            "op": .literal("+")]
     ) { args in
-        ArithmeticPlus(first: try args.transformed("first"), second: try args.transformed("second"))
+        ArithmeticOperation(first: try args.transformed("first"), second: try args.transformed("second"), function: { a, b in a + b })
     }
     
     transformer.transform(["first": .simple("first"),
                            "second": .simple("second"),
                            "op": .literal("-")]
     ) { args in
-        ArithmeticMinus(first: try args.transformed("first"), second: try args.transformed("second"))
+        ArithmeticOperation(first: try args.transformed("first"), second: try args.transformed("second"), function: { a, b in a - b })
+    }
+    
+    transformer.transform(["first": .simple("first"),
+                           "second": .simple("second"),
+                           "op": .literal("*")]
+    ) { args in
+        ArithmeticOperation(first: try args.transformed("first"), second: try args.transformed("second"), function: { a, b in a * b })
+    }
+    
+    transformer.transform(["first": .simple("first"),
+                           "second": .simple("second"),
+                           "op": .literal("/")]
+    ) { args in
+        ArithmeticOperation(first: try args.transformed("first"), second: try args.transformed("second"), function: { a, b in a / b })
     }
     
     return transformer
