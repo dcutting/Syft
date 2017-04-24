@@ -50,7 +50,7 @@ func makeArithmeticParser() -> ParserProtocol {
     return expression
 }
 
-enum ArithmetricError: Error {
+enum ArithmeticError: Error {
     case notAConstant
 }
 
@@ -59,7 +59,7 @@ func makeArithmeticTransformer() -> Transformer<ArithmeticExpression> {
     let transformer = Transformer<ArithmeticExpression>()
 
     transformer.transform(["numeral": .simple("x")]) { args in
-        guard let int = Int(try args.raw("x")) else { throw ArithmetricError.notAConstant }
+        guard let int = Int(try args.raw("x")) else { throw ArithmeticError.notAConstant }
         return ArithmeticConstant(value: int)
     }
     
