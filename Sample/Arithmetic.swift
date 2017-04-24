@@ -24,11 +24,14 @@ struct ArithmeticOperation: ArithmeticExpression {
 
 func runArithmetic() {
     do {
-        let input = "  123+  52 \t +  891   -3120   "
-        let intermediateSyntaxTree = makeArithmeticParser().parse(input)
+        let polishNotationInput = "+ 3 - * 8 5 9"
+        print("\(polishNotationInput)\n")
+        let intermediateSyntaxTree = makeArithmeticParser().parse(polishNotationInput)
+        print("\(intermediateSyntaxTree)\n")
         let abstractSyntaxTree = try makeArithmeticTransformer().transform(intermediateSyntaxTree)
+        print("\(abstractSyntaxTree)\n")
         let result = abstractSyntaxTree.evaluate()
-        print("\(input) = \(result)")
+        print("\(polishNotationInput) = \(result)")
     } catch {
         print(error)
     }
@@ -36,13 +39,13 @@ func runArithmetic() {
 
 func makeArithmeticParser() -> ParserProtocol {
 
-    let space = " \t".match
+    let space = " ".match
     let skip = space.some.maybe
     let digit = (0...9).match
-    let op = "+-*/".match.tag("op") >>> skip
+    let op = "+-*".match.tag("op") >>> skip
     let numeral = skip >>> digit.some.tag("numeral") >>> skip
     let expression = Deferred()
-    let compound = numeral.tag("first") >>> op >>> expression.tag("second")
+    let compound = op >>> expression.tag("first") >>> expression.tag("second")
     expression.parser = compound | numeral
     return expression
 }
@@ -60,32 +63,16 @@ func makeArithmeticTransformer() -> Transformer<ArithmeticExpression> {
         return ArithmeticConstant(value: int)
     }
     
-    transformer.transform(["first": .simple("first"),
-                           "second": .simple("second"),
-                           "op": .literal("+")]
-    ) { args in
-        ArithmeticOperation(first: try args.transformed("first"), second: try args.transformed("second"), function: { a, b in a + b })
+    transformer.transform(["first": .simple("f"), "second": .simple("s"), "op": .literal("+")]) { args in
+        ArithmeticOperation(first: try args.transformed("f"), second: try args.transformed("s")) { a, b in a + b }
     }
     
-    transformer.transform(["first": .simple("first"),
-                           "second": .simple("second"),
-                           "op": .literal("-")]
-    ) { args in
-        ArithmeticOperation(first: try args.transformed("first"), second: try args.transformed("second"), function: { a, b in a - b })
+    transformer.transform(["first": .simple("f"), "second": .simple("s"), "op": .literal("-")]) { args in
+        ArithmeticOperation(first: try args.transformed("f"), second: try args.transformed("s")) { a, b in a - b }
     }
     
-    transformer.transform(["first": .simple("first"),
-                           "second": .simple("second"),
-                           "op": .literal("*")]
-    ) { args in
-        ArithmeticOperation(first: try args.transformed("first"), second: try args.transformed("second"), function: { a, b in a * b })
-    }
-    
-    transformer.transform(["first": .simple("first"),
-                           "second": .simple("second"),
-                           "op": .literal("/")]
-    ) { args in
-        ArithmeticOperation(first: try args.transformed("first"), second: try args.transformed("second"), function: { a, b in a / b })
+    transformer.transform(["first": .simple("f"), "second": .simple("s"), "op": .literal("*")]) { args in
+        ArithmeticOperation(first: try args.transformed("f"), second: try args.transformed("s")) { a, b in a * b }
     }
     
     return transformer
