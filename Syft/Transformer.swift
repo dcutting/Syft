@@ -73,7 +73,7 @@ public indirect enum TransformerPattern {
     
     func findCaptures<T>(for transformable: Transformable<T>) -> TransformerCaptures<T>? {
         switch (self, transformable) {
-        case let (.simple(name), .leaf):
+        case let (.simple(name), .leaf):    // TODO: this won't match on trees properly
             return [name: transformable]
         case (.simple, _):
             return nil
@@ -89,7 +89,7 @@ public indirect enum TransformerPattern {
     }
     
     private func mergedCaptures<T>(patternTree: TransformerPatternTree, transformableTree: TransformableTree<T>) -> TransformerCaptures<T>? {
-        guard Array(patternTree.keys) == Array(transformableTree.keys) else { return nil }
+        guard Set(patternTree.keys) == Set(transformableTree.keys) else { return nil }
         let captures = transformableTree.flatMap { key, subTransformable in
             patternTree[key]?.findCaptures(for: subTransformable)
         }
