@@ -73,7 +73,7 @@ public indirect enum TransformerPattern {
     
     func findCaptures<T>(for transformable: Transformable<T>) -> TransformerCaptures<T>? {
         switch (self, transformable) {
-        case let (.simple(name), .leaf):    // TODO: this won't match on trees properly
+        case let (.simple(name), .leaf):
             return [name: transformable]
         case (.simple, _):
             return nil
