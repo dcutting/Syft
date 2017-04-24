@@ -32,7 +32,7 @@ struct ArithmeticMinus: ArithmeticExpression {
 
 func runArithmetic() {
     do {
-        let input = "  123+  52 \t  \n -  891 \r\n  +3120   "
+        let input = "  123+  52 \t  \n +  891 \r\n  -3120   "
         let intermediateSyntaxTree = makeArithmeticParser().parse(input)
         let abstractSyntaxTree = try makeArithmeticTransformer().transform(intermediateSyntaxTree)
         let result = abstractSyntaxTree.evaluate()
@@ -63,23 +63,23 @@ func makeArithmeticTransformer() -> Transformer<ArithmeticExpression> {
 
     let transformer = Transformer<ArithmeticExpression>()
 
-    transformer.transform(["numeral": .capture("x")]) { args in
+    transformer.transform(["numeral": .simple("x")]) { args in
         guard let int = Int(try args.raw("x")) else { throw ArithmetricError.notAConstant }
         return ArithmeticConstant(value: int)
     }
     
-    transformer.transform(["first": .capture("first"),
-                           "second": .capture("second"),
+    transformer.transform(["first": .simple("first"),
+                           "second": .simple("second"),
                            "op": .literal("+")]
     ) { args in
-        return ArithmeticPlus(first: try args.transformed("first"), second: try args.transformed("second"))
+        ArithmeticPlus(first: try args.transformed("first"), second: try args.transformed("second"))
     }
     
-    transformer.transform(["first": .capture("first"),
-                           "second": .capture("second"),
+    transformer.transform(["first": .simple("first"),
+                           "second": .simple("second"),
                            "op": .literal("-")]
     ) { args in
-        return ArithmeticMinus(first: try args.transformed("first"), second: try args.transformed("second"))
+        ArithmeticMinus(first: try args.transformed("first"), second: try args.transformed("second"))
     }
     
     return transformer

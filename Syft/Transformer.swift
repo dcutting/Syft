@@ -68,12 +68,15 @@ public indirect enum TransformerPattern {
     case tree(TransformerPatternTree)
     // TODO case series
     case literal(String)
-    case capture(TransformerCaptureName)
+    case simple(TransformerCaptureName)
+    // TODO case capture subtree
     
     func findCaptures<T>(for transformable: Transformable<T>) -> TransformerCaptures<T>? {
         switch (self, transformable) {
-        case let (.capture(name), _):
+        case let (.simple(name), .leaf):
             return [name: transformable]
+        case (.simple, _):
+            return nil
         case (.tree, .leaf):
             return nil
         case let (.tree(pattern), .tree(transformable)):
