@@ -5,6 +5,7 @@ import Foundation
 
 public enum TransformerError<T>: Error {
     case inputNotTransformable(Result)
+    case unexpectedRemainder(Remainder)
     case transformFailed(Transformable<T>)
     case reducerFailed(Transformable<T>, TransformerPattern, TransformerCaptures<T>)
     case unknownCaptureVariable(TransformerCaptureName)
@@ -145,7 +146,8 @@ public class Transformer<T> {
     }
     
     public func transform(_ resultWithRemainder: ResultWithRemainder) throws -> T {
-        let (ist, _) = resultWithRemainder
+        let (ist, remainder) = resultWithRemainder
+        guard remainder.text.isEmpty else { throw TransformerError<T>.unexpectedRemainder(remainder) }
         let transformable = try makeTransformable(for: ist)
         let result = try transform(transformable: transformable, rules: rules)
         guard case let .leaf(.transformed(value)) = result else { throw TransformerError.transformFailed(result) }

@@ -3,25 +3,26 @@ import Syft
 
 class ViewController: NSViewController {
     
+    @IBOutlet weak var inputTextField: NSTextField!
+    @IBOutlet weak var outputLabel: NSTextField!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        parseExamples()
+        inputTextField.stringValue = "+ 1 2"
+        update()
     }
     
-    func parseExamples() {
-        runArithmetic()
-        //runRegex()
+    override func controlTextDidChange(_ obj: Notification) {
+        update()
     }
-        
-    func runRegex() {
-        let backslash = str("\\")
-        let char = backslash >>> any.tag("char") | any.tag("char")
-        let range = char.tag("start") >>> str("-") >>> char.tag("end")
-        let group = range.tag("range") | char
-        let groups = group.some.tag("groups")
-        
-        let matchInput = "a-zA-Z0-9_-"
-        let parsed = groups.parse(matchInput)
-        print(parsed)
+    
+    func update() {
+        do {
+            let text = inputTextField.stringValue
+            let result = try calculate(polishNotationInput: text)
+            outputLabel.stringValue = "\(result)"
+        } catch {
+            outputLabel.stringValue = "invalid"
+        }
     }
 }

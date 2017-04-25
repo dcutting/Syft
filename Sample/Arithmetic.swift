@@ -22,19 +22,15 @@ struct ArithmeticOperation: ArithmeticExpression {
     }
 }
 
-func runArithmetic() {
-    do {
-        let polishNotationInput = "+ 3 - * 8 5 9"
-        print("\(polishNotationInput)\n")
-        let intermediateSyntaxTree = makeArithmeticParser().parse(polishNotationInput)
-        print("\(intermediateSyntaxTree)\n")
-        let abstractSyntaxTree = try makeArithmeticTransformer().transform(intermediateSyntaxTree)
-        print("\(abstractSyntaxTree)\n")
-        let result = abstractSyntaxTree.evaluate()
-        print("\(polishNotationInput) = \(result)")
-    } catch {
-        print(error)
-    }
+func calculate(polishNotationInput: String) throws -> Int {
+    print("\(polishNotationInput)\n")
+    let intermediateSyntaxTree = makeArithmeticParser().parse(polishNotationInput)
+    print("\(intermediateSyntaxTree)\n")
+    let abstractSyntaxTree = try makeArithmeticTransformer().transform(intermediateSyntaxTree)
+    print("\(abstractSyntaxTree)\n")
+    let result = abstractSyntaxTree.evaluate()
+    print("\(polishNotationInput) = \(result)")
+    return result
 }
 
 func makeArithmeticParser() -> ParserProtocol {
@@ -42,7 +38,7 @@ func makeArithmeticParser() -> ParserProtocol {
     let space = " ".match
     let skip = space.some.maybe
     let digit = (0...9).match
-    let op = "+-*".match.tag("op") >>> skip
+    let op = skip >>> "+-*".match.tag("op") >>> skip
     let numeral = skip >>> digit.some.tag("numeral") >>> skip
     let expression = Deferred()
     let compound = op >>> expression.tag("first") >>> expression.tag("second")
@@ -52,6 +48,7 @@ func makeArithmeticParser() -> ParserProtocol {
 
 enum ArithmeticError: Error {
     case notAConstant
+    case unexpectedRemainder
 }
 
 func makeArithmeticTransformer() -> Transformer<ArithmeticExpression> {
