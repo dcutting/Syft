@@ -4,7 +4,7 @@ import Foundation
 // Errors
 
 public enum TransformerError<T>: Error {
-    case inputNotTransformable(Result)
+    case inputInvalid(Result)
     case unexpectedRemainder(Remainder)
     case transformFailed(Transformable<T>)
     case reducerFailed(Transformable<T>, TransformerPattern, TransformerCaptures<T>)
@@ -128,21 +128,10 @@ public struct TransformerRule<T> {
 
 public class Transformer<T> {
     
-    var rules: [TransformerRule<T>]
+    fileprivate var rules: [TransformerRule<T>]
     
     public init(rules: [TransformerRule<T>] = []) {
        self.rules = rules
-    }
-    
-    public func transform(_ tree: TransformerPatternTree, reducer: @escaping TransformerReducer<T>) {
-        let pattern = TransformerPattern.tree(tree)
-        let rule = TransformerRule<T>(pattern: pattern, reducer: reducer)
-        rules.append(rule)
-    }
-    
-    public func transform(pattern: TransformerPattern, reducer: @escaping TransformerReducer<T>) {
-        let rule = TransformerRule<T>(pattern: pattern, reducer: reducer)
-        rules.append(rule)
     }
     
     public func transform(_ resultWithRemainder: ResultWithRemainder) throws -> T {
@@ -158,7 +147,7 @@ public class Transformer<T> {
         
         switch ist {
         case .failure:
-            throw TransformerError<T>.inputNotTransformable(ist)
+            throw TransformerError<T>.inputInvalid(ist)
         case let .match(value, _):
             return .leaf(.raw(value))
         case let .tagged(tree):
@@ -168,7 +157,7 @@ public class Transformer<T> {
             return .tree(transformables)
         case .series:
             // TODO
-            throw TransformerError<T>.inputNotTransformable(ist)
+            throw TransformerError<T>.inputInvalid(ist)
         }
     }
     
@@ -195,5 +184,18 @@ public class Transformer<T> {
             }
         }
         return transformable
+    }
+}
+
+public extension Transformer {   // Convenience
+    
+    public func rule(_ tree: TransformerPatternTree, reducer: @escaping TransformerReducer<T>) {
+        let pattern = TransformerPattern.tree(tree)
+        rule(pattern: pattern, reducer: reducer)
+    }
+    
+    public func rule(pattern: TransformerPattern, reducer: @escaping TransformerReducer<T>) {
+        let rule = TransformerRule<T>(pattern: pattern, reducer: reducer)
+        rules.append(rule)
     }
 }

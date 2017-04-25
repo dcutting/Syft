@@ -55,20 +55,20 @@ func makeArithmeticTransformer() -> Transformer<ArithmeticExpression> {
 
     let transformer = Transformer<ArithmeticExpression>()
 
-    transformer.transform(["numeral": .simple("x")]) { args in
+    transformer.rule(["numeral": .simple("x")]) { args in
         guard let int = Int(try args.raw("x")) else { throw ArithmeticError.notAConstant }
         return ArithmeticConstant(value: int)
     }
     
-    transformer.transform(["first": .simple("f"), "second": .simple("s"), "op": .literal("+")]) { args in
+    transformer.rule(["first": .simple("f"), "second": .simple("s"), "op": .literal("+")]) { args in
         ArithmeticOperation(first: try args.transformed("f"), second: try args.transformed("s")) { a, b in a + b }
     }
     
-    transformer.transform(["first": .simple("f"), "second": .simple("s"), "op": .literal("-")]) { args in
+    transformer.rule(["first": .simple("f"), "second": .simple("s"), "op": .literal("-")]) { args in
         ArithmeticOperation(first: try args.transformed("f"), second: try args.transformed("s")) { a, b in a - b }
     }
     
-    transformer.transform(["first": .simple("f"), "second": .simple("s"), "op": .literal("*")]) { args in
+    transformer.rule(["first": .simple("f"), "second": .simple("s"), "op": .literal("*")]) { args in
         ArithmeticOperation(first: try args.transformed("f"), second: try args.transformed("s")) { a, b in a * b }
     }
     
