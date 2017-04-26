@@ -1,14 +1,12 @@
 import Syft
 
-func parseSequenceDiagram(input: String) throws -> (String, String, String) {
-    let parser = sequenceDiagramParser()
-    let parsedResult = parser.parse(input)
-    let transformedResult = ""
-    let outputResult = ""
-    return ("\(parsedResult)", "\(transformedResult)", "\(outputResult)")
+func sequenceDiagram() -> Pipeline<String> {
+    return Pipeline(parser: makeSequenceDiagramParser(), transformer: makeSequenceDiagramTransformer()) { ast in
+        return "\(ast)"
+    }
 }
 
-func sequenceDiagramParser() -> ParserProtocol {
+func makeSequenceDiagramParser() -> ParserProtocol {
     let space = " ".match
     let spaces = space.some
     let skip = space.some.maybe
@@ -19,8 +17,12 @@ func sequenceDiagramParser() -> ParserProtocol {
     let token = character.some.tag("token")
     let shorthand = spaces >>> str("as") >>> spaces >>> (quotedToken | token).tag("shorthand")
     let participantToken = quotedToken | token
-    let participant = str("participant") >>> spaces >>> participantToken.tag("participant") >>> shorthand.maybe
+    let participant = skip >>> str("participant") >>> spaces >>> participantToken.tag("participant") >>> shorthand.maybe
     
     let parser = participant
     return parser
+}
+
+func makeSequenceDiagramTransformer() -> Transformer<String> {
+    return Transformer<String>()
 }

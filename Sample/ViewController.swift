@@ -1,6 +1,12 @@
 import Cocoa
 import Syft
 
+struct Pipeline<T> {
+    let parser: ParserProtocol
+    let transformer: Transformer<T>
+    let resolver: (T) -> String
+}
+
 class ViewController: NSViewController, NSTextViewDelegate {
     
     let fontSize: CGFloat = 18.0
@@ -10,9 +16,11 @@ class ViewController: NSViewController, NSTextViewDelegate {
     @IBOutlet weak var transformed: NSTextView!
     @IBOutlet weak var output: NSTextView!
     
+    var pipeline = sequenceDiagram()
+    
     override func viewWillAppear() {
         super.viewWillAppear()
-        
+                
         configureInput()
         updateOutput()
     }
@@ -37,9 +45,19 @@ class ViewController: NSViewController, NSTextViewDelegate {
     
     private func updateOutput() {
         guard let text = input?.string else { return }
-        let (parseResult, transformResult, outputResult) = parseArithmetic(input: text)
-        parsed?.string = "\(String(describing: parseResult))"
-        transformed?.string = transformResult
+        let intermediateSyntaxTree = pipeline.parser.parse(text)
+        var abstractSyntaxTreeResult = ""
+        var outputResult = "invalid"
+        do {
+            let abstractSyntaxTree = try pipeline.transformer.transform(intermediateSyntaxTree)
+            let resolved = pipeline.resolver(abstractSyntaxTree)
+            abstractSyntaxTreeResult = "\(abstractSyntaxTree)"
+            outputResult = "\(resolved)"
+        } catch {
+            abstractSyntaxTreeResult = "\(error)"
+        }
+        parsed?.string = "\(String(describing: intermediateSyntaxTree))"
+        transformed?.string = abstractSyntaxTreeResult
         output?.string = outputResult
     }
 }

@@ -22,18 +22,11 @@ struct ArithmeticOperation: ArithmeticExpression {
     }
 }
 
-func parseArithmetic(input: String) -> (ResultWithRemainder?, String?, String?) {
-    let intermediateSyntaxTree = makeArithmeticParser().parse(input)
-    var abstractSyntaxTreeResult = "invalid"
-    var outputResult = "invalid"
-    do {
-        let abstractSyntaxTree = try makeArithmeticTransformer().transform(intermediateSyntaxTree)
-        let result = abstractSyntaxTree.evaluate()
-        abstractSyntaxTreeResult = "\(abstractSyntaxTree)"
-        outputResult = "\(result)"
-    } catch {
+func arithmetic() -> Pipeline<ArithmeticExpression> {
+    return Pipeline(parser: makeArithmeticParser(), transformer: makeArithmeticTransformer()) { ast in
+        let result = ast.evaluate()
+        return "\(result)"
     }
-    return (intermediateSyntaxTree, abstractSyntaxTreeResult, outputResult)
 }
 
 func makeArithmeticParser() -> ParserProtocol {
