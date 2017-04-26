@@ -15,15 +15,20 @@ struct ArithmeticConstant: ArithmeticExpression {
 struct ArithmeticOperation: ArithmeticExpression {
     let first: ArithmeticExpression
     let second: ArithmeticExpression
+    let functionDescription: String
     let function: (Int, Int) -> Int
     
     func evaluate() -> Int {
         return function(first.evaluate(), second.evaluate())
     }
+    
+//    var description: String {
+//        return "{ first: \(first), second: \(second), function: \(functionDescription) }"
+//    }
 }
 
 func arithmetic() -> Pipeline<ArithmeticExpression> {
-    return Pipeline(parser: makeArithmeticParser(), transformer: makeArithmeticTransformer()) { ast in
+    return Pipeline(defaultInput: "+ 1 2", parser: makeArithmeticParser(), transformer: makeArithmeticTransformer()) { ast in
         let result = ast.evaluate()
         return "\(result)"
     }
@@ -57,15 +62,15 @@ func makeArithmeticTransformer() -> Transformer<ArithmeticExpression> {
     }
     
     transformer.rule(["first": .simple("f"), "second": .simple("s"), "op": .literal("+")]) { args in
-        ArithmeticOperation(first: try args.transformed("f"), second: try args.transformed("s")) { a, b in a + b }
+        ArithmeticOperation(first: try args.transformed("f"), second: try args.transformed("s"), functionDescription: "plus") { a, b in a + b }
     }
     
     transformer.rule(["first": .simple("f"), "second": .simple("s"), "op": .literal("-")]) { args in
-        ArithmeticOperation(first: try args.transformed("f"), second: try args.transformed("s")) { a, b in a - b }
+        ArithmeticOperation(first: try args.transformed("f"), second: try args.transformed("s"), functionDescription: "minus") { a, b in a - b }
     }
     
     transformer.rule(["first": .simple("f"), "second": .simple("s"), "op": .literal("*")]) { args in
-        ArithmeticOperation(first: try args.transformed("f"), second: try args.transformed("s")) { a, b in a * b }
+        ArithmeticOperation(first: try args.transformed("f"), second: try args.transformed("s"), functionDescription: "times") { a, b in a * b }
     }
     
     return transformer

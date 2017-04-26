@@ -2,6 +2,7 @@ import Cocoa
 import Syft
 
 struct Pipeline<T> {
+    let defaultInput: String
     let parser: ParserProtocol
     let transformer: Transformer<T>
     let resolver: (T) -> String
@@ -21,11 +22,12 @@ class ViewController: NSViewController, NSTextViewDelegate {
     override func viewWillAppear() {
         super.viewWillAppear()
                 
-        configureInput()
+        configure()
+        updateDefaultInput()
         updateOutput()
     }
     
-    private func configureInput() {
+    private func configure() {
         input?.isAutomaticQuoteSubstitutionEnabled = false
         input?.isAutomaticDataDetectionEnabled = false
         input?.isAutomaticLinkDetectionEnabled = false
@@ -37,6 +39,10 @@ class ViewController: NSViewController, NSTextViewDelegate {
         parsed?.font = NSFont.systemFont(ofSize: fontSize)
         transformed?.font = NSFont.systemFont(ofSize: fontSize)
         output?.font = NSFont.systemFont(ofSize: fontSize)
+    }
+    
+    private func updateDefaultInput() {
+        input?.string = pipeline.defaultInput
     }
     
     func textDidChange(_ obj: Notification) {

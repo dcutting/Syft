@@ -1,7 +1,7 @@
 import Syft
 
 func sequenceDiagram() -> Pipeline<String> {
-    return Pipeline(parser: makeSequenceDiagramParser(), transformer: makeSequenceDiagramTransformer()) { ast in
+    return Pipeline(defaultInput: "participant App", parser: makeSequenceDiagramParser(), transformer: makeSequenceDiagramTransformer()) { ast in
         return "\(ast)"
     }
 }
