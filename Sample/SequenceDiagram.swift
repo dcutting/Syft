@@ -7,10 +7,13 @@ func sequenceDiagram() -> Pipeline<String> {
 }
 
 func makeSequenceDiagramParser() -> ParserProtocol {
+    
     let space = " ".match
     let spaces = space.some
     let skip = spaces.maybe
     let character = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_".match
+    let newline = str("\n")
+
     let token = character.some.tag("token")
     let quotableToken = (character | space).some.tag("token")
     let quote = "\"".match
@@ -19,7 +22,20 @@ func makeSequenceDiagramParser() -> ParserProtocol {
     let participantToken = (quotedToken | token).tag("participant")
     let participant = skip >>> str("participant") >>> spaces >>> participantToken >>> (shorthand | spaces).maybe
     
-    let parser = participant
+    let source = token.tag("source")
+    let destination = token.tag("destination")
+    let weakArrow = str("-->")
+    let strongArrow = str("->")
+    let comment = quotableToken.tag("comment")
+    let colon = str(":") >>> skip
+    let destinationAndComment = destination >>> colon >>> comment
+    let strongEvent = (source >>> strongArrow >>> destinationAndComment).tag("strong")
+    let weakEvent = (source >>> weakArrow >>> destinationAndComment).tag("weak")
+    let event = strongEvent | weakEvent
+    
+    let lines = ((event | participant) >>> newline).some.maybe
+    
+    let parser = lines
     return parser
 }
 
