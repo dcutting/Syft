@@ -1,28 +1,28 @@
 import Cocoa
 import Syft
 
-class ViewController: NSViewController {
+class ViewController: NSViewController, NSTextViewDelegate {
     
-    @IBOutlet weak var inputTextField: NSTextField!
-    @IBOutlet weak var outputLabel: NSTextField!
+    @IBOutlet weak var input: NSTextView!
+    @IBOutlet weak var output: NSTextView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        inputTextField.stringValue = "+ 1 2"
+        input.string = "+ 1 2"
         update()
     }
     
-    override func controlTextDidChange(_ obj: Notification) {
+    func textDidChange(_ obj: Notification) {
         update()
     }
     
     func update() {
         do {
-            let text = inputTextField.stringValue
-            let result = try calculate(polishNotationInput: text)
-            outputLabel.stringValue = "\(result)"
+            guard let text = input.string else { return }
+            let result = try parseSequenceDiagram(input: text)
+            output.string = "\(result)"
         } catch {
-            outputLabel.stringValue = "invalid"
+            output.string = "invalid"
         }
     }
 }
