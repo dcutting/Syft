@@ -24,5 +24,15 @@ func makeSequenceDiagramParser() -> ParserProtocol {
 }
 
 func makeSequenceDiagramTransformer() -> Transformer<String> {
-    return Transformer<String>()
+    let transformer = Transformer<String>()
+    
+    transformer.rule(["token": .simple("t")]) { args in
+        try args.raw("t")
+    }
+    
+    transformer.rule(["participant": .simple("p")]) { args in
+        "Hello \(try args.transformed("p"))"
+    }
+    
+    return transformer
 }
