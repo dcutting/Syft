@@ -9,15 +9,15 @@ func sequenceDiagram() -> Pipeline<String> {
 func makeSequenceDiagramParser() -> ParserProtocol {
     let space = " ".match
     let spaces = space.some
-    let skip = space.some.maybe
+    let skip = spaces.maybe
     let character = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_".match
-    let quotableToken = (character | space).some
-    let quote = "\"".match
-    let quotedToken = quote >>> quotableToken.tag("token") >>> quote
     let token = character.some.tag("token")
-    let shorthand = spaces >>> str("as") >>> spaces >>> (quotedToken | token).tag("shorthand")
-    let participantToken = quotedToken | token
-    let participant = skip >>> str("participant") >>> spaces >>> participantToken.tag("participant") >>> shorthand.maybe
+    let quotableToken = (character | space).some.tag("token")
+    let quote = "\"".match
+    let quotedToken = quote >>> quotableToken >>> quote
+    let shorthand = spaces >>> str("as") >>> spaces >>> (quotedToken | token).tag("shorthand") >>> skip
+    let participantToken = (quotedToken | token).tag("participant")
+    let participant = skip >>> str("participant") >>> spaces >>> participantToken >>> (shorthand | spaces).maybe
     
     let parser = participant
     return parser
