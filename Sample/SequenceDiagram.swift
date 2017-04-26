@@ -1,9 +1,11 @@
 import Syft
 
-func parseSequenceDiagram(input: String) throws -> String {
+func parseSequenceDiagram(input: String) throws -> (String, String, String) {
     let parser = sequenceDiagramParser()
-    let result = parser.parse(input)
-    return "\(result)"
+    let parsedResult = parser.parse(input)
+    let transformedResult = ""
+    let outputResult = ""
+    return ("\(parsedResult)", "\(transformedResult)", "\(outputResult)")
 }
 
 func sequenceDiagramParser() -> ParserProtocol {

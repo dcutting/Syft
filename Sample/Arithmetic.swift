@@ -22,15 +22,18 @@ struct ArithmeticOperation: ArithmeticExpression {
     }
 }
 
-func calculate(polishNotationInput: String) throws -> Int {
-    print("\(polishNotationInput)\n")
-    let intermediateSyntaxTree = makeArithmeticParser().parse(polishNotationInput)
-    print("\(intermediateSyntaxTree)\n")
-    let abstractSyntaxTree = try makeArithmeticTransformer().transform(intermediateSyntaxTree)
-    print("\(abstractSyntaxTree)\n")
-    let result = abstractSyntaxTree.evaluate()
-    print("\(polishNotationInput) = \(result)")
-    return result
+func parseArithmetic(input: String) -> (ResultWithRemainder?, String?, String?) {
+    let intermediateSyntaxTree = makeArithmeticParser().parse(input)
+    var abstractSyntaxTreeResult = "invalid"
+    var outputResult = "invalid"
+    do {
+        let abstractSyntaxTree = try makeArithmeticTransformer().transform(intermediateSyntaxTree)
+        let result = abstractSyntaxTree.evaluate()
+        abstractSyntaxTreeResult = "\(abstractSyntaxTree)"
+        outputResult = "\(result)"
+    } catch {
+    }
+    return (intermediateSyntaxTree, abstractSyntaxTreeResult, outputResult)
 }
 
 func makeArithmeticParser() -> ParserProtocol {
