@@ -16,7 +16,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
     @IBOutlet weak var transformed: NSTextView!
     @IBOutlet weak var output: NSTextView!
     
-    var pipeline = sequenceDiagram()
+    var pipeline = arithmetic()
     
     override func viewWillAppear() {
         super.viewWillAppear()
@@ -47,7 +47,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
         guard let text = input?.string else { return }
         let intermediateSyntaxTree = pipeline.parser.parse(text)
         var abstractSyntaxTreeResult = ""
-        var outputResult = "invalid"
+        var outputResult = ""
         do {
             let abstractSyntaxTree = try pipeline.transformer.transform(intermediateSyntaxTree)
             let resolved = pipeline.resolver(abstractSyntaxTree)
