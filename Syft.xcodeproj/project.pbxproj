@@ -19,6 +19,7 @@
 		C8735B221E94E58E00A72FCC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8735B201E94E58E00A72FCC /* Main.storyboard */; };
 		C89ED0B61E94F00B008D796B /* TransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89ED0B51E94F00B008D796B /* TransformerTests.swift */; };
 		C89ED0B81E94F013008D796B /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89ED0B71E94F013008D796B /* Transformer.swift */; };
+		C8AD8B1A1EC88F0100C5B9CB /* SyftFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AD8B191EC88F0100C5B9CB /* SyftFile.swift */; };
 		C8CC451E1E92370100EA1B47 /* Syft.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8CC45151E92370100EA1B47 /* Syft.framework */; };
 		C8CC45251E92370100EA1B47 /* Syft.h in Headers */ = {isa = PBXBuildFile; fileRef = C8CC45171E92370100EA1B47 /* Syft.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C8CC452C1E92371800EA1B47 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C869B81C1A246DE100904675 /* Parser.swift */; };
@@ -100,6 +101,7 @@
 		C8735B231E94E58E00A72FCC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C89ED0B51E94F00B008D796B /* TransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformerTests.swift; sourceTree = "<group>"; };
 		C89ED0B71E94F013008D796B /* Transformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transformer.swift; sourceTree = "<group>"; };
+		C8AD8B191EC88F0100C5B9CB /* SyftFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyftFile.swift; sourceTree = "<group>"; };
 		C8B2B8C61A25BDF000E6E54E /* ResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ResultTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C8B2B8C81A25BF0A00E6E54E /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Result.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C8BEDFE81A39D391006651CC /* RepeatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RepeatTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -180,6 +182,7 @@
 				C8735B1E1E94E58E00A72FCC /* Assets.xcassets */,
 				C8735B201E94E58E00A72FCC /* Main.storyboard */,
 				C8735B231E94E58E00A72FCC /* Info.plist */,
+				C8AD8B191EC88F0100C5B9CB /* SyftFile.swift */,
 			);
 			path = Sample;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				C86D77AA1EB089F20033431E /* SequenceDiagram.swift in Sources */,
 				C8735B1B1E94E58E00A72FCC /* AppDelegate.swift in Sources */,
 				C80A06F51EC4F17500123192 /* Song.swift in Sources */,
+				C8AD8B1A1EC88F0100C5B9CB /* SyftFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
