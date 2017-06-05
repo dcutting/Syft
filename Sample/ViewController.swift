@@ -63,7 +63,8 @@ class ViewController: NSViewController, NSTextViewDelegate {
         } catch {
             abstractSyntaxTreeResult = "\(error)"
         }
-        parsed?.string = "\(remainder)\n\n\(ist)"
+        let report = makeReport(result: ist)
+        parsed?.string = "\(remainder)\n\n\(report)"
         transformed?.string = abstractSyntaxTreeResult
         output?.string = outputResult
     }

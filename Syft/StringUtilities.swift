@@ -8,4 +8,8 @@ extension String {
         return (head, tail)
     }
 
+    func indented(by: Int) -> String {
+        guard by > 0 else { return self }
+        return (" " + self).indented(by: by-1)
+    }
 }

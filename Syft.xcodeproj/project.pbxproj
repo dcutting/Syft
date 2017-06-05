@@ -73,6 +73,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C800F3141EE00E15002D5E5C /* ResultReporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultReporter.swift; sourceTree = "<group>"; };
 		C806656A1A247E3F00FB3508 /* SequenceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SequenceTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C80A06F41EC4F17500123192 /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		C80A53151C515805009BCCEB /* DeferredTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeferredTests.swift; sourceTree = "<group>"; };
@@ -201,6 +202,7 @@
 				C82E12091A5157B000905D79 /* ArrayUtilities.swift */,
 				C82E120C1A5157F300905D79 /* StringUtilities.swift */,
 				C89ED0B71E94F013008D796B /* Transformer.swift */,
+				C800F3141EE00E15002D5E5C /* ResultReporter.swift */,
 			);
 			path = Syft;
 			sourceTree = "<group>";
@@ -388,6 +390,7 @@
 				C8CC45311E92371800EA1B47 /* ArrayUtilities.swift in Sources */,
 				C8CC452E1E92371800EA1B47 /* Result.swift in Sources */,
 				C8CC452F1E92371800EA1B47 /* Remainder.swift in Sources */,
+				C800F3151EE00E15002D5E5C /* ResultReporter.swift in Sources */,
 				C8CC452C1E92371800EA1B47 /* Parser.swift in Sources */,
 				C8CC45321E92371800EA1B47 /* StringUtilities.swift in Sources */,
 				C8CC452D1E92371800EA1B47 /* DSL.swift in Sources */,
