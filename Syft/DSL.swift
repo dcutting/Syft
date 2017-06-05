@@ -38,7 +38,7 @@ public func | (first: Deferred, second: Deferred) -> Parser {
 }
 
 public protocol ParserDSL {
-    func recur() -> Parser
+    var recur: Parser { get }
     func recur(_ minimum: Int) -> Parser
     func recur(_ minimum: Int, _ maximum: Int?) -> Parser
     var some: Parser { get }
@@ -48,7 +48,7 @@ public protocol ParserDSL {
 
 extension Parser: ParserDSL {
 
-    public func recur() -> Parser {
+    public var recur: Parser {
         return recur(0, nil)
     }
 
@@ -61,15 +61,11 @@ extension Parser: ParserDSL {
     }
 
     public var some: Parser {
-        get {
-            return recur(1)
-        }
+        return recur(1)
     }
 
     public var maybe: Parser {
-        get {
-            return recur(0, 1)
-        }
+        return recur(0, 1)
     }
 
     public func tag(_ tag: String) -> Parser {
@@ -84,8 +80,8 @@ extension Deferred: ParserDSL {
         return Parser.defer(self)
     }
 
-    public func recur() -> Parser {
-        return wrap().recur()
+    public var recur: Parser {
+        return wrap().recur
     }
 
     public func recur(_ minimum: Int) -> Parser {

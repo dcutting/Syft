@@ -51,18 +51,19 @@ class ViewController: NSViewController, NSTextViewDelegate {
     
     private func updateOutput() {
         guard let text = input?.string else { return }
-        let intermediateSyntaxTree = pipeline.parser.parse(text)
+        let parserResult = pipeline.parser.parse(text)
+        let (ist, remainder) = parserResult
         var abstractSyntaxTreeResult = ""
         var outputResult = ""
         do {
-            let abstractSyntaxTree = try pipeline.transformer.transform(intermediateSyntaxTree)
+            let abstractSyntaxTree = try pipeline.transformer.transform(parserResult)
             let resolved = pipeline.resolver(abstractSyntaxTree)
             abstractSyntaxTreeResult = "\(abstractSyntaxTree)"
             outputResult = "\(resolved)"
         } catch {
             abstractSyntaxTreeResult = "\(error)"
         }
-        parsed?.string = "\(String(describing: intermediateSyntaxTree))"
+        parsed?.string = "\(remainder)\n\n\(ist)"
         transformed?.string = abstractSyntaxTreeResult
         output?.string = outputResult
     }
