@@ -1,11 +1,11 @@
 extension String {
 
-    func split(at index: String.Index) -> (String, String) {
+    func split(at index: Int) -> (String, String) {
 
-        let head = self[self.startIndex..<index]
-        let tail = self[index..<self.endIndex]
+        let head = self.prefix(index)
+        let tail = self.dropFirst(index)
 
-        return (head, tail)
+        return (String(head), String(tail))
     }
 
     func indented(by: Int) -> String {

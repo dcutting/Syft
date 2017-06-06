@@ -24,9 +24,9 @@ func makeReport(tagged: [String: Result], indent: Int) -> String {
 
     let nextIndent = makeNextIndent(indent: indent)
 
-    let joined = tagged.map { key, value in
-        let valueReport = makeReport(result: value, indent: nextIndent)
-        return "\(key): \(valueReport)".indented(by: nextIndent)
+    let joined = tagged.map { args in
+        let valueReport = makeReport(result: args.value, indent: nextIndent)
+        return "\(args.key): \(valueReport)".indented(by: nextIndent)
     }.sorted().joined(separator: ",\n")
 
     return "{\n\(joined)\n" + "}".indented(by: indent)

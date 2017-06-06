@@ -2,7 +2,9 @@ extension Dictionary {
 
     func sortedDescription() -> String {
         
-        let joined = map { key, value in "\(key): \(value)" }.sorted().joined(separator: ", ")
+        let joined = map { args in
+            "\(args.key): \(args.value)"
+        }.sorted().joined(separator: ", ")
 
         return "[\(joined)]"
     }

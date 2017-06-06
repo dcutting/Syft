@@ -66,7 +66,7 @@ open class Deferred: ParserProtocol {
 func parseAny(_ input: Remainder) -> ResultWithRemainder {
 
     guard input.text.endIndex > input.text.startIndex else { return (.failure, input) }
-    let (headText, tailText) = input.text.split(at: input.text.characters.index(input.text.startIndex, offsetBy: 1))
+    let (headText, tailText) = input.text.split(at: 1)
     return (.match(match: headText, index: input.index), Remainder(text: tailText, index: input.index+1))
 }
 
@@ -74,7 +74,7 @@ func parseStr(_ input: Remainder, pattern: String) -> ResultWithRemainder {
 
     if pattern.isEmpty || input.text.hasPrefix(pattern) {
 
-        let (headText, tailText) = input.text.split(at: pattern.endIndex)
+        let (headText, tailText) = input.text.split(at: pattern.characters.count)
         let tailIndex = input.index + headText.characters.distance(from: headText.startIndex, to: headText.endIndex)
         let remainder = Remainder(text: tailText, index: tailIndex)
 
