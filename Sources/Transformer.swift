@@ -48,7 +48,15 @@ public struct TransformerReducerArguments<T> {
         }
         return transformed
     }
-    
+
+    public func val(_ key: String) throws -> String {
+        return try raw(key)
+    }
+
+    public func val(_ key: String) throws -> T {
+        return try transformed(key)
+    }
+
     public func raw(_ key: String) throws -> String {
         let value = try get(key: key)
         guard case let .leaf(.raw(raw)) = value else {

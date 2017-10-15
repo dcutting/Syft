@@ -1,10 +1,10 @@
 import Syft
 
-protocol ArithmeticExpression {
+protocol Expr {
     func evaluate() -> Int
 }
 
-struct ArithmeticConstant: ArithmeticExpression {
+struct Num: Expr {
     let value: Int
     
     func evaluate() -> Int {
@@ -12,17 +12,34 @@ struct ArithmeticConstant: ArithmeticExpression {
     }
 }
 
-struct ArithmeticOperation: ArithmeticExpression {
-    let first: ArithmeticExpression
-    let second: ArithmeticExpression
-    let function: (Int, Int) -> Int
-    
+struct Plus: Expr {
+    let first: Expr
+    let second: Expr
+
     func evaluate() -> Int {
-        return function(first.evaluate(), second.evaluate())
+        return first.evaluate() + second.evaluate()
     }
 }
 
-func arithmetic() -> Pipeline<ArithmeticExpression> {
+struct Minus: Expr {
+    let first: Expr
+    let second: Expr
+
+    func evaluate() -> Int {
+        return first.evaluate() - second.evaluate()
+    }
+}
+
+struct Times: Expr {
+    let first: Expr
+    let second: Expr
+
+    func evaluate() -> Int {
+        return first.evaluate() * second.evaluate()
+    }
+}
+
+func arithmetic() -> Pipeline<Expr> {
     return Pipeline(defaultInput: "+ 1 2", parser: makeArithmeticParser(), transformer: makeArithmeticTransformer()) { ast in
         let result = ast.evaluate()
         return "\(result)"
@@ -35,37 +52,37 @@ func makeArithmeticParser() -> ParserProtocol {
     let skip = space.some.maybe
     let digit = (0...9).match
     let op = skip >>> "+-*".match.tag("op") >>> skip
-    let numeral = skip >>> digit.some.tag("numeral") >>> skip
+    let numeral = skip >>> digit.some.tag("n") >>> skip
     let expression = Deferred()
-    let compound = op >>> expression.tag("first") >>> expression.tag("second")
+    let compound = op >>> expression.tag("a") >>> expression.tag("b")
     expression.parser = compound | numeral
     return expression
 }
 
-enum ArithmeticError: Error {
+enum ExprError: Error {
     case notAConstant
     case unexpectedRemainder
 }
 
-func makeArithmeticTransformer() -> Transformer<ArithmeticExpression> {
+func makeArithmeticTransformer() -> Transformer<Expr> {
 
-    let transformer = Transformer<ArithmeticExpression>()
+    let transformer = Transformer<Expr>()
 
-    transformer.rule(["numeral": .simple("x")]) { args in
-        guard let int = Int(try args.raw("x")) else { throw ArithmeticError.notAConstant }
-        return ArithmeticConstant(value: int)
+    transformer.rule(["n": .simple("n")]) {
+        guard let int = Int(try $0.val("n")) else { throw ExprError.notAConstant }
+        return Num(value: int)
     }
     
-    transformer.rule(["first": .simple("f"), "second": .simple("s"), "op": .literal("+")]) { args in
-        ArithmeticOperation(first: try args.transformed("f"), second: try args.transformed("s")) { a, b in a + b }
+    transformer.rule(["a": .simple("a"), "b": .simple("b"), "op": .literal("+")]) {
+        try Plus(first: $0.val("a"), second: $0.val("b"))
     }
     
-    transformer.rule(["first": .simple("f"), "second": .simple("s"), "op": .literal("-")]) { args in
-        ArithmeticOperation(first: try args.transformed("f"), second: try args.transformed("s")) { a, b in a - b }
+    transformer.rule(["a": .simple("a"), "b": .simple("b"), "op": .literal("-")]) {
+        try Minus(first: $0.val("a"), second: $0.val("b"))
     }
     
-    transformer.rule(["first": .simple("f"), "second": .simple("s"), "op": .literal("*")]) { args in
-        ArithmeticOperation(first: try args.transformed("f"), second: try args.transformed("s")) { a, b in a * b }
+    transformer.rule(["a": .simple("a"), "b": .simple("b"), "op": .literal("*")]) {
+        Times(first: try $0.val("a"), second: try $0.val("b"))
     }
     
     return transformer
