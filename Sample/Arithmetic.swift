@@ -82,7 +82,7 @@ func makeArithmeticTransformer() -> Transformer<Expr> {
     }
     
     transformer.rule(["a": .simple("a"), "b": .simple("b"), "op": .literal("*")]) {
-        Times(first: try $0.val("a"), second: try $0.val("b"))
+        try Times(first: $0.val("a"), second: $0.val("b"))
     }
     
     return transformer

@@ -17,7 +17,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
     @IBOutlet weak var transformed: NSTextView!
     @IBOutlet weak var output: NSTextView!
     
-    var pipeline = syftFile()
+    var pipeline = arithmetic()
     
     override func viewWillAppear() {
         super.viewWillAppear()
