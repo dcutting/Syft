@@ -1,13 +1,13 @@
 import Syft
 
 protocol Expr {
-    func evaluate() -> Int
+    func evaluate() -> Double
 }
 
 struct Num: Expr {
-    let value: Int
+    let value: Double
     
-    func evaluate() -> Int {
+    func evaluate() -> Double {
         return value
     }
 }
@@ -16,7 +16,7 @@ struct Plus: Expr {
     let first: Expr
     let second: Expr
 
-    func evaluate() -> Int {
+    func evaluate() -> Double {
         return first.evaluate() + second.evaluate()
     }
 }
@@ -25,7 +25,7 @@ struct Minus: Expr {
     let first: Expr
     let second: Expr
 
-    func evaluate() -> Int {
+    func evaluate() -> Double {
         return first.evaluate() - second.evaluate()
     }
 }
@@ -34,8 +34,17 @@ struct Times: Expr {
     let first: Expr
     let second: Expr
 
-    func evaluate() -> Int {
+    func evaluate() -> Double {
         return first.evaluate() * second.evaluate()
+    }
+}
+
+struct Divide: Expr {
+    let first: Expr
+    let second: Expr
+
+    func evaluate() -> Double {
+        return first.evaluate() / second.evaluate()
     }
 }
 
@@ -51,7 +60,7 @@ func makeArithmeticParser() -> ParserProtocol {
     let space = " ".match
     let skip = space.some.maybe
     let digit = (0...9).match
-    let op = skip >>> "+-*".match.tag("op") >>> skip
+    let op = skip >>> "+-*/".match.tag("op") >>> skip
     let numeral = skip >>> digit.some.tag("n") >>> skip
     let expression = Deferred()
     let compound = op >>> expression.tag("a") >>> expression.tag("b")
@@ -61,7 +70,6 @@ func makeArithmeticParser() -> ParserProtocol {
 
 enum ExprError: Error {
     case notAConstant
-    case unexpectedRemainder
 }
 
 func makeArithmeticTransformer() -> Transformer<Expr> {
@@ -69,8 +77,8 @@ func makeArithmeticTransformer() -> Transformer<Expr> {
     let transformer = Transformer<Expr>()
 
     transformer.rule(["n": .simple("n")]) {
-        guard let int = Int(try $0.val("n")) else { throw ExprError.notAConstant }
-        return Num(value: int)
+        guard let value = Double(try $0.val("n")) else { throw ExprError.notAConstant }
+        return Num(value: value)
     }
     
     transformer.rule(["a": .simple("a"), "b": .simple("b"), "op": .literal("+")]) {
@@ -80,10 +88,14 @@ func makeArithmeticTransformer() -> Transformer<Expr> {
     transformer.rule(["a": .simple("a"), "b": .simple("b"), "op": .literal("-")]) {
         try Minus(first: $0.val("a"), second: $0.val("b"))
     }
-    
+
     transformer.rule(["a": .simple("a"), "b": .simple("b"), "op": .literal("*")]) {
         try Times(first: $0.val("a"), second: $0.val("b"))
     }
-    
+
+    transformer.rule(["a": .simple("a"), "b": .simple("b"), "op": .literal("/")]) {
+        try Divide(first: $0.val("a"), second: $0.val("b"))
+    }
+
     return transformer
 }
