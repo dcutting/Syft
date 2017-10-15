@@ -1,8 +1,18 @@
 import Syft
 
-struct SongExpression {
+enum SongExpressionError: Error {
+    case unknown
+}
+
+protocol SongExpression {
+    func evaluate() -> String
+}
+
+struct SongNumber: SongExpression {
+    let value: Int
+
     func evaluate() -> String {
-        return "ok"
+        return "\(value)"
     }
 }
 
@@ -35,7 +45,7 @@ func makeSongParser() -> ParserProtocol {
     let literalList = str("[") >>> arguments.maybe >>> str("]")
     let somethingListPattern = str("[") >>> identifier.tag("head") >>> str("|") >>> identifier.tag("tail") >>> str("]")
     let listPattern = literalList | somethingListPattern
-    let subject = listPattern
+    let subject = listPattern | numeral
     let functionCall = subject >>> dot >>> functionName >>> argumentList >>> skip
     expression.parser = numeral | functionCall
     let functionBody = expression
@@ -51,5 +61,11 @@ func makeSongParser() -> ParserProtocol {
 
 func makeSongTransformer() -> Transformer<SongExpression> {
     let transformer = Transformer<SongExpression>()
+
+    transformer.rule(["subject": .simple("s")]) {
+        guard let value = try Int($0.val("s")) else { throw SongExpressionError.unknown }
+        return SongNumber(value: value)
+    }
+
     return transformer
 }
