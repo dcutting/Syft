@@ -129,9 +129,13 @@ func makeIotaParser() -> ParserProtocol {
     return statements
 }
 
-func makeIotaTransformer() -> Transformer<IotaExpr> {
+class IotaTransformer: Transformer<IotaExpr> {
 
-    let transformer = Transformer<IotaExpr>()
+}
+
+func makeIotaTransformer() -> IotaTransformer {
+
+    let transformer = IotaTransformer()
 
     transformer.rule(["numeral": .simple("n")]) {
         let n = try $0.raw("n")

@@ -130,7 +130,7 @@ public struct TransformerRule<T> {
 
 // Transformer
 
-public class Transformer<T> {
+open class Transformer<T> {
     
     fileprivate var rules: [TransformerRule<T>]
     
