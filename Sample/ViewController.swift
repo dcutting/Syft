@@ -17,7 +17,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
     @IBOutlet weak var transformed: NSTextView!
     @IBOutlet weak var output: NSTextView!
     
-    var pipeline = song()
+    var pipeline = iota()
     
     override func viewWillAppear() {
         super.viewWillAppear()

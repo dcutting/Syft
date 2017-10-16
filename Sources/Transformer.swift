@@ -49,10 +49,6 @@ public struct TransformerReducerArguments<T> {
         return transformed
     }
 
-    public func val(_ key: String) throws -> String {
-        return try raw(key)
-    }
-
     public func val(_ key: String) throws -> T {
         return try transformed(key)
     }

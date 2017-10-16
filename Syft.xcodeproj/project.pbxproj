@@ -177,13 +177,13 @@
 				C8735B1A1E94E58E00A72FCC /* AppDelegate.swift */,
 				C8735B1C1E94E58E00A72FCC /* ViewController.swift */,
 				C86093F21EAD17EA00CA12B4 /* Arithmetic.swift */,
+				C88BC3F71F94035800139D44 /* Iota.swift */,
 				C86D77A91EB089F20033431E /* SequenceDiagram.swift */,
 				C80A06F41EC4F17500123192 /* Song.swift */,
 				C8AD8B191EC88F0100C5B9CB /* SyftFile.swift */,
 				C8735B1E1E94E58E00A72FCC /* Assets.xcassets */,
 				C8735B201E94E58E00A72FCC /* Main.storyboard */,
 				C8735B231E94E58E00A72FCC /* Info.plist */,
-				C88BC3F71F94035800139D44 /* Iota.swift */,
 			);
 			path = Sample;
 			sourceTree = "<group>";
