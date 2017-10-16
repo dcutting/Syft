@@ -27,17 +27,12 @@ enum IotaRuntimeError: Error {
     case cannotEvaluate(String)
 }
 
-protocol IotaExpr {
-}
+protocol IotaExpr {}
 
 extension IotaExpr {
     func evaluate(context: IotaContext) throws -> IotaResult {
         throw IotaRuntimeError.cannotEvaluate("unknown")
     }
-}
-
-struct IotaIdentifier: IotaExpr {
-    let value: String
 }
 
 struct IotaNum: IotaExpr {
@@ -49,16 +44,16 @@ struct IotaNum: IotaExpr {
 }
 
 struct IotaVar: IotaExpr {
-    let id: IotaIdentifier
+    let id: String
 
     func evaluate(context: IotaContext) throws -> IotaResult {
-        guard let value = context[id.value] else { throw IotaRuntimeError.noSuchVariable(id.value) }
+        guard let value = context[id] else { throw IotaRuntimeError.noSuchVariable(id) }
         return try value.evaluate(context: context)
     }
 }
 
 struct IotaFunc: IotaExpr {
-    let param: IotaIdentifier
+    let param: String
     let body: IotaExpr
 
     func evaluate(context: IotaContext) throws -> IotaResult {
@@ -67,15 +62,15 @@ struct IotaFunc: IotaExpr {
 }
 
 struct IotaCall: IotaExpr {
-    let funcName: IotaIdentifier
+    let funcName: String
     let argument: IotaExpr
 
     func evaluate(context: IotaContext) throws -> IotaResult {
-        guard let value = context[funcName.value] else { throw IotaRuntimeError.noSuchVariable(funcName.value) }
-        guard let function = value as? IotaFunc else { throw IotaRuntimeError.notAFunction(funcName.value) }
+        guard let value = context[funcName] else { throw IotaRuntimeError.noSuchVariable(funcName) }
+        guard let function = value as? IotaFunc else { throw IotaRuntimeError.notAFunction(funcName) }
         let argResult = try argument.evaluate(context: context)
         let arg = IotaNum(value: argResult)
-        let callContext = context.append(param: function.param.value, arg: arg)
+        let callContext = context.append(param: function.param, arg: arg)
         return try function.evaluate(context: callContext)
     }
 }
@@ -103,7 +98,7 @@ func makeIotaParser() -> ParserProtocol {
      (identity 5)
      */
 
-    let space = " \t".match
+    let space = " \t\n".match
     let spaces = space.some
     let skip = spaces.maybe
     let newline = str("\n")
@@ -116,7 +111,7 @@ func makeIotaParser() -> ParserProtocol {
     let identifier = skip >>> letter.some.tag("identifier") >>> skip
     let numeral = skip >>> digit.some.tag("numeral") >>> skip
     let literal = numeral
-    let variable = identifier
+    let variable = identifier.tag("variable")
 
     let expression = Deferred()
 
@@ -124,7 +119,7 @@ func makeIotaParser() -> ParserProtocol {
     let params = lparen >>> identifier >>> rparen
     let function = (lparen >>> def >>> identifier.tag("name") >>> params.tag("params") >>> body.tag("body") >>> rparen).tag("function")
 
-    let argument = expression
+    let argument = skip >>> expression >>> skip
     let call = (lparen >>> identifier.tag("name") >>> argument.tag("argument") >>> rparen).tag("call")
 
     expression.parser = literal | variable | call
@@ -144,31 +139,39 @@ func makeIotaTransformer() -> Transformer<IotaExpr> {
         return IotaNum(value: value)
     }
 
-    transformer.rule(["identifier": .simple("i")]) {
-        let value: String = try $0.raw("i")
-        return IotaIdentifier(value: value)
+    transformer.rule([
+        "variable": .tree([
+            "identifier": .simple("v")
+        ])
+    ]) {
+        let v = try $0.raw("v")
+        return IotaVar(id: v)
     }
 
     transformer.rule([
         "call": .tree([
             "argument": .simple("a"),
-            "name": .simple("n")
+            "name": .tree([
+                "identifier": .simple("n")
+            ])
         ])
     ]) {
-        guard let name = try $0.val("n") as? IotaIdentifier else { throw IotaBuildError.notAnIdentifier }
-        return try IotaCall(funcName: name, argument: $0.val("a"))
+        return try IotaCall(funcName: try $0.raw("n"), argument: $0.val("a"))
     }
 
     transformer.rule([
         "function": .tree([
             "body": .simple("b"),
-            "name": .simple("n"),
-            "params": .simple("p")
+            "name": .tree([
+                "identifier": .simple("n")
+            ]),
+            "params": .tree([
+                "identifier": .simple("p")
+            ])
         ])
     ]) {
-        let p = try $0.val("p")
-        guard let param = p as? IotaIdentifier else { throw IotaBuildError.notAnIdentifier }
-        return try IotaFunc(param: param, body: $0.val("b"))
+        let p = try $0.raw("p")
+        return try IotaFunc(param: p, body: $0.val("b"))
     }
 
     return transformer
