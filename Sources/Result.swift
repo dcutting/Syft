@@ -29,23 +29,34 @@ public indirect enum Result: Equatable, CustomStringConvertible {
 
         case let (.match(match: selfText, index: selfIndex), .match(match: secondaryText, index: _)):
             return .match(match: selfText + secondaryText, index: selfIndex)
-
-        case (.match, .tagged):
+        case (.match, .tagged),
+             (.match, .series):
             return secondary
-
-        case (.tagged, .match):
-            return self
+        case (.match, .failure):
+            return .failure
 
         case let (.tagged(selfTagged), .tagged(secondaryTagged)):
             return .tagged(selfTagged + secondaryTagged)
+        case let (.tagged, .series(secondarySeries)):
+            return .series([self] + secondarySeries)
+        case (.tagged, .match):
+            return self
+        case (.tagged, .failure):
+            return .failure
 
         case let (.series(selfSeries), .tagged):
             return .series(selfSeries + [secondary])
+        case (.series, .match):
+            return self
+        case let (.series(selfSeries), .series(secondarySeries)):
+            return .series(selfSeries + secondarySeries)
+        case (.series, .failure):
+            return .failure
 
-        case let (.tagged, .series(secondarySeries)):
-            return .series([self] + secondarySeries)
-
-        default:
+        case (.failure, .match),
+             (.failure, .tagged),
+             (.failure, .series),
+             (.failure, .failure):
             return .failure
         }
     }
