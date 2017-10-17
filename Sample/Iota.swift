@@ -94,8 +94,8 @@ func iota() -> Pipeline<IotaExpr> {
 func makeIotaParser() -> ParserProtocol {
 
     /*
-     (def identity (a) a)
-     (identity 5)
+     (def head (a b) a)
+     (head 9 5)
      */
 
     let space = " \t\n".match
@@ -116,11 +116,11 @@ func makeIotaParser() -> ParserProtocol {
     let expression = Deferred()
 
     let body = skip >>> expression >>> skip
-    let params = lparen >>> identifier >>> rparen
+    let params = lparen >>> identifier.some.maybe >>> rparen
     let function = (lparen >>> def >>> identifier.tag("name") >>> params.tag("params") >>> body.tag("body") >>> rparen).tag("function")
 
-    let argument = skip >>> expression >>> skip
-    let call = (lparen >>> identifier.tag("name") >>> argument.tag("argument") >>> rparen).tag("call")
+    let argument = skip >>> expression.some.maybe >>> skip
+    let call = (lparen >>> identifier.tag("name") >>> argument.tag("arguments") >>> rparen).tag("call")
 
     expression.parser = literal | variable | call
 
@@ -136,6 +136,8 @@ class IotaTransformer: Transformer<IotaExpr> {
 func makeIotaTransformer() -> IotaTransformer {
 
     let transformer = IotaTransformer()
+
+    var functions = [String: IotaFunc]()
 
     transformer.rule(["numeral": .simple("n")]) {
         let n = try $0.raw("n")
@@ -174,8 +176,11 @@ func makeIotaTransformer() -> IotaTransformer {
             ])
         ])
     ]) {
+        let n = try $0.raw("n")
         let p = try $0.raw("p")
-        return try IotaFunc(param: p, body: $0.val("b"))
+        let f = try IotaFunc(param: p, body: $0.val("b"))
+        functions[n] = f
+        return f
     }
 
     return transformer
