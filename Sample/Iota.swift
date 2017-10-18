@@ -27,16 +27,16 @@ enum IotaRuntimeError: Error {
     case cannotEvaluate(String)
 }
 
-protocol IotaExpr {}
-
-extension IotaExpr {
-    func evaluate(context: IotaContext) throws -> IotaResult {
-        throw IotaRuntimeError.cannotEvaluate("unknown")
-    }
+protocol IotaExpr {
+    func evaluate(context: IotaContext) throws -> IotaResult
 }
 
 struct IotaIdentifier: IotaExpr {
     let id: String
+
+    func evaluate(context: IotaContext) throws -> IotaResult {
+        throw IotaRuntimeError.cannotEvaluate(id)
+    }
 }
 
 struct IotaNum: IotaExpr {
@@ -57,6 +57,7 @@ struct IotaVar: IotaExpr {
 }
 
 struct IotaFunc: IotaExpr {
+    let name: IotaIdentifier
     let params: [IotaIdentifier]
     let body: IotaExpr
 
@@ -83,6 +84,34 @@ struct IotaCall: IotaExpr {
     }
 }
 
+struct IotaProgram: IotaExpr {
+    let statements: [IotaExpr]
+
+    init(statements: [IotaExpr]) {
+        self.statements = statements
+    }
+
+    private var functions = [String: IotaFunc]()
+
+    func evaluate(context: IotaContext) throws -> IotaResult {
+        throw IotaRuntimeError.cannotEvaluate("")
+    }
+
+    func run() throws -> String {
+        var output = ""
+        var context = IotaContext()
+        try statements.forEach { statement in
+            if let function = statement as? IotaFunc {
+                context = context.append(param: function.name.id, arg: function)
+            } else {
+                let result = try statement.evaluate(context: context)
+                output += "\(result)"
+            }
+        }
+        return output
+    }
+}
+
 func iota() -> Pipeline<IotaExpr> {
     return Pipeline(defaultInput: """
 (def identity (a) a)
@@ -91,7 +120,8 @@ func iota() -> Pipeline<IotaExpr> {
                     parser: makeIotaParser(),
                     transformer: makeIotaTransformer()) { ast in
                         do {
-                            let result = try ast.evaluate(context: IotaContext())
+                            guard let program = ast as? IotaProgram else { throw IotaRuntimeError.cannotEvaluate("") }
+                            let result = try program.run()
                             return "\(result)"
                         } catch {
                             return "error"
@@ -133,7 +163,7 @@ func makeIotaParser() -> ParserProtocol {
     expression.parser = literal | variable | call
 
     let statement = function | expression
-    let statements = statement >>> (newline.some >>> statement).some.maybe
+    let statements = (statement >>> (newline.some >>> statement).some.maybe).tag("statements")
     return statements
 }
 
@@ -144,8 +174,6 @@ class IotaTransformer: Transformer<IotaExpr> {
 func makeIotaTransformer() -> IotaTransformer {
 
     let transformer = IotaTransformer()
-
-    var functions = [String: IotaFunc]()
 
     transformer.rule(["numeral": .simple("n")]) {
         let n = try $0.raw("n")
@@ -188,9 +216,12 @@ func makeIotaTransformer() -> IotaTransformer {
             let n = try $0.val("n") as? IotaIdentifier,
             let p = try $0.valSeries("p") as? [IotaIdentifier]
             else { throw IotaBuildError.notAnIdentifier }
-        let f = try IotaFunc(params: p, body: $0.val("b"))
-        functions[n.id] = f
-        return f
+        return try IotaFunc(name: n, params: p, body: $0.val("b"))
+    }
+
+    transformer.rule(pattern: .tree(["statements": .series("p")])) {
+        let p = try $0.valSeries("p")
+        return IotaProgram(statements: p)
     }
 
     return transformer
