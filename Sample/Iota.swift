@@ -47,6 +47,33 @@ struct IotaNum: IotaExpr {
     }
 }
 
+struct IotaInc: IotaExpr {
+    let body: IotaExpr
+
+    func evaluate(context: IotaContext) throws -> IotaResult {
+        return try body.evaluate(context: context) + 1
+    }
+}
+
+struct IotaDec: IotaExpr {
+    let body: IotaExpr
+
+    func evaluate(context: IotaContext) throws -> IotaResult {
+        return try body.evaluate(context: context) - 1
+    }
+}
+
+struct IotaEq: IotaExpr {
+    let first: IotaExpr
+    let second: IotaExpr
+
+    func evaluate(context: IotaContext) throws -> IotaResult {
+        let lhs = try first.evaluate(context: context)
+        let rhs = try second.evaluate(context: context)
+        return lhs == rhs ? 1 : 0
+    }
+}
+
 struct IotaVar: IotaExpr {
     let id: IotaIdentifier
 
@@ -81,6 +108,21 @@ struct IotaCall: IotaExpr {
             return context.append(param: p.id, arg: a)
         }
         return try function.evaluate(context: callContext)
+    }
+}
+
+struct IotaIf: IotaExpr {
+    let ifeval: IotaExpr
+    let texpr: IotaExpr
+    let fexpr: IotaExpr
+
+    func evaluate(context: IotaContext) throws -> IotaResult {
+        let eval = try ifeval.evaluate(context: context)
+        if eval == 0 {  // false
+            return try fexpr.evaluate(context: context)
+        } else {    // true
+            return try texpr.evaluate(context: context)
+        }
     }
 }
 
@@ -124,7 +166,7 @@ func iota() -> Pipeline<IotaExpr> {
                             let result = try program.run()
                             return "\(result)"
                         } catch {
-                            return "error"
+                            return "\(error)"
                         }
     }
 }
@@ -144,7 +186,11 @@ func makeIotaParser() -> ParserProtocol {
     let rparen = str(")")
     let digit = (0...9).match
     let letter = "abcdefghijklmnopqrstuvwxyz".match
-    let def = str("def")
+    let def = str("def") >>> skip
+    let `if` = str("if") >>> skip
+    let inc = str("1+") >>> skip
+    let dec = str("1-") >>> skip
+    let eq = str("=") >>> skip
 
     let identifier = skip >>> letter.some.tag("identifier") >>> skip
     let numeral = skip >>> digit.some.tag("numeral") >>> skip
@@ -157,10 +203,20 @@ func makeIotaParser() -> ParserProtocol {
     let params = lparen >>> identifier.some.tag("params").maybe >>> rparen
     let function = (lparen >>> def >>> identifier.tag("name") >>> params >>> body.tag("body") >>> rparen).tag("function")
 
-    let arguments = skip >>> expression.some.maybe >>> skip
-    let call = (lparen >>> identifier.tag("name") >>> arguments.tag("arguments") >>> rparen).tag("call")
+    let arguments = skip >>> (expression >>> skip).some.tag("arguments").maybe >>> skip
+    let call = (lparen >>> identifier.tag("name") >>> arguments >>> rparen).tag("call")
 
-    expression.parser = literal | variable | call
+    let ifeval = expression.tag("eval")
+    let pexpression = skip >>> expression >>> skip
+    let tbranch = pexpression
+    let fbranch = pexpression
+    let ifexpr = (lparen >>> `if` >>> ifeval >>> tbranch.tag("true") >>> fbranch.tag("false") >>> rparen).tag("if")
+
+    let incfunc = (lparen >>> inc >>> expression.tag("body") >>> rparen).tag("inc")
+    let decfunc = (lparen >>> dec >>> expression.tag("body") >>> rparen).tag("dec")
+    let eqfunc = (lparen >>> eq >>> expression.tag("first") >>> expression.tag("second") >>> rparen).tag("eq")
+
+    expression.parser = literal | variable | ifexpr | incfunc | decfunc | eqfunc | call
 
     let statement = (function | expression) >>> newline.some.maybe
     let statements = statement.some.tag("statements")
@@ -199,10 +255,19 @@ func makeIotaTransformer() -> IotaTransformer {
         "call": .tree([
             "arguments": .series("args"),
             "name": .simple("name")
-        ])
-    ])) {
-        guard let n = try $0.val("name") as? IotaIdentifier else { throw IotaBuildError.notAnIdentifier }
-        return try IotaCall(funcName: n, arguments: $0.valSeries("args"))
+            ])
+        ])) {
+            guard let n = try $0.val("name") as? IotaIdentifier else { throw IotaBuildError.notAnIdentifier }
+            return try IotaCall(funcName: n, arguments: $0.valSeries("args"))
+    }
+
+    transformer.rule(pattern: .tree([
+        "call": .tree([
+            "name": .simple("name")
+            ])
+        ])) {
+            guard let n = try $0.val("name") as? IotaIdentifier else { throw IotaBuildError.notAnIdentifier }
+            return IotaCall(funcName: n, arguments: [])
     }
 
     transformer.rule([
@@ -229,6 +294,44 @@ func makeIotaTransformer() -> IotaTransformer {
             let n = try $0.val("name") as? IotaIdentifier
             else { throw IotaBuildError.notAnIdentifier }
         return try IotaFunc(name: n, params: [], body: $0.val("body"))
+    }
+
+    transformer.rule([
+        "inc": .tree([
+            "body": .simple("body")
+            ])
+    ]) {
+        return try IotaInc(body: $0.val("body"))
+    }
+
+    transformer.rule([
+        "dec": .tree([
+            "body": .simple("body")
+            ])
+    ]) {
+        return try IotaDec(body: $0.val("body"))
+    }
+
+    transformer.rule([
+        "eq": .tree([
+            "first": .simple("first"),
+            "second": .simple("second")
+            ])
+    ]) {
+        return try IotaEq(first: $0.val("first"), second: $0.val("second"))
+    }
+
+    transformer.rule([
+        "if": .tree([
+            "eval": .simple("eval"),
+            "true": .simple("true"),
+            "false": .simple("false")
+            ])
+    ]) {
+        let ifeval = try $0.val("eval")
+        let texpr = try $0.val("true")
+        let fexpr = try $0.val("false")
+        return IotaIf(ifeval: ifeval, texpr: texpr, fexpr: fexpr)
     }
 
     transformer.rule(pattern: .tree(["statements": .series("statements")])) {
