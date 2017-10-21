@@ -233,22 +233,18 @@ func makeIotaTransformer() -> IotaTransformer {
     let transformer = IotaTransformer()
 
     transformer.rule(["numeral": .simple("num")]) {
-        let n = try $0.raw("num")
+        let n: String = try $0.str("num")
         guard let value = Int(n) else { throw IotaBuildError.notANumber(n) }
-        return Int(value)
+        return value
     }
 
-    transformer.rule([
-        "identifier": .simple("id")
-    ]) {
-        return try $0.raw("id")
+    transformer.rule(["identifier": .simple("id")]) {
+        return try $0.str("id")
     }
 
-    transformer.rule([
-        "variable": .simple("var")
-    ]) {
-        guard let v = try $0.val("var") as? String else { throw IotaBuildError.notAnIdentifier }
-        return IotaVar(id: v)
+    transformer.rule(["variable": .simple("var")]) {
+        guard let id = try $0.val("var") as? String else { throw IotaBuildError.notAnIdentifier }
+        return IotaVar(id: id)
     }
 
     transformer.rule(pattern: .tree([
@@ -257,17 +253,24 @@ func makeIotaTransformer() -> IotaTransformer {
             "name": .simple("name")
             ])
         ])) {
-            guard let n = try $0.val("name") as? String else { throw IotaBuildError.notAnIdentifier }
-            return try IotaCall(funcName: n, arguments: $0.valSeries("args"))
+            guard let name = try $0.val("name") as? String else { throw IotaBuildError.notAnIdentifier }
+            return try IotaCall(funcName: name, arguments: $0.vals("args"))
     }
+
+//    transformer.rule(
+//        ["call":
+//            ["arguments": .series("args"),
+//             "name": .simple("name")]]) {
+//                return try IotaCall(funcName: $0.val["name"], arguments: $0.vals("args"))
+//    }
 
     transformer.rule(pattern: .tree([
         "call": .tree([
             "name": .simple("name")
             ])
         ])) {
-            guard let n = try $0.val("name") as? String else { throw IotaBuildError.notAnIdentifier }
-            return IotaCall(funcName: n, arguments: [])
+            guard let name = try $0.val("name") as? String else { throw IotaBuildError.notAnIdentifier }
+            return IotaCall(funcName: name, arguments: [])
     }
 
     transformer.rule([
@@ -278,10 +281,10 @@ func makeIotaTransformer() -> IotaTransformer {
             ])
     ]) {
         guard
-            let n = try $0.val("name") as? String,
-            let p = try $0.valSeries("params") as? [String]
+            let name = try $0.val("name") as? String,
+            let params = try $0.vals("params") as? [String]
             else { throw IotaBuildError.notAnIdentifier }
-        return try IotaFunc(name: n, params: p, body: $0.val("body"))
+        return try IotaFunc(name: name, params: params, body: $0.val("body"))
     }
 
     transformer.rule([
@@ -290,10 +293,8 @@ func makeIotaTransformer() -> IotaTransformer {
             "name": .simple("name")
             ])
     ]) {
-        guard
-            let n = try $0.val("name") as? String
-            else { throw IotaBuildError.notAnIdentifier }
-        return try IotaFunc(name: n, params: [], body: $0.val("body"))
+        guard let name = try $0.val("name") as? String else { throw IotaBuildError.notAnIdentifier }
+        return try IotaFunc(name: name, params: [], body: $0.val("body"))
     }
 
     transformer.rule([
@@ -328,15 +329,11 @@ func makeIotaTransformer() -> IotaTransformer {
             "false": .simple("false")
             ])
     ]) {
-        let ifeval = try $0.val("eval")
-        let texpr = try $0.val("true")
-        let fexpr = try $0.val("false")
-        return IotaIf(ifeval: ifeval, texpr: texpr, fexpr: fexpr)
+        return try IotaIf(ifeval: $0.val("eval"), texpr: $0.val("true"), fexpr: $0.val("false"))
     }
 
-    transformer.rule(pattern: .tree(["statements": .series("statements")])) {
-        let p = try $0.valSeries("statements")
-        return IotaProgram(statements: p)
+    transformer.rule(["statements": .series("statements")]) {
+        return try IotaProgram(statements: $0.vals("statements"))
     }
 
     return transformer

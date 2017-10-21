@@ -63,7 +63,7 @@ func makeSongTransformer() -> Transformer<SongExpression> {
     let transformer = Transformer<SongExpression>()
 
     transformer.rule(["subject": .simple("s")]) {
-        guard let value = try Int($0.raw("s")) else { throw SongExpressionError.unknown }
+        guard let value = try Int($0.str("s")) else { throw SongExpressionError.unknown }
         return SongNumber(value: value)
     }
 

@@ -77,7 +77,7 @@ func makeArithmeticTransformer() -> Transformer<Expr> {
     let transformer = Transformer<Expr>()
 
     transformer.rule(["n": .simple("n")]) {
-        guard let value = Double(try $0.raw("n")) else { throw ExprError.notAConstant }
+        guard let value = Double(try $0.str("n")) else { throw ExprError.notAConstant }
         return Num(value: value)
     }
     

@@ -56,7 +56,7 @@ public struct TransformerReducerArguments<T> {
         return try transformed(key)
     }
 
-    public func valSeries(_ key: String) throws -> [T] {
+    public func vals(_ key: String) throws -> [T] {
         let value = try get(key: key)
         guard case let .series(transformable) = value else {
             throw TransformerError<T>.captureVariableUnexpectedlyRaw(key)
@@ -70,7 +70,15 @@ public struct TransformerReducerArguments<T> {
         return result
     }
 
-    public func rawSeries(_ key: String) throws -> [String] {
+    public func str(_ key: String) throws -> String {
+        let value = try get(key: key)
+        guard case let .leaf(.raw(raw)) = value else {
+            throw TransformerError<T>.captureVariableUnexpectedlyTransformed(key)
+        }
+        return raw
+    }
+
+    public func strs(_ key: String) throws -> [String] {
         let value = try get(key: key)
         guard case let .series(transformable) = value else {
             throw TransformerError<T>.captureVariableUnexpectedlyRaw(key)
@@ -82,14 +90,6 @@ public struct TransformerReducerArguments<T> {
             throw TransformerError<T>.untransformedSequence(key)
         }
         return result
-    }
-
-    public func raw(_ key: String) throws -> String {
-        let value = try get(key: key)
-        guard case let .leaf(.raw(raw)) = value else {
-            throw TransformerError<T>.captureVariableUnexpectedlyTransformed(key)
-        }
-        return raw
     }
 
     private func get(key: String) throws -> Transformable<T> {
