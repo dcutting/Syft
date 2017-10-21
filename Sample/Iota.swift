@@ -1,7 +1,5 @@
 import Syft
 
-typealias IotaResult = Int
-
 struct IotaContext {
     var values = [String: IotaExpr]()
 
@@ -24,33 +22,29 @@ enum IotaBuildError: Error {
 enum IotaRuntimeError: Error {
     case noSuchVariable(String)
     case notAFunction(String)
-    case cannotEvaluate(String)
+    case cannotEvaluate
 }
 
 protocol IotaExpr {
-    func evaluate(context: IotaContext) throws -> IotaResult
+    func evaluate(context: IotaContext) throws -> Int
 }
 
-struct IotaIdentifier: IotaExpr {
-    let id: String
-
-    func evaluate(context: IotaContext) throws -> IotaResult {
-        throw IotaRuntimeError.cannotEvaluate(id)
+extension String: IotaExpr {
+    func evaluate(context: IotaContext) throws -> Int {
+        throw IotaRuntimeError.cannotEvaluate
     }
 }
 
-struct IotaNum: IotaExpr {
-    let value: Int
-
-    func evaluate(context: IotaContext) throws -> IotaResult {
-        return value
+extension Int: IotaExpr {
+    func evaluate(context: IotaContext) throws -> Int {
+        return self
     }
 }
 
 struct IotaInc: IotaExpr {
     let body: IotaExpr
 
-    func evaluate(context: IotaContext) throws -> IotaResult {
+    func evaluate(context: IotaContext) throws -> Int {
         return try body.evaluate(context: context) + 1
     }
 }
@@ -58,7 +52,7 @@ struct IotaInc: IotaExpr {
 struct IotaDec: IotaExpr {
     let body: IotaExpr
 
-    func evaluate(context: IotaContext) throws -> IotaResult {
+    func evaluate(context: IotaContext) throws -> Int {
         return try body.evaluate(context: context) - 1
     }
 }
@@ -67,7 +61,7 @@ struct IotaEq: IotaExpr {
     let first: IotaExpr
     let second: IotaExpr
 
-    func evaluate(context: IotaContext) throws -> IotaResult {
+    func evaluate(context: IotaContext) throws -> Int {
         let lhs = try first.evaluate(context: context)
         let rhs = try second.evaluate(context: context)
         return lhs == rhs ? 1 : 0
@@ -75,37 +69,37 @@ struct IotaEq: IotaExpr {
 }
 
 struct IotaVar: IotaExpr {
-    let id: IotaIdentifier
+    let id: String
 
-    func evaluate(context: IotaContext) throws -> IotaResult {
-        guard let value = context[id.id] else { throw IotaRuntimeError.noSuchVariable(id.id) }
+    func evaluate(context: IotaContext) throws -> Int {
+        guard let value = context[id] else { throw IotaRuntimeError.noSuchVariable(id) }
         return try value.evaluate(context: context)
     }
 }
 
 struct IotaFunc: IotaExpr {
-    let name: IotaIdentifier
-    let params: [IotaIdentifier]
+    let name: String
+    let params: [String]
     let body: IotaExpr
 
-    func evaluate(context: IotaContext) throws -> IotaResult {
+    func evaluate(context: IotaContext) throws -> Int {
         return try body.evaluate(context: context)
     }
 }
 
 struct IotaCall: IotaExpr {
-    let funcName: IotaIdentifier
+    let funcName: String
     let arguments: [IotaExpr]
 
-    func evaluate(context: IotaContext) throws -> IotaResult {
-        guard let value = context[funcName.id] else { throw IotaRuntimeError.noSuchVariable(funcName.id) }
-        guard let function = value as? IotaFunc else { throw IotaRuntimeError.notAFunction(funcName.id) }
+    func evaluate(context: IotaContext) throws -> Int {
+        guard let value = context[funcName] else { throw IotaRuntimeError.noSuchVariable(funcName) }
+        guard let function = value as? IotaFunc else { throw IotaRuntimeError.notAFunction(funcName) }
         let evaluatedArgs = try arguments.map {
             try $0.evaluate(context: context)
-        }.map(IotaNum.init)
+        }
         let callContext = zip(function.params, evaluatedArgs).reduce(context) { context, paramArg in
             let (p, a) = paramArg
-            return context.append(param: p.id, arg: a)
+            return context.append(param: p, arg: a)
         }
         return try function.evaluate(context: callContext)
     }
@@ -116,7 +110,7 @@ struct IotaIf: IotaExpr {
     let texpr: IotaExpr
     let fexpr: IotaExpr
 
-    func evaluate(context: IotaContext) throws -> IotaResult {
+    func evaluate(context: IotaContext) throws -> Int {
         let eval = try ifeval.evaluate(context: context)
         if eval == 0 {  // false
             return try fexpr.evaluate(context: context)
@@ -135,8 +129,8 @@ struct IotaProgram: IotaExpr {
 
     private var functions = [String: IotaFunc]()
 
-    func evaluate(context: IotaContext) throws -> IotaResult {
-        throw IotaRuntimeError.cannotEvaluate("")
+    func evaluate(context: IotaContext) throws -> Int {
+        throw IotaRuntimeError.cannotEvaluate
     }
 
     func run() throws -> String {
@@ -144,10 +138,10 @@ struct IotaProgram: IotaExpr {
         var context = IotaContext()
         try statements.forEach { statement in
             if let function = statement as? IotaFunc {
-                context = context.append(param: function.name.id, arg: function)
+                context = context.append(param: function.name, arg: function)
             } else {
                 let result = try statement.evaluate(context: context)
-                output += "\(result)"
+                output += "\(result)\n"
             }
         }
         return output
@@ -156,13 +150,22 @@ struct IotaProgram: IotaExpr {
 
 func iota() -> Pipeline<IotaExpr> {
     return Pipeline(defaultInput: """
-(def identity (a) a)
-(identity 5)
+(def add (a b)
+    (if (= a 0)
+        b
+        (add (1- a) (1+ b))))
+
+(def times (a b)
+    (if (= a 0)
+        0
+        (add b (times (1- a) b))))
+
+(times 9 4)
 """,
                     parser: makeIotaParser(),
                     transformer: makeIotaTransformer()) { ast in
                         do {
-                            guard let program = ast as? IotaProgram else { throw IotaRuntimeError.cannotEvaluate("") }
+                            guard let program = ast as? IotaProgram else { throw IotaRuntimeError.cannotEvaluate }
                             let result = try program.run()
                             return "\(result)"
                         } catch {
@@ -223,9 +226,7 @@ func makeIotaParser() -> ParserProtocol {
     return statements
 }
 
-class IotaTransformer: Transformer<IotaExpr> {
-
-}
+typealias IotaTransformer = Transformer<IotaExpr>
 
 func makeIotaTransformer() -> IotaTransformer {
 
@@ -234,20 +235,19 @@ func makeIotaTransformer() -> IotaTransformer {
     transformer.rule(["numeral": .simple("num")]) {
         let n = try $0.raw("num")
         guard let value = Int(n) else { throw IotaBuildError.notANumber(n) }
-        return IotaNum(value: value)
+        return Int(value)
     }
 
     transformer.rule([
         "identifier": .simple("id")
     ]) {
-        let i = try $0.raw("id")
-        return IotaIdentifier(id: i)
+        return try $0.raw("id")
     }
 
     transformer.rule([
         "variable": .simple("var")
     ]) {
-        guard let v = try $0.val("var") as? IotaIdentifier else { throw IotaBuildError.notAnIdentifier }
+        guard let v = try $0.val("var") as? String else { throw IotaBuildError.notAnIdentifier }
         return IotaVar(id: v)
     }
 
@@ -257,7 +257,7 @@ func makeIotaTransformer() -> IotaTransformer {
             "name": .simple("name")
             ])
         ])) {
-            guard let n = try $0.val("name") as? IotaIdentifier else { throw IotaBuildError.notAnIdentifier }
+            guard let n = try $0.val("name") as? String else { throw IotaBuildError.notAnIdentifier }
             return try IotaCall(funcName: n, arguments: $0.valSeries("args"))
     }
 
@@ -266,7 +266,7 @@ func makeIotaTransformer() -> IotaTransformer {
             "name": .simple("name")
             ])
         ])) {
-            guard let n = try $0.val("name") as? IotaIdentifier else { throw IotaBuildError.notAnIdentifier }
+            guard let n = try $0.val("name") as? String else { throw IotaBuildError.notAnIdentifier }
             return IotaCall(funcName: n, arguments: [])
     }
 
@@ -278,8 +278,8 @@ func makeIotaTransformer() -> IotaTransformer {
             ])
     ]) {
         guard
-            let n = try $0.val("name") as? IotaIdentifier,
-            let p = try $0.valSeries("params") as? [IotaIdentifier]
+            let n = try $0.val("name") as? String,
+            let p = try $0.valSeries("params") as? [String]
             else { throw IotaBuildError.notAnIdentifier }
         return try IotaFunc(name: n, params: p, body: $0.val("body"))
     }
@@ -291,7 +291,7 @@ func makeIotaTransformer() -> IotaTransformer {
             ])
     ]) {
         guard
-            let n = try $0.val("name") as? IotaIdentifier
+            let n = try $0.val("name") as? String
             else { throw IotaBuildError.notAnIdentifier }
         return try IotaFunc(name: n, params: [], body: $0.val("body"))
     }
