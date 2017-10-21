@@ -154,16 +154,16 @@ func makeIotaParser() -> ParserProtocol {
     let expression = Deferred()
 
     let body = skip >>> expression >>> skip
-    let params = lparen >>> identifier.some.maybe >>> rparen
-    let function = (lparen >>> def >>> identifier.tag("name") >>> params.tag("params") >>> body.tag("body") >>> rparen).tag("function")
+    let params = lparen >>> identifier.some.tag("params").maybe >>> rparen
+    let function = (lparen >>> def >>> identifier.tag("name") >>> params >>> body.tag("body") >>> rparen).tag("function")
 
     let arguments = skip >>> expression.some.maybe >>> skip
     let call = (lparen >>> identifier.tag("name") >>> arguments.tag("arguments") >>> rparen).tag("call")
 
     expression.parser = literal | variable | call
 
-    let statement = function | expression
-    let statements = (statement >>> (newline.some >>> statement).some.maybe).tag("statements")
+    let statement = (function | expression) >>> newline.some.maybe
+    let statements = statement.some.tag("statements")
     return statements
 }
 
@@ -175,52 +175,64 @@ func makeIotaTransformer() -> IotaTransformer {
 
     let transformer = IotaTransformer()
 
-    transformer.rule(["numeral": .simple("n")]) {
-        let n = try $0.raw("n")
+    transformer.rule(["numeral": .simple("num")]) {
+        let n = try $0.raw("num")
         guard let value = Int(n) else { throw IotaBuildError.notANumber(n) }
         return IotaNum(value: value)
     }
 
     transformer.rule([
-        "identifier": .simple("i")
+        "identifier": .simple("id")
     ]) {
-        let i = try $0.raw("i")
+        let i = try $0.raw("id")
         return IotaIdentifier(id: i)
     }
 
     transformer.rule([
-        "variable": .simple("v")
+        "variable": .simple("var")
     ]) {
-        guard let v = try $0.val("v") as? IotaIdentifier else { throw IotaBuildError.notAnIdentifier }
+        guard let v = try $0.val("var") as? IotaIdentifier else { throw IotaBuildError.notAnIdentifier }
         return IotaVar(id: v)
     }
 
     transformer.rule(pattern: .tree([
         "call": .tree([
-            "arguments": .series("a"),
-            "name": .simple("n")
+            "arguments": .series("args"),
+            "name": .simple("name")
         ])
     ])) {
-        guard let n = try $0.val("n") as? IotaIdentifier else { throw IotaBuildError.notAnIdentifier }
-        return try IotaCall(funcName: n, arguments: $0.valSeries("a"))
+        guard let n = try $0.val("name") as? IotaIdentifier else { throw IotaBuildError.notAnIdentifier }
+        return try IotaCall(funcName: n, arguments: $0.valSeries("args"))
     }
 
     transformer.rule([
         "function": .tree([
-            "body": .simple("b"),
-            "name": .simple("n"),
-            "params": .series("p")
-        ])
+            "body": .simple("body"),
+            "name": .simple("name"),
+            "params": .series("params")
+            ])
     ]) {
         guard
-            let n = try $0.val("n") as? IotaIdentifier,
-            let p = try $0.valSeries("p") as? [IotaIdentifier]
+            let n = try $0.val("name") as? IotaIdentifier,
+            let p = try $0.valSeries("params") as? [IotaIdentifier]
             else { throw IotaBuildError.notAnIdentifier }
-        return try IotaFunc(name: n, params: p, body: $0.val("b"))
+        return try IotaFunc(name: n, params: p, body: $0.val("body"))
     }
 
-    transformer.rule(pattern: .tree(["statements": .series("p")])) {
-        let p = try $0.valSeries("p")
+    transformer.rule([
+        "function": .tree([
+            "body": .simple("body"),
+            "name": .simple("name")
+            ])
+    ]) {
+        guard
+            let n = try $0.val("name") as? IotaIdentifier
+            else { throw IotaBuildError.notAnIdentifier }
+        return try IotaFunc(name: n, params: [], body: $0.val("body"))
+    }
+
+    transformer.rule(pattern: .tree(["statements": .series("statements")])) {
+        let p = try $0.valSeries("statements")
         return IotaProgram(statements: p)
     }
 
