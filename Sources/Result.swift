@@ -37,8 +37,14 @@ public indirect enum Result: Equatable, CustomStringConvertible {
 
         case let (.tagged(selfTagged), .tagged(secondaryTagged)):
             return .tagged(selfTagged + secondaryTagged)
-        case let (.tagged, .series(secondarySeries)):
-            return .series([self] + secondarySeries)
+        case let (.tagged(firstTagged), .series(secondarySeries)):
+            var secondaryTagged = [String: Result]()
+            secondarySeries.forEach { series in
+                if case let .tagged(t) = series {
+                    secondaryTagged = secondaryTagged + t
+                }
+            }
+            return .tagged(firstTagged + secondaryTagged)
         case (.tagged, .match):
             return self
         case (.tagged, .failure):
