@@ -1,3 +1,5 @@
 coverage_service: coveralls
 xcodeproj: Syft.xcodeproj
 scheme: Syft
+ignore:
+  - Tests/*
