@@ -8,7 +8,8 @@ env:
   - LC_CTYPE=en_US.UTF-8 LANG=en_US.UTF-8
 before_install:
   - rvm install ruby-2.4.2
-  - gem install xcpretty -N
+install:
+  - bundle install --without=documentation --path ../travis_bundle_dir
 script:
   - set -o pipefail
   - xcodebuild -project Syft.xcodeproj -scheme Syft clean build test | xcpretty
