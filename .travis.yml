@@ -9,7 +9,6 @@ env:
 before_install:
   - rvm install ruby-2.4.2
   - gem install xcpretty -N
-  - brew update
 script:
   - set -o pipefail
   - xcodebuild -project Syft.xcodeproj -scheme Syft clean build test | xcpretty
