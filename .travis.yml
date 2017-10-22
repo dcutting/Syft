@@ -12,3 +12,4 @@ before_install:
 script:
   - set -o pipefail
   - xcodebuild -project Syft.xcodeproj -scheme Syft clean build test | xcpretty
+after_success: slather
