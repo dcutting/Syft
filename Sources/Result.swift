@@ -4,7 +4,7 @@ public indirect enum Result: Equatable, CustomStringConvertible {
     case match(match: String, index: Int)
     case tagged([String: Result])
     case series([Result])
-    case maybe(Result?)
+    case maybe(Result)
 
     public var description: String {
 
@@ -23,8 +23,7 @@ public indirect enum Result: Equatable, CustomStringConvertible {
             return "\(series)"
 
         case let .maybe(maybe):
-            guard let maybe = maybe else { return "" }
-            return "\(maybe)"
+            return "\(maybe)?"
         }
     }
 
@@ -49,11 +48,7 @@ public indirect enum Result: Equatable, CustomStringConvertible {
             return .series([self] + secondarySeries)
         case let (.tagged, .maybe(secondaryResult)):
             // https://github.com/kschiess/parslet/blob/master/lib/parslet/atoms/can_flatten.rb#L38
-            if let secondaryResult = secondaryResult {
-                return self.combine(secondaryResult)
-            } else {
-                return self
-            }
+            return self.combine(secondaryResult)
         case (.tagged, .failure):
             return .failure
 
@@ -64,11 +59,7 @@ public indirect enum Result: Equatable, CustomStringConvertible {
         case let (.series(selfSeries), .series(secondarySeries)):
             return .series(selfSeries + secondarySeries)
         case let (.series, .maybe(secondaryResult)):
-            if let secondaryResult = secondaryResult {
-                return self.combine(secondaryResult)
-            } else {
-                return self
-            }
+            return self.combine(secondaryResult)
         case (.series, .failure):
             return .failure
 
@@ -77,11 +68,7 @@ public indirect enum Result: Equatable, CustomStringConvertible {
         case let (.maybe(firstResult), .tagged),
              let (.maybe(firstResult), .series),
              let (.maybe(firstResult), .maybe):
-            if let firstResult = firstResult {
-                return firstResult.combine(secondary)
-            } else {
-                return secondary
-            }
+            return firstResult.combine(secondary)
         case (.maybe, .failure):
             return .failure
 
