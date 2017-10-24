@@ -198,8 +198,9 @@ open class Transformer<T> {
             }
             return .series(transformables)
         case let .maybe(result):
-            let transformable = try makeTransformable(for: result)
-            return .series([transformable])
+            // NB: .maybe's should never exist in output from the parser since they are either converted
+            // to .series or collapsed to nothing. But we still cover this case for completeness.
+            return try makeTransformable(for: result)
         }
     }
 

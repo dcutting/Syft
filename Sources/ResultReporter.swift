@@ -44,11 +44,9 @@ func makeReport(series: [Result], indent: Int) -> String {
     return "[\n\(seriesDescription)\n" + "]".indented(by: indent)
 }
 
-func makeReport(maybe: Result?, indent: Int) -> String {
-    guard let maybe = maybe else { return "" }
-    let nextIndent = makeNextIndent(indent: indent)
-    let valueReport = makeReport(result: maybe, indent: nextIndent)
-    return "\(valueReport)?".indented(by: indent)
+func makeReport(maybe: Result, indent: Int) -> String {
+    let valueReport = makeReport(result: maybe, indent: indent)
+    return "\(valueReport)?"
 }
 
 func makeNextIndent(indent: Int) -> Int {
