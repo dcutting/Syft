@@ -65,7 +65,7 @@ extension Parser: ParserDSL {
     }
 
     public var maybe: Parser {
-        return recur(0, 1)
+        return Parser.maybe(self)
     }
 
     public func tag(_ tag: String) -> Parser {

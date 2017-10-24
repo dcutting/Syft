@@ -197,6 +197,12 @@ open class Transformer<T> {
                 try makeTransformable(for: value)
             }
             return .series(transformables)
+        case let .maybe(result):
+            let transformable = try result.flatMap { value in
+                try makeTransformable(for: value)
+            }
+            // TODO
+            return .series([transformable!])
         }
     }
 

@@ -12,6 +12,7 @@ public indirect enum Parser: ParserProtocol {
     case tagged(String, Parser)
     case `defer`(Deferred)
     case `repeat`(Parser, minimum: Int, maximum: Int?)
+    case maybe(Parser)
     case either(Parser, Parser)
 
     public func parse(_ input: String) -> ResultWithRemainder {
@@ -38,7 +39,10 @@ public indirect enum Parser: ParserProtocol {
             return parseDeferred(input, deferred: deferred)
 
         case let .repeat(sub, minimum, maximum):
-            return parseRepeat(input, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: 0, resultSoFar: nil, initialInput: input)
+            return parseRepeat(input, sub: sub, minimum: minimum, maximum: maximum, collapsible: false, matchesSoFar: 0, resultSoFar: nil, initialInput: input)
+
+        case let .maybe(sub):
+            return parseRepeat(input, sub: sub, minimum: 0, maximum: 1, collapsible: true, matchesSoFar: 0, resultSoFar: nil, initialInput: input)
 
         case let .either(first, second):
             return parseEither(input, first: first, second: second)
@@ -117,7 +121,7 @@ func parseDeferred(_ input: Remainder, deferred: Deferred) -> ResultWithRemainde
     return deferred.parse(input)
 }
 
-func parseRepeat(_ input: Remainder, sub: Parser, minimum: Int, maximum: Int?, matchesSoFar: Int, resultSoFar: Result?, initialInput: Remainder) -> ResultWithRemainder {
+func parseRepeat(_ input: Remainder, sub: Parser, minimum: Int, maximum: Int?, collapsible: Bool, matchesSoFar: Int, resultSoFar: Result?, initialInput: Remainder) -> ResultWithRemainder {
 
     if let maximum = maximum {
         if matchesSoFar >= maximum {
@@ -142,20 +146,24 @@ func parseRepeat(_ input: Remainder, sub: Parser, minimum: Int, maximum: Int?, m
     default:
         if let resultSoFar = resultSoFar {
             let combinedResult = resultSoFar.combine(headResult)
-            return parseRepeat(headRemainder, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: matchesSoFar+1, resultSoFar: combinedResult, initialInput: initialInput)
+            return parseRepeat(headRemainder, sub: sub, minimum: minimum, maximum: maximum, collapsible: collapsible, matchesSoFar: matchesSoFar+1, resultSoFar: combinedResult, initialInput: initialInput)
         } else {
-            let combinedResult = prepareInitialResultForRepeat(headResult)
-            return parseRepeat(headRemainder, sub: sub, minimum: minimum, maximum: maximum, matchesSoFar: matchesSoFar+1, resultSoFar: combinedResult, initialInput: initialInput)
+            let combinedResult = prepareInitialResultForRepeat(headResult, collapsible: collapsible)
+            return parseRepeat(headRemainder, sub: sub, minimum: minimum, maximum: maximum, collapsible: collapsible, matchesSoFar: matchesSoFar+1, resultSoFar: combinedResult, initialInput: initialInput)
         }
     }
 }
 
-func prepareInitialResultForRepeat(_ result: Result) -> Result {
+func prepareInitialResultForRepeat(_ result: Result, collapsible: Bool) -> Result {
 
     switch result {
 
     case .tagged:
-        return .series([result])
+        if collapsible {
+            return .maybe(result)
+        } else {
+            return .series([result])
+        }
 
     default:
         return result

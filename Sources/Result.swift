@@ -4,6 +4,7 @@ public indirect enum Result: Equatable, CustomStringConvertible {
     case match(match: String, index: Int)
     case tagged([String: Result])
     case series([Result])
+    case maybe(Result?)
 
     public var description: String {
 
@@ -20,6 +21,10 @@ public indirect enum Result: Equatable, CustomStringConvertible {
 
         case let .series(series):
             return "\(series)"
+
+        case let .maybe(maybe):
+            guard let maybe = maybe else { return "" }
+            return "\(maybe)"
         }
     }
 
@@ -30,40 +35,60 @@ public indirect enum Result: Equatable, CustomStringConvertible {
         case let (.match(match: selfText, index: selfIndex), .match(match: secondaryText, index: _)):
             return .match(match: selfText + secondaryText, index: selfIndex)
         case (.match, .tagged),
-             (.match, .series):
+             (.match, .series),
+             (.match, .maybe):
             return secondary
         case (.match, .failure):
             return .failure
 
-        case let (.tagged(selfTagged), .tagged(secondaryTagged)):
-            return .tagged(selfTagged + secondaryTagged)
-        case let (.tagged(firstTagged), .series(secondarySeries)):
-            // TODO some problem here. The uncommented code is correct, but the commented code makes the Iota sample work...
-//            var secondaryTagged = [String: Result]()
-//            secondarySeries.forEach { series in
-//                if case let .tagged(t) = series {
-//                    secondaryTagged = secondaryTagged + t
-//                }
-//            }
-//            return .tagged(firstTagged + secondaryTagged)
-            return .series([self] + secondarySeries)
         case (.tagged, .match):
             return self
+        case let (.tagged(selfTagged), .tagged(secondaryTagged)):
+            return .tagged(selfTagged + secondaryTagged)
+        case let (.tagged, .series(secondarySeries)):
+            return .series([self] + secondarySeries)
+        case let (.tagged, .maybe(secondaryResult)):
+            // https://github.com/kschiess/parslet/blob/master/lib/parslet/atoms/can_flatten.rb#L38
+            if let secondaryResult = secondaryResult {
+                return self.combine(secondaryResult)
+            } else {
+                return self
+            }
         case (.tagged, .failure):
             return .failure
 
-        case let (.series(selfSeries), .tagged):
-            return .series(selfSeries + [secondary])
         case (.series, .match):
             return self
+        case let (.series(selfSeries), .tagged):
+            return .series(selfSeries + [secondary])
         case let (.series(selfSeries), .series(secondarySeries)):
             return .series(selfSeries + secondarySeries)
+        case let (.series, .maybe(secondaryResult)):
+            if let secondaryResult = secondaryResult {
+                return self.combine(secondaryResult)
+            } else {
+                return self
+            }
         case (.series, .failure):
+            return .failure
+
+        case (.maybe, .match):
+            return self
+        case let (.maybe(firstResult), .tagged),
+             let (.maybe(firstResult), .series),
+             let (.maybe(firstResult), .maybe):
+            if let firstResult = firstResult {
+                return firstResult.combine(secondary)
+            } else {
+                return secondary
+            }
+        case (.maybe, .failure):
             return .failure
 
         case (.failure, .match),
              (.failure, .tagged),
              (.failure, .series),
+             (.failure, .maybe),
              (.failure, .failure):
             return .failure
         }
