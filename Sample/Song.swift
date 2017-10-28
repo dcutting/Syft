@@ -105,7 +105,6 @@ func makeSongParser() -> ParserProtocol {
 
     // Functions.
 
-    // TODO: bug in functions somewhere.
     let parameter = pattern
     let functionSubject = parameter.tag("defunSubject")
     let functionName = name.tag("FUNC")
@@ -114,8 +113,8 @@ func makeSongParser() -> ParserProtocol {
     let assign = skip >>> str("=") >>> skip
     let functionBody = expression.tag("body") >>> skip
     let ifKeyword = space >>> str("IF") >>> space
-    let `guard` = (ifKeyword >>> expression).maybe.tag("guard")
-    let function = functionSubject >>> dot >>> functionName >>> functionParameters.maybe >>> `guard` >>> assign >>> functionBody
+    let guardClause = (ifKeyword >>> expression).maybe.tag("guard")
+    let function = functionSubject >>> dot >>> functionName >>> functionParameters.maybe >>> guardClause >>> assign >>> functionBody
 
     // Lambdas.
 
@@ -154,7 +153,7 @@ func makeSongParser() -> ParserProtocol {
     let statement = classDeclaration >>> `import` >>> function >>> expression
     let program = skip >>> statement
 
-    return function
+    return expression
 }
 
 //    let listPattern = (list | listTemplate).tag("listPattern")
