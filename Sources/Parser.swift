@@ -14,6 +14,7 @@ public indirect enum Parser: ParserProtocol {
     case `repeat`(Parser, minimum: Int, maximum: Int?)
     case maybe(Parser)
     case either(Parser, Parser)
+    // TODO case absent
 
     public func parse(_ input: String) -> ResultWithRemainder {
         return parse(Remainder(text: input, index: 0))
