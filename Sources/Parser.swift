@@ -129,7 +129,7 @@ func parseRepeat(_ input: Remainder, sub: Parser, minimum: Int, maximum: Int?, c
             if let resultSoFar = resultSoFar {
                 return (resultSoFar, input)
             }
-            return (Result.match(match: "", index: input.index), input)
+            return (.series([]), input)
         }
     }
 
@@ -142,7 +142,7 @@ func parseRepeat(_ input: Remainder, sub: Parser, minimum: Int, maximum: Int?, c
             if let resultSoFar = resultSoFar {
                 return (resultSoFar, input)
             }
-            return (Result.match(match: "", index: input.index), input)
+            return (.series([]), input)
         }
     default:
         if let resultSoFar = resultSoFar {

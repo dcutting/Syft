@@ -55,14 +55,14 @@ class RepeatTests: XCTestCase {
         XCTAssertEqual(expectedRemainder, actualRemainder)
     }
 
-    func test_repeatMinimum0_withoutMatch_returnsEmptyMatch() {
+    func test_repeatMinimum0_withoutMatch_returnsEmptySeries() {
 
         let strA = Parser.str("a")
         let repeated = Parser.repeat(strA, minimum: 0, maximum: nil)
 
         let (actualResult, actualRemainder) = repeated.parse("bb")
 
-        let expectedResult = Result.match(match: "", index: 0)
+        let expectedResult = Result.series([])
         let expectedRemainder = Remainder(text: "bb", index: 0)
         XCTAssertEqual(expectedResult, actualResult)
         XCTAssertEqual(expectedRemainder, actualRemainder)
@@ -75,7 +75,7 @@ class RepeatTests: XCTestCase {
 
         let (actualResult, actualRemainder) = repeated.parse("bb")
 
-        let expectedResult = Result.match(match: "", index: 0)
+        let expectedResult = Result.series([])
         let expectedRemainder = Remainder(text: "bb", index: 0)
         XCTAssertEqual(expectedResult, actualResult)
         XCTAssertEqual(expectedRemainder, actualRemainder)
