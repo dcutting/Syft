@@ -79,8 +79,8 @@ func parseStr(_ input: Remainder, pattern: String) -> ResultWithRemainder {
 
     if pattern.isEmpty || input.text.hasPrefix(pattern) {
 
-        let (headText, tailText) = input.text.split(at: pattern.characters.count)
-        let tailIndex = input.index + headText.characters.distance(from: headText.startIndex, to: headText.endIndex)
+        let (headText, tailText) = input.text.split(at: pattern.count)
+        let tailIndex = input.index + headText.distance(from: headText.startIndex, to: headText.endIndex)
         let remainder = Remainder(text: tailText, index: tailIndex)
 
         return (.match(match: headText, index: input.index), remainder)

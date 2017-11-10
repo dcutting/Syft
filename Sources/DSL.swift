@@ -129,7 +129,7 @@ public extension Array {
 public extension String {
     public var match: Parser {
         get {
-            return makeEither(characters.map(String.init(describing:)))
+            return makeEither(map(String.init(describing:)))
         }
     }
 }
