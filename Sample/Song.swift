@@ -153,7 +153,7 @@ func makeSongParser() -> ParserProtocol {
     let statement = classDeclaration >>> `import` >>> function >>> expression
     let program = skip >>> statement
 
-    return expression
+    return program
 }
 
 //    let listPattern = (list | listTemplate).tag("listPattern")
