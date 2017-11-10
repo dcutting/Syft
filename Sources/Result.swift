@@ -53,7 +53,7 @@ public indirect enum Result: Equatable, CustomStringConvertible {
             return .failure
 
         case (.series, .match):
-            return self
+            return secondary    // NOTE: not sure this is right for non-empty self series...
         case let (.series(selfSeries), .tagged):
             return .series(selfSeries + [secondary])
         case let (.series(selfSeries), .series(secondarySeries)):
