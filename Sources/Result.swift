@@ -27,6 +27,23 @@ public indirect enum Result: Equatable, CustomStringConvertible {
         }
     }
 
+    func combineSeriesOfTags(series: [Result], tagged: [String: Result]) -> Result {
+        let seriesTagged: [[String: Result]] = series.flatMap { (item: Result) -> [String: Result]? in
+            if case let .tagged(tagged) = item {
+                return tagged
+            }
+            return nil
+        }
+        let combined = [tagged] + seriesTagged
+        let combinedTagged = combined.reduce(into: [:]) { (counts, next: [String: Result]) in
+            next.keys.forEach { k in
+                counts[k] = next[k]
+            }
+        }
+        let combinedSeries = Result.series([Result.tagged(combinedTagged)])
+        return combinedSeries
+    }
+
     func combine(_ secondary: Result) -> Result {
 
         switch (self, secondary) {
@@ -44,7 +61,9 @@ public indirect enum Result: Equatable, CustomStringConvertible {
             return self
         case let (.tagged(selfTagged), .tagged(secondaryTagged)):
             return .tagged(selfTagged + secondaryTagged)
-        case let (.tagged, .series(secondarySeries)):
+        case let (.tagged(selfTagged), .series(secondarySeries)):
+//            let combinedSeries = combineSeriesOfTags(series: secondarySeries, tagged: selfTagged)
+//            return combinedSeries
             return .series([self] + secondarySeries)
         case let (.tagged, .maybe(secondaryResult)):
             // https://github.com/kschiess/parslet/blob/master/lib/parslet/atoms/can_flatten.rb#L38
@@ -54,7 +73,9 @@ public indirect enum Result: Equatable, CustomStringConvertible {
 
         case (.series, .match):
             return secondary    // NOTE: not sure this is right for non-empty self series...
-        case let (.series(selfSeries), .tagged):
+        case let (.series(selfSeries), .tagged(secondaryTagged)):
+//            let combinedSeries = combineSeriesOfTags(series: selfSeries, tagged: secondaryTagged)
+//            return combinedSeries
             return .series(selfSeries + [secondary])
         case let (.series(selfSeries), .series(secondarySeries)):
             return .series(selfSeries + secondarySeries)

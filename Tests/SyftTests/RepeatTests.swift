@@ -113,4 +113,22 @@ class RepeatTests: XCTestCase {
         XCTAssertEqual(expectedRemainder, actualRemainder)
     }
 
+    func test_tagsAroundMaybes_returnsCombinedTagsInSeries() {
+
+        let op = Parser.tagged("op", Parser.str("+"))
+        let skip = Parser.maybe(Parser.str(" "))
+        let right = Parser.tagged("right", Parser.str("2"))
+        let sequence = Parser.sequence(op, Parser.sequence(skip, right))
+        let repeated = Parser.repeat(sequence, minimum: 1, maximum: nil)
+        let taggedRepeated = Parser.tagged("someOps", repeated)
+
+        let (actualResult, _) = taggedRepeated.parse("+2")
+
+        let tagged = Result.tagged(["op": Result.match(match: "+", index: 0),
+                                    "right": Result.match(match: "2", index: 1)])
+        let series = Result.series([tagged])
+        let expectedResult = Result.tagged(["someOps": series])
+        XCTAssertEqual(expectedResult, actualResult)
+    }
+
 }

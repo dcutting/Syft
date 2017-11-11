@@ -129,6 +129,9 @@ func parseRepeat(_ input: Remainder, sub: Parser, minimum: Int, maximum: Int?, c
             if let resultSoFar = resultSoFar {
                 return (resultSoFar, input)
             }
+            if collapsible {
+                return (.match(match: "", index: 0), input)
+            }
             return (.series([]), input)
         }
     }
@@ -141,6 +144,9 @@ func parseRepeat(_ input: Remainder, sub: Parser, minimum: Int, maximum: Int?, c
         } else {
             if let resultSoFar = resultSoFar {
                 return (resultSoFar, input)
+            }
+            if collapsible {
+                return (.match(match: "", index: 0), input)
             }
             return (.series([]), input)
         }
