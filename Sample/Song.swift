@@ -16,11 +16,12 @@ struct SongNumber: SongExpression {
     }
 }
 
-func song() -> Pipeline<Expression> {
-//    let input = "[].length() = 0\n[_|y].length() = 1.+(y.length())"
-    let input = ""
-    return Pipeline(defaultInput: input, parser: makeParser(), transformer: makeTransformer()) { ast in
-        let result = ast.evaluate()
-        return "\(result)"
-    }
-}
+//func song() -> Pipeline<SongExpression> {
+////    let input = "[].length() = 0\n[_|y].length() = 1.+(y.length())"
+//    let input = ""
+//    return Pipeline(defaultInput: input, parser: makeParser(), transformer: makeTransformer()) { ast in
+//        let result = ast.evaluate()
+//        return "\(result)"
+//    }
+//}
+

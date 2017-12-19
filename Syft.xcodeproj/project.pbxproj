@@ -11,6 +11,7 @@
 		C86093F31EAD17EA00CA12B4 /* Arithmetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86093F21EAD17EA00CA12B4 /* Arithmetic.swift */; };
 		C86140691E94E6E100599DCC /* Syft.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8CC45151E92370100EA1B47 /* Syft.framework */; };
 		C861406A1E94E6E100599DCC /* Syft.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C8CC45151E92370100EA1B47 /* Syft.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C86D6AE31FE9CF16003504BB /* Iota.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86D6AE21FE9CF16003504BB /* Iota.swift */; };
 		C8735B1B1E94E58E00A72FCC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8735B1A1E94E58E00A72FCC /* AppDelegate.swift */; };
 		C8735B1D1E94E58E00A72FCC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8735B1C1E94E58E00A72FCC /* ViewController.swift */; };
 		C8735B1F1E94E58E00A72FCC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8735B1E1E94E58E00A72FCC /* Assets.xcassets */; };
@@ -26,14 +27,6 @@
 		C887B9191EE778E3001CD9DE /* StringAtomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C887B90D1EE778D3001CD9DE /* StringAtomTests.swift */; };
 		C887B91A1EE778E3001CD9DE /* TagTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C887B90E1EE778D3001CD9DE /* TagTests.swift */; };
 		C887B91B1EE778E3001CD9DE /* TransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C887B90F1EE778D3001CD9DE /* TransformerTests.swift */; };
-		C88BC3F81F94035800139D44 /* Iota.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88BC3F71F94035800139D44 /* Iota.swift */; };
-		C8B22B8D1FA87ABB0031773A /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B22B861FA87ABB0031773A /* Transformer.swift */; };
-		C8B22B8E1FA87ABB0031773A /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B22B871FA87ABB0031773A /* Expression.swift */; };
-		C8B22B8F1FA87ABB0031773A /* ExpressionDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B22B881FA87ABB0031773A /* ExpressionDescription.swift */; };
-		C8B22B901FA87ABB0031773A /* ExpressionEquatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B22B891FA87ABB0031773A /* ExpressionEquatable.swift */; };
-		C8B22B911FA87ABB0031773A /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B22B8A1FA87ABB0031773A /* Context.swift */; };
-		C8B22B921FA87ABB0031773A /* ExpressionEvaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B22B8B1FA87ABB0031773A /* ExpressionEvaluation.swift */; };
-		C8B22B931FA87ABB0031773A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B22B8C1FA87ABB0031773A /* Parser.swift */; };
 		C8CC451E1E92370100EA1B47 /* Syft.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8CC45151E92370100EA1B47 /* Syft.framework */; };
 		C8E7F2231EE75479005552EC /* ArrayUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88FCD8E1EE74B6D007C4350 /* ArrayUtilities.swift */; };
 		C8E7F2241EE75479005552EC /* DictionaryUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88FCD8F1EE74B6D007C4350 /* DictionaryUtilities.swift */; };
@@ -83,6 +76,7 @@
 		C8383DE91C5CF8590050E8B8 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		C8383DEA1C5CF8590050E8B8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C86093F21EAD17EA00CA12B4 /* Arithmetic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arithmetic.swift; sourceTree = "<group>"; };
+		C86D6AE21FE9CF16003504BB /* Iota.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Iota.swift; sourceTree = "<group>"; };
 		C86D77A91EB089F20033431E /* SequenceDiagram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceDiagram.swift; sourceTree = "<group>"; };
 		C8735B121E94E2EB00A72FCC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		C8735B181E94E58E00A72FCC /* Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,7 +98,6 @@
 		C887B90D1EE778D3001CD9DE /* StringAtomTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringAtomTests.swift; sourceTree = "<group>"; };
 		C887B90E1EE778D3001CD9DE /* TagTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagTests.swift; sourceTree = "<group>"; };
 		C887B90F1EE778D3001CD9DE /* TransformerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformerTests.swift; sourceTree = "<group>"; };
-		C88BC3F71F94035800139D44 /* Iota.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Iota.swift; sourceTree = "<group>"; };
 		C88FCD8E1EE74B6D007C4350 /* ArrayUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayUtilities.swift; sourceTree = "<group>"; };
 		C88FCD8F1EE74B6D007C4350 /* DictionaryUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryUtilities.swift; sourceTree = "<group>"; };
 		C88FCD901EE74B6D007C4350 /* DSL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSL.swift; sourceTree = "<group>"; };
@@ -115,13 +108,6 @@
 		C88FCD951EE74B6D007C4350 /* StringUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtilities.swift; sourceTree = "<group>"; };
 		C88FCD971EE74B6D007C4350 /* Transformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transformer.swift; sourceTree = "<group>"; };
 		C8AD8B191EC88F0100C5B9CB /* SyftFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyftFile.swift; sourceTree = "<group>"; };
-		C8B22B861FA87ABB0031773A /* Transformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transformer.swift; sourceTree = "<group>"; };
-		C8B22B871FA87ABB0031773A /* Expression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
-		C8B22B881FA87ABB0031773A /* ExpressionDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressionDescription.swift; sourceTree = "<group>"; };
-		C8B22B891FA87ABB0031773A /* ExpressionEquatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressionEquatable.swift; sourceTree = "<group>"; };
-		C8B22B8A1FA87ABB0031773A /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
-		C8B22B8B1FA87ABB0031773A /* ExpressionEvaluation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressionEvaluation.swift; sourceTree = "<group>"; };
-		C8B22B8C1FA87ABB0031773A /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		C8CC45151E92370100EA1B47 /* Syft.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Syft.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8CC451D1E92370100EA1B47 /* SyftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SyftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -188,12 +174,11 @@
 		C8735B191E94E58E00A72FCC /* Sample */ = {
 			isa = PBXGroup;
 			children = (
-				C8B22B851FA87ABB0031773A /* Song */,
 				C8735B1A1E94E58E00A72FCC /* AppDelegate.swift */,
 				C8735B1C1E94E58E00A72FCC /* ViewController.swift */,
 				C86093F21EAD17EA00CA12B4 /* Arithmetic.swift */,
-				C88BC3F71F94035800139D44 /* Iota.swift */,
 				C86D77A91EB089F20033431E /* SequenceDiagram.swift */,
+				C86D6AE21FE9CF16003504BB /* Iota.swift */,
 				C80A06F41EC4F17500123192 /* Song.swift */,
 				C8AD8B191EC88F0100C5B9CB /* SyftFile.swift */,
 				C8735B1E1E94E58E00A72FCC /* Assets.xcassets */,
@@ -245,21 +230,6 @@
 				C88FCD971EE74B6D007C4350 /* Transformer.swift */,
 			);
 			path = Sources;
-			sourceTree = "<group>";
-		};
-		C8B22B851FA87ABB0031773A /* Song */ = {
-			isa = PBXGroup;
-			children = (
-				C8B22B861FA87ABB0031773A /* Transformer.swift */,
-				C8B22B871FA87ABB0031773A /* Expression.swift */,
-				C8B22B881FA87ABB0031773A /* ExpressionDescription.swift */,
-				C8B22B891FA87ABB0031773A /* ExpressionEquatable.swift */,
-				C8B22B8A1FA87ABB0031773A /* Context.swift */,
-				C8B22B8B1FA87ABB0031773A /* ExpressionEvaluation.swift */,
-				C8B22B8C1FA87ABB0031773A /* Parser.swift */,
-			);
-			name = Song;
-			path = ../../Song/Sources/Song;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -343,7 +313,7 @@
 				TargetAttributes = {
 					C8735B171E94E58E00A72FCC = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = J6LY6992AF;
+						DevelopmentTeam = 3H86HRS574;
 						ProvisioningStyle = Automatic;
 					};
 					C8CC45141E92370100EA1B47 = {
@@ -410,16 +380,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C86093F31EAD17EA00CA12B4 /* Arithmetic.swift in Sources */,
-				C8B22B921FA87ABB0031773A /* ExpressionEvaluation.swift in Sources */,
-				C8B22B8D1FA87ABB0031773A /* Transformer.swift in Sources */,
-				C8B22B8F1FA87ABB0031773A /* ExpressionDescription.swift in Sources */,
-				C8B22B911FA87ABB0031773A /* Context.swift in Sources */,
-				C8B22B901FA87ABB0031773A /* ExpressionEquatable.swift in Sources */,
-				C88BC3F81F94035800139D44 /* Iota.swift in Sources */,
+				C86D6AE31FE9CF16003504BB /* Iota.swift in Sources */,
 				C8735B1D1E94E58E00A72FCC /* ViewController.swift in Sources */,
-				C8B22B931FA87ABB0031773A /* Parser.swift in Sources */,
 				C8735B1B1E94E58E00A72FCC /* AppDelegate.swift in Sources */,
-				C8B22B8E1FA87ABB0031773A /* Expression.swift in Sources */,
 				C80A06F51EC4F17500123192 /* Song.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -577,7 +540,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3H86HRS574;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Sample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -604,7 +567,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3H86HRS574;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Sample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -625,7 +588,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -660,7 +623,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -696,7 +659,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = J6LY6992AF;
@@ -707,7 +670,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.cutting.SyftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -720,7 +683,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = J6LY6992AF;
@@ -731,7 +694,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.cutting.SyftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
