@@ -61,7 +61,7 @@ public indirect enum Result: Equatable, CustomStringConvertible {
             return self
         case let (.tagged(selfTagged), .tagged(secondaryTagged)):
             return .tagged(selfTagged + secondaryTagged)
-        case let (.tagged(selfTagged), .series(secondarySeries)):
+        case let (.tagged(_), .series(secondarySeries)):
 //            let combinedSeries = combineSeriesOfTags(series: secondarySeries, tagged: selfTagged)
 //            return combinedSeries
             return .series([self] + secondarySeries)
@@ -73,7 +73,7 @@ public indirect enum Result: Equatable, CustomStringConvertible {
 
         case (.series, .match):
             return secondary    // NOTE: not sure this is right for non-empty self series...
-        case let (.series(selfSeries), .tagged(secondaryTagged)):
+        case let (.series(selfSeries), .tagged(_)):
 //            let combinedSeries = combineSeriesOfTags(series: selfSeries, tagged: secondaryTagged)
 //            return combinedSeries
             return .series(selfSeries + [secondary])
