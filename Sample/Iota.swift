@@ -196,6 +196,7 @@ func makeIotaParser() -> ParserProtocol {
     let eq = str("=") >>> skip
 
     let identifier = skip >>> letter.some.tag("identifier") >>> skip
+//    let numeral = skip >>> digit.some.tag("numeral").asInt >>> skip   // Maybe this would make transform rules nicer?
     let numeral = skip >>> digit.some.tag("numeral") >>> skip
     let literal = numeral
     let variable = identifier.tag("variable")
@@ -273,6 +274,7 @@ func makeIotaTransformer() -> IotaTransformer {
             return IotaCall(funcName: name, arguments: [])
     }
 
+    // Check out mirror for making these nicer.
     transformer.rule([
         "function": .tree([
             "body": .simple("body"),
