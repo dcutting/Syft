@@ -4,6 +4,9 @@ import PackageDescription
 
 let package = Package(
     name: "Syft",
+    products: [
+        .library(name: "Syft", targets: ["Syft"])
+    ],
     targets: [
         .target(
             name: "Sample",
