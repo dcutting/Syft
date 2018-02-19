@@ -57,11 +57,11 @@ func makeSyftFileTransformer() -> Transformer<ParserProtocol> {
     let transformer = Transformer<ParserProtocol>()
     
     transformer.rule(["terminal": .simple("x")]) { args in
-        let terminal = try args.raw("x")
+        let terminal = try args.str("x")
         return str(terminal)
     }
     transformer.rule(["identifier": .simple("x")]) { args in
-        let terminal = try args.raw("x")
+        let terminal = try args.str("x")
         return str(terminal)
     }
 //    transformer.rule(["lhs": .simple("symbol"), "rhs": .simple("rule")]) { args in
