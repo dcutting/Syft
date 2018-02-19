@@ -131,26 +131,26 @@ class RepeatTests: XCTestCase {
         XCTAssertEqual(expectedResult, actualResult)
     }
 
-    func test_maybeRepeat_emptyString() {
-        let input = ""
-//        assert(str("a").maybe, parses: input, as: .match(match: "", index: 0))
-        assert(str("a").recur, parses: input, as: .match(match: "", index: 0))
-//        assert(str("a").maybe.tag("f"), parses: input, as: .tagged(["f": nil]))
-        assert(str("a").recur.tag("f"), parses: input, as: .tagged(["f": .series([])]))
-//        assert((str("a") >>> str("b")).maybe.tag("f"), parses: input, as: .tagged(["f": nil]))
-        assert((str("a") >>> str("b")).recur.tag("f"), parses: input, as: .tagged(["f": .series([])]))
-//        assert((str("a") >>> str("b")).tag("f").maybe, parses: input, as: .match(match: "", index: 0))
-        assert((str("a") >>> str("b")).tag("f").recur, parses: input, as: .match(match: "", index: 0))
-    }
-
-    func test_unnamedRepetitions_mergedTogether() {
-        assert(str("aa").tag("a").recur >>> str("a").tag("a").recur,
-               parses: "aa",
-               as: .series([
-                .tagged(["a": .match(match: "a", index: 0)]),
-                .tagged(["a": .match(match: "a", index: 1)])
-                ]))
-    }
+//    func test_maybeRepeat_emptyString() {
+//        let input = ""
+////        assert(str("a").maybe, parses: input, as: .match(match: "", index: 0))
+//        assert(str("a").recur, parses: input, as: .match(match: "", index: 0))
+////        assert(str("a").maybe.tag("f"), parses: input, as: .tagged(["f": nil]))
+//        assert(str("a").recur.tag("f"), parses: input, as: .tagged(["f": .series([])]))
+////        assert((str("a") >>> str("b")).maybe.tag("f"), parses: input, as: .tagged(["f": nil]))
+//        assert((str("a") >>> str("b")).recur.tag("f"), parses: input, as: .tagged(["f": .series([])]))
+////        assert((str("a") >>> str("b")).tag("f").maybe, parses: input, as: .match(match: "", index: 0))
+//        assert((str("a") >>> str("b")).tag("f").recur, parses: input, as: .match(match: "", index: 0))
+//    }
+//
+//    func test_unnamedRepetitions_mergedTogether() {
+//        assert(str("aa").tag("a").recur >>> str("a").tag("a").recur,
+//               parses: "aa",
+//               as: .series([
+//                .tagged(["a": .match(match: "a", index: 0)]),
+//                .tagged(["a": .match(match: "a", index: 1)])
+//                ]))
+//    }
 
     private func assert(_ parser: ParserProtocol,
                         parses input: String,
