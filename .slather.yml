@@ -1,5 +1,7 @@
 coverage_service: coveralls
 xcodeproj: Syft.xcodeproj
-scheme: Syft
+scheme: Syft-Package
+build_directory: .xcbuild
+binary_basename: Syft
 ignore:
   - Tests/*
