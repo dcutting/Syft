@@ -1,3 +1,9 @@
+// TODO: this hack allows us to detect when we have made it all the way
+// to the end of the input without failing yet.
+// Needed by REPLs for multiline support.
+// Since this is a global, it makes the parser no longer thread-safe.
+public var parsedLastCharacter = false
+
 public typealias ResultWithRemainder = (Result, Remainder)
 
 public protocol ParserProtocol {
@@ -17,6 +23,7 @@ public indirect enum Parser: ParserProtocol {
     // TODO case absent
 
     public func parse(_ input: String) -> ResultWithRemainder {
+        parsedLastCharacter = false
         return parse(Remainder(text: input, index: 0))
     }
 
@@ -58,6 +65,7 @@ open class Deferred: ParserProtocol {
     public init() {}
 
     public func parse(_ input: String) -> ResultWithRemainder {
+        parsedLastCharacter = false
         return parse(Remainder(text: input, index: 0))
     }
 
@@ -70,9 +78,14 @@ open class Deferred: ParserProtocol {
 
 func parseAny(_ input: Remainder) -> ResultWithRemainder {
 
-    guard input.text.endIndex > input.text.startIndex else { return (.failure, input) }
+    guard input.text.endIndex > input.text.startIndex else {
+        parsedLastCharacter = true
+        return (.failure, input)
+    }
     let (headText, tailText) = input.text.split(at: 1)
-    return (.match(match: headText, index: input.index), Remainder(text: tailText, index: input.index+1))
+    let result = Result.match(match: headText, index: input.index)
+    let remainder = Remainder(text: tailText, index: input.index+1)
+    return (result, remainder)
 }
 
 func parseStr(_ input: Remainder, pattern: String) -> ResultWithRemainder {
@@ -82,6 +95,10 @@ func parseStr(_ input: Remainder, pattern: String) -> ResultWithRemainder {
         let (headText, tailText) = input.text.split(at: pattern.count)
         let tailIndex = input.index + headText.distance(from: headText.startIndex, to: headText.endIndex)
         let remainder = Remainder(text: tailText, index: tailIndex)
+
+        if tailText.isEmpty {
+            parsedLastCharacter = true
+        }
 
         return (.match(match: headText, index: input.index), remainder)
     }
