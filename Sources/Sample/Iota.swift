@@ -188,7 +188,7 @@ func makeIotaParser() -> ParserProtocol {
     let lparen = str("(")
     let rparen = str(")")
     let digit = (0...9).match
-    let letter = "abcdefghijklmnopqrstuvwxyz".match
+    let letter = Parser.char(.alphanumerics)
     let def = str("def") >>> skip
     let `if` = str("if") >>> skip
     let inc = str("1+") >>> skip
@@ -196,7 +196,6 @@ func makeIotaParser() -> ParserProtocol {
     let eq = str("=") >>> skip
 
     let identifier = skip >>> letter.some.tag("identifier") >>> skip
-//    let numeral = skip >>> digit.some.tag("numeral").asInt >>> skip   // Maybe this would make transform rules nicer?
     let numeral = skip >>> digit.some.tag("numeral") >>> skip
     let literal = numeral
     let variable = identifier.tag("variable")
