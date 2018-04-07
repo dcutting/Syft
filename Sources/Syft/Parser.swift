@@ -97,7 +97,9 @@ func parseAny(_ input: Remainder) -> ResultWithRemainder {
 func parseChar(_ input: Remainder, characterSet: CharacterSet) -> ResultWithRemainder {
 
     let (headText, tailText) = input.text.split(at: 1)
-    guard let headChar = headText.unicodeScalars.first else { fatalError() }
+    guard let headChar = headText.unicodeScalars.first else {
+        return (.failure, input)
+    }
     if characterSet.contains(headChar) {
         let tailIndex = input.index + headText.distance(from: headText.startIndex, to: headText.endIndex)
         let remainder = Remainder(text: tailText, index: tailIndex)
