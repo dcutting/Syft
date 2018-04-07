@@ -128,7 +128,7 @@ public indirect enum TransformerPattern {
 
     private func mergedCaptures<T>(patternTree: TransformerPatternTree, transformableTree: TransformableTree<T>) -> TransformerCaptures<T>? {
         guard Set(patternTree.keys) == Set(transformableTree.keys) else { return nil }
-        let captures = transformableTree.flatMap { args in
+        let captures = transformableTree.compactMap { args in
             patternTree[args.key]?.findCaptures(for: args.value)
         }
         guard captures.count == patternTree.count else { return nil }

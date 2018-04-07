@@ -28,7 +28,7 @@ public indirect enum Result: Equatable, CustomStringConvertible {
     }
 
     func combineSeriesOfTags(series: [Result], tagged: [String: Result]) -> Result {
-        let seriesTagged: [[String: Result]] = series.flatMap { (item: Result) -> [String: Result]? in
+        let seriesTagged: [[String: Result]] = series.compactMap { (item: Result) -> [String: Result]? in
             if case let .tagged(tagged) = item {
                 return tagged
             }
