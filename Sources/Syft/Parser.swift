@@ -1,3 +1,5 @@
+import Foundation
+
 // TODO: this hack allows us to detect when we have made it all the way
 // to the end of the input without failing yet.
 // Needed by REPLs for multiline support.
@@ -13,6 +15,7 @@ public protocol ParserProtocol {
 public indirect enum Parser: ParserProtocol {
 
     case any
+    case char(CharacterSet)
     case str(String)
     case sequence(Parser, Parser)
     case tagged(String, Parser)
@@ -33,6 +36,9 @@ public indirect enum Parser: ParserProtocol {
 
         case .any:
             return parseAny(input)
+
+        case let .char(set):
+            return parseChar(input, characterSet: set)
 
         case let .str(pattern):
             return parseStr(input, pattern: pattern)
@@ -86,6 +92,23 @@ func parseAny(_ input: Remainder) -> ResultWithRemainder {
     let result = Result.match(match: headText, index: input.index)
     let remainder = Remainder(text: tailText, index: input.index+1)
     return (result, remainder)
+}
+
+func parseChar(_ input: Remainder, characterSet: CharacterSet) -> ResultWithRemainder {
+
+    let (headText, tailText) = input.text.split(at: 1)
+    guard let headChar = headText.unicodeScalars.first else { fatalError() }
+    if characterSet.contains(headChar) {
+        let tailIndex = input.index + headText.distance(from: headText.startIndex, to: headText.endIndex)
+        let remainder = Remainder(text: tailText, index: tailIndex)
+
+        if tailText.isEmpty {
+            parsedLastCharacter = true
+        }
+
+        return (.match(match: headText, index: input.index), remainder)
+    }
+    return (.failure, input)
 }
 
 func parseStr(_ input: Remainder, pattern: String) -> ResultWithRemainder {
