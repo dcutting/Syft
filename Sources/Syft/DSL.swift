@@ -111,7 +111,7 @@ extension Deferred: ParserDSL {
 }
 
 public extension CountableClosedRange {
-    public var match: Parser {
+    var match: Parser {
         get {
             return makeEither(map(String.init(describing:)))
         }
@@ -119,7 +119,7 @@ public extension CountableClosedRange {
 }
 
 public extension Array {
-    public var match: Parser {
+    var match: Parser {
         get {
             return makeEither(map(String.init(describing:)))
         }
@@ -127,7 +127,7 @@ public extension Array {
 }
 
 public extension String {
-    public var match: Parser {
+    var match: Parser {
         get {
             return makeEither(map(String.init(describing:)))
         }

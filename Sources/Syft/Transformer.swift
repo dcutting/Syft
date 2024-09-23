@@ -238,12 +238,12 @@ open class Transformer<T> {
 
 public extension Transformer {   // Convenience
 
-    public func rule(_ tree: TransformerPatternTree, reducer: @escaping TransformerReducer<T>) {
+    func rule(_ tree: TransformerPatternTree, reducer: @escaping TransformerReducer<T>) {
         let pattern = TransformerPattern.tree(tree)
         rule(pattern: pattern, reducer: reducer)
     }
 
-    public func rule(pattern: TransformerPattern, reducer: @escaping TransformerReducer<T>) {
+    func rule(pattern: TransformerPattern, reducer: @escaping TransformerReducer<T>) {
         let rule = TransformerRule<T>(pattern: pattern, reducer: reducer)
         rules.append(rule)
     }
