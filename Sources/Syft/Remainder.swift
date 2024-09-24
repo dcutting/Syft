@@ -1,4 +1,4 @@
-public struct Remainder: Equatable {
+public struct Remainder: Equatable, Sendable {
 
     public let text: String
     public let index: Int

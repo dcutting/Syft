@@ -155,7 +155,7 @@ class RepeatTests: XCTestCase {
     private func assert(_ parser: ParserProtocol,
                         parses input: String,
                         as expected: Result,
-                        file: StaticString = #file, line: UInt = #line) {
+                        file: StaticString = #filePath, line: UInt = #line) {
         let (result, _) = parser.parse(input)
         XCTAssertEqual(expected, result, file: file, line: line)
     }

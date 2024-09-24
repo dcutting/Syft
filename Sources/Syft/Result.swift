@@ -1,4 +1,4 @@
-public indirect enum Result: Equatable, CustomStringConvertible {
+public indirect enum Result: Equatable, CustomStringConvertible, Sendable {
 
     case failure
     case match(match: String, index: Int)

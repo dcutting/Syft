@@ -3,7 +3,7 @@ import Foundation
 
 // Errors
 
-public enum TransformerError<T>: Error {
+public enum TransformerError<T: Sendable>: Error {
     case inputInvalid(Result)
     case unexpectedRemainder(Remainder)
     case transformFailed(Transformable<T>)
@@ -18,7 +18,7 @@ public enum TransformerError<T>: Error {
 
 // Transformable data structure
 
-public enum TransformableLeaf<T> {
+public enum TransformableLeaf<T: Sendable>: Sendable {
     case transformed(T)
     case raw(String)
 }
@@ -27,7 +27,7 @@ public typealias TransformableTree<T> = [String: Transformable<T>]
 
 public typealias TransformableSeries<T> = [Transformable<T>]
 
-public indirect enum Transformable<T> {
+public indirect enum Transformable<T: Sendable>: Sendable {
     case tree(TransformableTree<T>)
     case series(TransformableSeries<T>)
     case leaf(TransformableLeaf<T>)
@@ -41,7 +41,7 @@ public typealias TransformerCaptureName = String
 
 public typealias TransformerCaptures<T> = [TransformerCaptureName: Transformable<T>]
 
-public struct TransformerReducerArguments<T> {
+public struct TransformerReducerArguments<T: Sendable> {
     var captures: TransformerCaptures<T> = [:]
 
     public func transformed(_ key: String) throws -> T {
@@ -101,7 +101,7 @@ public struct TransformerReducerArguments<T> {
 public typealias TransformerPatternTree = [String: TransformerPattern]
 public typealias TransformerPatternSeries = [TransformerPattern]
 
-public indirect enum TransformerPattern {
+public indirect enum TransformerPattern: Sendable {
     case tree(TransformerPatternTree)
     case series(String)
     case literal(String)
@@ -126,7 +126,7 @@ public indirect enum TransformerPattern {
         }
     }
 
-    private func mergedCaptures<T>(patternTree: TransformerPatternTree, transformableTree: TransformableTree<T>) -> TransformerCaptures<T>? {
+    private func mergedCaptures<T: Sendable>(patternTree: TransformerPatternTree, transformableTree: TransformableTree<T>) -> TransformerCaptures<T>? {
         guard Set(patternTree.keys) == Set(transformableTree.keys) else { return nil }
         let captures = transformableTree.compactMap { args in
             patternTree[args.key]?.findCaptures(for: args.value)
@@ -142,7 +142,7 @@ public indirect enum TransformerPattern {
 
 public typealias TransformerReducer<T> = (TransformerReducerArguments<T>) throws -> T?
 
-public struct TransformerRule<T> {
+public struct TransformerRule<T: Sendable> {
     let pattern: TransformerPattern
     let reducer: TransformerReducer<T>
 
@@ -163,7 +163,7 @@ public struct TransformerRule<T> {
 
 // Transformer
 
-open class Transformer<T> {
+open class Transformer<T: Sendable> {
 
     fileprivate var rules: [TransformerRule<T>]
 

@@ -138,8 +138,6 @@ public func makeEither(_ input: [String]) -> Parser {
     return input.tail.reduce(Parser.str(input.head!)) { Parser.either($0, Parser.str($1)) }
 }
 
-public let any = Parser.any
-
 public func str(_ str: String) -> Parser {
     return Parser.str(str)
 }

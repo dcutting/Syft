@@ -4,7 +4,7 @@ import Foundation
 // to the end of the input without failing yet.
 // Needed by REPLs for multiline support.
 // Since this is a global, it makes the parser no longer thread-safe.
-public var parsedLastCharacter = false
+nonisolated(unsafe) public var parsedLastCharacter = false
 
 public typealias ResultWithRemainder = (Result, Remainder)
 
